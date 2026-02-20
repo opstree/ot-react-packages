@@ -3,7 +3,7 @@ import { ArrowRight, X, CornerUpLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { docsConfig } from '../config/docs';
-import { SidebarNavItem } from '../types/nav';
+import { SidebarNavItem } from '../../types/nav';
 
 const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
     const [Search, setSearch] = useState('');

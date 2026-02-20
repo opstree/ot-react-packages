@@ -58,7 +58,7 @@ async function syncRegistry() {
   {
     id: "${id}",
     name: "${name}",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -67,7 +67,7 @@ async function syncRegistry() {
       type: "local",
       path: "components/docs/${file}"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],

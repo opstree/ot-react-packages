@@ -26,58 +26,9 @@ export type ComponentDef = {
 
 export const components: ComponentDef[] = [
   {
-    id: "skeleton",
-    name: "Skeleton",
-    category: "Feedback",
-    framework: "react",
-    version: "1.0.0",
-    status: "stable",
-    tags: ["loading", "placeholder"],
-    source: {
-      type: "local",
-      path: "components/docs/Skeleton.tsx"
-    },
-    dependencies: ["clsx", "tailwind-merge"],
-    metadata: {
-      props: ["className"],
-      variants: [],
-      previewUrl: "/docs/components/skeleton"
-    },
-    docs: {
-      slug: "/components/skeleton",
-      title: "Skeleton",
-      description: "Used for loading states"
-    }
-  },
-  {
-    id: "table",
-    name: "Table",
-    category: "Data Display",
-    framework: "react",
-    version: "1.0.0",
-    status: "stable",
-    tags: ["data", "display"],
-    source: {
-      type: "local",
-      path: "components/docs/Table.tsx"
-    },
-    dependencies: ["clsx", "tailwind-merge"],
-    metadata: {
-      props: ["data", "columns", "className"],
-      variants: ["striped", "bordered"],
-      previewUrl: "/docs/components/table"
-    },
-    docs: {
-      slug: "/components/table",
-      title: "Table",
-      description: "Used for displaying data in tabular format"
-    }
-  },
-
-  {
     id: "badge",
     name: "Badge",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -86,7 +37,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Badge.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -101,7 +52,7 @@ export const components: ComponentDef[] = [
   {
     id: "cards",
     name: "Cards",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -110,7 +61,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Cards.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -125,7 +76,7 @@ export const components: ComponentDef[] = [
   {
     id: "chatbot",
     name: "Chatbot",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -134,7 +85,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Chatbot.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -149,7 +100,7 @@ export const components: ComponentDef[] = [
   {
     id: "filterchip",
     name: "Filterchip",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -158,7 +109,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Filterchip.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -173,7 +124,7 @@ export const components: ComponentDef[] = [
   {
     id: "filters",
     name: "Filters",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -182,7 +133,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Filters.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -197,7 +148,7 @@ export const components: ComponentDef[] = [
   {
     id: "header",
     name: "Header",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -206,7 +157,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Header.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -221,7 +172,7 @@ export const components: ComponentDef[] = [
   {
     id: "multiplefilter",
     name: "MultipleFilter",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -230,7 +181,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/MultipleFilter.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -245,7 +196,7 @@ export const components: ComponentDef[] = [
   {
     id: "pagination",
     name: "Pagination",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -254,7 +205,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Pagination.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -269,7 +220,7 @@ export const components: ComponentDef[] = [
   {
     id: "sidebar",
     name: "Sidebar",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -278,7 +229,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Sidebar.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -291,9 +242,33 @@ export const components: ComponentDef[] = [
     }
   },
   {
+    id: "skeleton",
+    name: "Skeleton",
+    category: "component:ui", 
+    framework: "react",
+    version: "1.0.0",
+    status: "beta",
+    tags: ["skeleton"],
+    source: {
+      type: "local",
+      path: "components/docs/Skeleton.tsx"
+    },
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
+    metadata: {
+      props: ["className"],
+      variants: [],
+      previewUrl: "/docs/components/skeleton"
+    },
+    docs: {
+      slug: "/components/skeleton",
+      title: "Skeleton",
+      description: "Description for Skeleton"
+    }
+  },
+  {
     id: "spiderview",
     name: "SpiderView",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -302,7 +277,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/SpiderView.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -315,9 +290,33 @@ export const components: ComponentDef[] = [
     }
   },
   {
+    id: "table",
+    name: "Table",
+    category: "component:ui", 
+    framework: "react",
+    version: "1.0.0",
+    status: "beta",
+    tags: ["table"],
+    source: {
+      type: "local",
+      path: "components/docs/Table.tsx"
+    },
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
+    metadata: {
+      props: ["className"],
+      variants: [],
+      previewUrl: "/docs/components/table"
+    },
+    docs: {
+      slug: "/components/table",
+      title: "Table",
+      description: "Description for Table"
+    }
+  },
+  {
     id: "timeline",
     name: "Timeline",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -326,7 +325,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Timeline.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
@@ -341,7 +340,7 @@ export const components: ComponentDef[] = [
   {
     id: "toggle",
     name: "Toggle",
-    category: "Uncategorized", // TODO: Update category
+    category: "component:ui", 
     framework: "react",
     version: "1.0.0",
     status: "beta",
@@ -350,7 +349,7 @@ export const components: ComponentDef[] = [
       type: "local",
       path: "components/docs/Toggle.tsx"
     },
-    dependencies: ["clsx", "tailwind-merge"],
+    dependencies: ["clsx", "tailwind-merge","react","react-dom","lucide-react","framer-motion"],
     metadata: {
       props: ["className"],
       variants: [],
