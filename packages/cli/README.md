@@ -50,10 +50,10 @@ opscli list
 ### 4. Scaffold New Components
 Create a brand new component from a professional template. This is ideal for when you want to "invent" a local component that follows the project's best practices.
 ```bash
-npx opscli scaffold <name>
+opscli scaffold <name>
 
 # Example
-npx opscli scaffold MyCustomButton
+opscli scaffold MyCustomButton
 ```
 
 ### 5. Manage Themes
