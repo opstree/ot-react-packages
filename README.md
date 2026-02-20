@@ -1,4 +1,4 @@
-# OPS-UI Monorepo
+# OPS-UI
 
 Welcome to the **OPS-UI** monorepo—a modern, high-performance UI component ecosystem. This workspace contains everything from a comprehensive React component library to a blazing-fast CLI for component management.
 
