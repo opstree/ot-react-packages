@@ -1,0 +1,79 @@
+---
+title: Pagination
+description: A navigation component for splitting large datasets into multiple pages, with controls for moving between pages.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import PaginationUsage from "@/usage/Pagination";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Pagination component (internal name `PaginationControls`) provides a simple interface for navigating through paginated content. It displays the current page index relative to the total number of pages and provides "Previous" and "Next" buttons.
+
+## Installation
+
+<InstallationCli value="opscli add pagination" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<PaginationUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Pagination.tsx"
+      title="Pagination.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### PaginationDetails Interface
+
+```typescript
+interface PaginationDetails {
+  currentPage: number;                  // The currently active page (1-indexed)
+  totalPages: number;                   // Total number of pages available
+  onPageChange: (page: number) => void; // Callback function called when a page is changed
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the Pagination component:
+  - **Dynamic State**: Automatically disables "Previous" on the first page and "Next" on the last page.
+  - **Status Display**: Clear "Page X of Y" labeling for user orientation.
+  - **Interactive Buttons**: Styled buttons with hover states and clear visual feedback for disabled states.
+  - **Empty Handling**: Components returns `null` if `totalPages` is 0 or undefined, keeping the UI clean.
+</Callout>
+
+## Examples
+
+### Basic Pagination
+
+```jsx
+<PaginationControls 
+  currentPage={1} 
+  totalPages={5} 
+  onPageChange={(page) => console.log('New page:', page)} 
+/>
+```
+
+## Best Practices
+
+1. **Synchronize with API**: Ensure that `onPageChange` triggers a new data fetch or filters existing local data correctly.
+2. **Scroll to Top**: It is often a good practice to scroll the user back to the top of the list when they change pages.
+3. **Handle Edge Cases**: Ensure your application logic handles cases where the total number of items changes (and thus the total pages).
+4. **Visibility**: Place pagination both above and below long lists to reduce scrolling for the user.
+
+## Related Components
+
+- [Table](/docs/components/table) - Use cases frequently involve paginating table data
+- [Filters](/docs/components/filters) - Pagination is often reset when filters change

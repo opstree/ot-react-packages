@@ -1,0 +1,54 @@
+---
+title: Toggle
+description: A switch-style button used for toggling between light and dark themes with distinct SVG icon transitions.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import ToggleUsage from "@/usage/Toggle";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Toggle component is a specialized theme switcher button. It features individual icons for "Sun" (light mode) and "Moon" (dark mode), and is designed to integrate with a global theme management system.
+
+## Installation
+
+<InstallationCli value="opscli add toggle" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<ToggleUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Toggle.tsx"
+      title="Toggle.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+<Callout type="info">
+  Key features of the Toggle component:
+  - **Dual State Icons**: Contains both Sun and Moon SVGs with themed coloring.
+  - **Modern Styling**: Rounded-full pill design with integrated borders and padding.
+  - **Theme Ready**: Pre-configured with data attributes (`data-theme-toggle`) for easy script integration.
+  - **Accessible**: Includes `aria-label` for screen readers and `aria-hidden` attributes for decorative icons.
+</Callout>
+
+## Best Practices
+
+1. **Placement**: Typically placed in the top-right corner of the application or within a fixed sidebar.
+2. **Smooth Transitions**: Ensure that the theme switch itself is accompanied by a CSS transition to avoid jarring visual jumps.
+3. **Accessibility**: Always provide an `aria-label` like "Toggle Theme" to ensure users of assistive technologies understand the button's purpose.
+
+## Related Components
+
+- [Header](/docs/components/header) - Often houses the theme toggle in global navigation
+- [Sidebar](/docs/components/sidebar) - An alternative location for global settings like theme toggles

@@ -1,0 +1,128 @@
+[
+  {
+    "name": "skeleton",
+    "type": "components:ui",
+    "title": "Skeleton",
+    "description": "Used for loading states",
+    "categories": [
+      "Feedback"
+    ]
+  },
+  {
+    "name": "table",
+    "type": "components:ui",
+    "title": "Table",
+    "description": "Used for displaying data in tabular format",
+    "categories": [
+      "Data Display"
+    ]
+  },
+  {
+    "name": "badge",
+    "type": "components:ui",
+    "title": "Badge",
+    "description": "Description for Badge",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "cards",
+    "type": "components:ui",
+    "title": "Cards",
+    "description": "Description for Cards",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "chatbot",
+    "type": "components:ui",
+    "title": "Chatbot",
+    "description": "Description for Chatbot",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "filterchip",
+    "type": "components:ui",
+    "title": "Filterchip",
+    "description": "Description for Filterchip",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "filters",
+    "type": "components:ui",
+    "title": "Filters",
+    "description": "Description for Filters",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "header",
+    "type": "components:ui",
+    "title": "Header",
+    "description": "Description for Header",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "multiplefilter",
+    "type": "components:ui",
+    "title": "MultipleFilter",
+    "description": "Description for MultipleFilter",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "pagination",
+    "type": "components:ui",
+    "title": "Pagination",
+    "description": "Description for Pagination",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "sidebar",
+    "type": "components:ui",
+    "title": "Sidebar",
+    "description": "Description for Sidebar",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "spiderview",
+    "type": "components:ui",
+    "title": "SpiderView",
+    "description": "Description for SpiderView",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "timeline",
+    "type": "components:ui",
+    "title": "Timeline",
+    "description": "Description for Timeline",
+    "categories": [
+      "Uncategorized"
+    ]
+  },
+  {
+    "name": "toggle",
+    "type": "components:ui",
+    "title": "Toggle",
+    "description": "Description for Toggle",
+    "categories": [
+      "Uncategorized"
+    ]
+  }
+]

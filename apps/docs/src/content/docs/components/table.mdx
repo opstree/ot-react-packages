@@ -1,0 +1,377 @@
+---
+title: Table
+description: A flexible and feature-rich table component for displaying data with sorting, expandable rows, custom rendering, and built-in loading states.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource"
+import DempTable from "@/usage/Table";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+
+## Overview
+
+The Table component is a powerful data display component that provides features like sorting, expandable rows, custom rendering, and customizable actions. It features a modern glassmorphism design and is designed to handle both simple and complex data presentation scenarios.
+
+## Installation
+<InstallationCli value="opscli add table"/>
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<DempTable />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Table.tsx"
+      title="table.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+
+## Props
+
+### TableDetails Interface
+
+The Table component accepts the following props:
+
+```typescript
+interface TableDetails {
+  columns?: ColumnConfig[];
+  data?: any[];
+  isLoading?: boolean;
+  actions?: ActionConfig[];
+  sortConfig?: {
+    key: string | null;
+    direction: string | null;
+  };
+  onSort?: (key: string) => void;
+  emptyState?: string | React.ReactNode;
+  onRowClick?: (row: any) => void;
+  className?: string;
+  expandable?: boolean;
+  renderExpandedContent?: (row: any) => React.ReactNode;
+  rowKey?: (row: any, index: number) => string | number;
+}
+```
+
+### Column Configuration
+
+Each column in the `columns` array should have:
+
+```typescript
+{
+  key: string;              // Unique identifier for the column
+  label: string;            // Display label for the column header
+  sortable?: boolean;       // Enable sorting for this column
+  className?: string;       // Custom CSS classes for column header
+  cellClassName?: string;   // Custom CSS classes for cells
+  align?: 'left' | 'center' | 'right'; // Cell alignment
+  render?: (value: any, row: any) => React.ReactNode; // Custom render function
+}
+```
+
+### Action Configuration
+
+Each action in the `actions` array should have:
+
+```typescript
+{
+  icon: React.ComponentType;           // Icon component to display
+  label: string;                       // Tooltip/label for the action
+  color?: string;                      // Button color (e.g., "error", "success", "default")
+  link?: string | ((row: any) => string); // Navigation link
+  tooltip?: string | ((row: any) => string);  // Tooltip content
+  disabled?: (row: any) => boolean;    // Conditionally disable action
+  onClick?: (row: any) => void;        // Click handler
+}
+```
+
+## Examples
+
+### Basic Table
+
+```jsx
+import { Table } from '@workspace/ui';
+
+const columns = [
+  { key: "name", label: "Name", sortable: true },
+  { key: "email", label: "Email" },
+  { key: "status", label: "Status" },
+];
+
+const data = [
+  { name: "John Doe", email: "john@example.com", status: "Active" },
+  { name: "Jane Smith", email: "jane@example.com", status: "Inactive" },
+];
+
+export default function BasicTable() {
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      emptyState="No data available"
+    />
+  );
+}
+```
+
+### Table with Sorting
+
+```jsx
+import { useState } from 'react';
+import { Table } from '@workspace/ui';
+
+export default function SortableTable() {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const columns = [
+    { key: "name", label: "Name", sortable: true },
+    { key: "created_at", label: "Created", sortable: true },
+  ];
+
+  const handleSort = (key) => {
+    const isAsc = sortConfig.key === key && sortConfig.direction === 'asc';
+    const direction = isAsc ? 'desc' : 'asc';
+    setSortConfig({ key, direction });
+    // Implement your sorting logic here
+  };
+
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      sortConfig={sortConfig}
+      onSort={handleSort}
+    />
+  );
+}
+```
+
+### Table with Custom Rendering
+
+```jsx
+import { Table } from '@workspace/ui';
+
+export default function CustomTable() {
+  const columns = [
+    { key: "name", label: "Name" },
+    {
+      key: "status",
+      label: "Status",
+      render: (value) => (
+        <span className={`px-2 py-1 rounded-full text-sm font-semibold ${
+          value === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+        }`}>
+          {value}
+        </span>
+      ),
+    },
+    {
+      key: "created_at",
+      label: "Created",
+      render: (value) => new Date(value).toLocaleDateString(),
+    },
+  ];
+
+  return <Table columns={columns} data={data} />;
+}
+```
+
+### Table with Actions
+
+```jsx
+import { Edit, Trash2 } from 'lucide-react';
+import { Table } from '@workspace/ui';
+
+export default function TableWithActions() {
+  const columns = [
+    { key: "name", label: "Name" },
+    { key: "email", label: "Email" },
+  ];
+
+  const actions = [
+    {
+      icon: Edit,
+      label: "Edit",
+      onClick: (row) => console.log("Edit:", row),
+    },
+    {
+      icon: Trash2,
+      label: "Delete",
+      color: "text-red-600",
+      onClick: (row) => console.log("Delete:", row),
+    },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      actions={actions}
+    />
+  );
+}
+```
+
+### Table with Loading State
+
+```jsx
+import { Table } from '@workspace/ui';
+import { useState } from 'react';
+
+export default function LoadingTable() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const columns = [
+    { key: "name", label: "Name", sortable: true },
+    { key: "email", label: "Email" },
+  ];
+
+  const data = [
+    { name: "John Doe", email: "john@example.com" },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      isLoading={isLoading}
+      emptyState="No data available"
+    />
+  );
+}
+```
+
+### Table with Expandable Rows
+
+```jsx
+import { Table } from '@workspace/ui';
+
+export default function ExpandableTable() {
+  const columns = [
+    { key: "name", label: "Name", sortable: true },
+    { key: "email", label: "Email" },
+  ];
+
+  const data = [
+    { id: 1, name: "John Doe", email: "john@example.com", details: "Extra details here" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", details: "More details" },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      expandable={true}
+      renderExpandedContent={(row) => (
+        <div className="p-4">
+          <p><strong>Details:</strong> {row.details}</p>
+        </div>
+      )}
+      rowKey={(row) => row.id}
+    />
+  );
+}
+```
+
+## Features
+
+<Callout type="info">
+  The Table component includes built-in support for:
+  - **Sorting**: Click column headers to sort ascending/descending
+  - **Expandable Rows**: Toggle row expansion to show detailed content
+  - **Custom Rendering**: Use render functions for complex cell content
+  - **Row Actions**: Add custom action buttons for each row
+  - **Loading State**: Built-in animated skeleton loading indicator
+  - **Empty State**: Customizable message when no data is available
+  - **Provider Badges**: Automatic styling for AWS/Azure provider tags
+  - **Date Formatting**: Smart date column formatting
+  - **Responsive**: Fully responsive table layout with horizontal scrolling
+  - **Glassmorphism Design**: Modern glass effect styling
+</Callout>
+
+## Best Practices
+
+1. **Use Unique Keys**: Always provide unique `rowKey` function for rows to ensure proper rendering and expandable state management.
+
+2. **Optimize Rendering**: Use the `render` function to customize cell content without modifying the original data.
+
+3. **Handle Large Datasets**: Implement client-side filtering and pagination for better performance with large datasets.
+
+4. **Keyboard Accessibility**: Sortable columns are keyboard accessible; ensure action buttons support keyboard navigation.
+
+5. **Loading States**: Always show a loading indicator when fetching data to improve UX.
+
+6. **Error Handling**: Use the `emptyState` prop to display helpful messages when data is unavailable.
+
+7. **Provider Badges**: The table automatically formats provider columns (AWS, Azure) with appropriate badge styling. Use `provider` as the column key to enable this feature.
+
+```jsx
+// Good: Using unique rowKey for expandable rows
+<Table
+  data={data}
+  expandable={true}
+  rowKey={(row) => row.id}
+/>
+
+// Good: Automatic provider badge formatting
+{ key: "provider", label: "Provider", sortable: true }
+
+// Good: Using render function for custom content
+{
+  key: "created_at",
+  label: "Date",
+  render: (value) => value?.slice(0, 4) || "-"
+}
+
+// Good: Handling loading states
+<Table isLoading={isLoading} data={data} />
+
+// Good: Providing helpful empty state
+<Table emptyState="No records found. Try adjusting your filters." data={data} />
+```
+
+## Accessibility
+
+The Table component follows WAI-ARIA guidelines:
+
+- Proper semantic HTML with `<table>`, `<thead>`, `<tbody>` elements
+- Sortable column headers are keyboard accessible with click handlers
+- Row click handlers support keyboard navigation via `onRowClick`
+- Expandable rows can be toggled with keyboard interaction
+- Loading and empty states are clearly visible and announced to screen readers
+- Action buttons are properly labeled with tooltips for screen reader users
+
+## Customization
+
+You can customize the table appearance using the `className` prop to override default styles:
+
+```jsx
+<Table
+  columns={columns}
+  data={data}
+  className="rounded-lg border-2 border-primary shadow-lg"
+/>
+```
+
+The table supports custom styling for:
+- **Table container**: Use `className` prop for wrapper styles
+- **Column headers**: Use `className` in column config for header styles
+- **Table cells**: Use `cellClassName` in column config for cell styles
+- **Expanded rows**: Customize with `renderExpandedContent` function
+
+The default styling includes:
+- Glassmorphism effect with `glass` class
+- White/20 border and bg-white/40 header
+- Smooth hover transitions
+- Responsive overflow handling
+
+## Related Components
+
+- [Skeleton](/docs/components/skeleton) - Loading placeholder
+- [Button](/docs/components/button) - Action buttons

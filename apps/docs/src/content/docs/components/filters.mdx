@@ -1,0 +1,59 @@
+---
+title: Filters
+description: A comprehensive filtering interface for managing large lists of infrastructure clusters, including search, multiple filter dropdowns, and pagination.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import FiltersUsage from "@/usage/Filters";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Filters component (internal name `Upgradecluster`) is a high-level orchestration component. It combines the `Header`, `MultipleFilter`, `FilterChip`, and `Pagination` components into a unified workflow for managing cluster upgrades. It handles data fetching, local filtering logic, and expanded row views for detailed build histories.
+
+## Installation
+
+<InstallationCli value="opscli add filters" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<FiltersUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Filters.tsx"
+      title="Filters.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+<Callout type="info">
+  Key features of the Filters component:
+  - **Unified Interface**: Integrates multiple atoms and molecules into a cohesive dashboard.
+  - **Complex Filtration**: Supports dual-stage filtering across version, provider, and lifecycle status.
+  - **Integrated Pagination**: Smart pagination that resets when filters are adjusted.
+  - **Expandable Details**: Interactive rows that expand to show a history of previous builds.
+  - **URL Synchronization**: Persists filter state into the URL query parameters (account_id integration).
+  - **Global Reset**: Single-click action to clear all active filters and search states.
+</Callout>
+
+## Best Practices
+
+1. **Composition**: Treat this as a template for large-scale data management views.
+2. **State Management**: Use `useMemo` for derived data (like unique versions or cloud providers) to ensure performant filtering.
+3. **Skeleton Loading**: Provide a clear loading state while data is being fetched to reduce perceived latency.
+4. **Responsive Strategy**: Ensure the grid of filters and the data list adapt gracefully to mobile screens.
+
+## Related Components
+
+- [MultipleFilter](/docs/components/multiple-filter) - The dropdown filtering logic
+- [FilterChip](/docs/components/filterchip) - Displays currently active filters
+- [Pagination](/docs/components/pagination) - Manages data paging
+- [Header](/docs/components/header) - The page branding and action area

@@ -1,0 +1,411 @@
+---
+title: Skeleton
+description: A loading placeholder component that displays animated skeleton screens while content is being loaded.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import SkeletonUsage from "@/usage/Skeleton";
+import { InstallationCli } from "@/components/docspagescomponent/cli-install-button.tsx"
+
+## Overview
+
+The Skeleton component is a versatile loading placeholder that displays animated skeleton screens while data is being fetched. It supports multiple variants for different use cases and provides a smooth, professional loading experience to improve perceived performance.
+
+
+# Installation
+<InstallationCli value=" opscli add skeleton"/>
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<SkeletonUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Skeleton.tsx"
+      title="skeleton.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### SkeletonDetails Interface
+
+```typescript
+interface SkeletonDetails {
+  variant?: "text" | "rectangular" | "circular";
+  width?: number | string;
+  height?: number | string;
+  className?: string;
+}
+```
+
+### Props Details
+
+| Prop        | Type                                    | Default  | Description                                                         |
+| ----------- | --------------------------------------- | -------- | ------------------------------------------------------------------- |
+| `variant`   | `'text' \| 'rectangular' \| 'circular'` | `'text'` | The shape variant of the skeleton                                   |
+| `width`     | `number \| string`                      | `'100%'` | Width of the skeleton. Can be a number (px) or string (%, em, etc)  |
+| `height`    | `number \| string`                      | `'16px'` | Height of the skeleton. For circular variant, this becomes the size |
+| `className` | `string`                                | `''`     | Additional CSS classes for custom styling                           |
+
+## Variants
+
+### Text Skeleton
+
+Used for loading text content like titles, descriptions, and paragraphs.
+
+```jsx
+<div className="space-y-2">
+  <Skeleton variant="text" width="60%" height={24} /> {/* Title */}
+  <Skeleton variant="text" width="100%" height={16} /> {/* Paragraph */}
+  <Skeleton variant="text" width="90%" height={16} /> {/* Paragraph */}
+</div>
+```
+
+### Rectangular Skeleton
+
+Ideal for loading card components, images, and block-level content.
+
+```jsx
+<div className="space-y-3">
+  <Skeleton
+    variant="rectangular"
+    width="100%"
+    height={200}
+    className="rounded-md"
+  />
+  <Skeleton variant="text" width="80%" height={20} />
+  <Skeleton variant="text" width="100%" height={16} />
+</div>
+```
+
+### Circular Skeleton
+
+Perfect for loading user avatars and profile images.
+
+```jsx
+<div className="flex items-center space-x-4">
+  <Skeleton variant="circular" width={48} />
+  <div className="flex-1">
+    <Skeleton variant="text" width="40%" height={16} />
+    <Skeleton variant="text" width="60%" height={14} />
+  </div>
+</div>
+```
+
+### Loading Card Component
+
+```jsx
+import Skeleton from "@/components/docs/Skeleton";
+import { useState, useEffect } from "react";
+
+export default function CardLoader() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [card, setCard] = useState(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCard({
+        title: "Card Title",
+        description: "This is card content",
+        image: "https://example.com/image.jpg",
+      });
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="p-4 border rounded-lg">
+      {isLoading ? (
+        <>
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={200}
+            className="mb-3 rounded-md"
+          />
+          <Skeleton variant="text" width="80%" height={20} className="mb-2" />
+          <Skeleton variant="text" width="100%" height={16} className="mb-2" />
+          <Skeleton variant="text" width="60%" height={16} />
+        </>
+      ) : (
+        <>
+          <img
+            src={card.image}
+            className="w-full h-48 rounded-md object-cover mb-3"
+            alt="card"
+          />
+          <h3 className="font-semibold text-lg mb-2">{card.title}</h3>
+          <p className="text-gray-600 text-sm">{card.description}</p>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+### Loading User List
+
+```jsx
+import Skeleton from "@/components/docs/Skeleton";
+import { useState, useEffect } from "react";
+
+export default function UserListLoader() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setUsers([
+        { id: 1, name: "John Doe", email: "john@example.com" },
+        { id: 2, name: "Jane Smith", email: "jane@example.com" },
+      ]);
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      {isLoading
+        ? Array.from({ length: 3 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="flex items-center space-x-4 p-3 border rounded-lg"
+            >
+              <Skeleton variant="circular" width={40} />
+              <div className="flex-1 space-y-2">
+                <Skeleton variant="text" width="40%" height={16} />
+                <Skeleton variant="text" width="60%" height={14} />
+              </div>
+            </div>
+          ))
+        : users.map((user) => (
+            <div
+              key={user.id}
+              className="flex items-center space-x-4 p-3 border rounded-lg"
+            >
+              <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+              <div>
+                <p className="font-semibold text-sm">{user.name}</p>
+                <p className="text-gray-600 text-xs">{user.email}</p>
+              </div>
+            </div>
+          ))}
+    </div>
+  );
+}
+```
+
+### Complex Loading Layout
+
+```jsx
+import Skeleton from "@/components/docs/Skeleton";
+
+export default function ComplexLoader() {
+  return (
+    <div className="p-6 border rounded-lg space-y-4">
+      {/* Header */}
+      <div className="flex items-center space-x-3">
+        <Skeleton variant="circular" width={40} />
+        <div className="flex-1">
+          <Skeleton variant="text" width="30%" height={16} className="mb-1" />
+          <Skeleton variant="text" width="50%" height={14} />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="space-y-2">
+        <Skeleton variant="text" width="40%" height={20} />
+        <Skeleton variant="text" width="100%" height={16} />
+        <Skeleton variant="text" width="95%" height={16} />
+      </div>
+
+      {/* Image */}
+      <Skeleton
+        variant="rectangular"
+        width="100%"
+        height={250}
+        className="rounded-md"
+      />
+
+      {/* Footer Actions */}
+      <div className="flex space-x-2">
+        <Skeleton
+          variant="rectangular"
+          width={100}
+          height={36}
+          className="rounded"
+        />
+        <Skeleton
+          variant="rectangular"
+          width={100}
+          height={36}
+          className="rounded"
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+### Grid of Skeletons
+
+```jsx
+import Skeleton from "@/components/docs/Skeleton";
+
+export default function GridLoader() {
+  const skeletonCount = 6;
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {Array.from({ length: skeletonCount }).map((_, idx) => (
+        <div key={idx} className="p-4 border rounded-lg">
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={200}
+            className="mb-3 rounded-md"
+          />
+          <Skeleton variant="text" width="80%" height={20} className="mb-2" />
+          <Skeleton variant="text" width="100%" height={16} className="mb-4" />
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={36}
+            className="rounded"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## Styling
+
+### With Tailwind Classes
+
+```jsx
+<Skeleton
+  variant="rectangular"
+  width="100%"
+  height={200}
+  className="rounded-lg shadow-md"
+/>
+```
+
+### Custom Styling
+
+```jsx
+<Skeleton
+  variant="text"
+  width="100%"
+  height={24}
+  className="!bg-blue-200 rounded-full"
+/>
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the Skeleton component:
+  - **Multiple Variants**: Text, rectangular, and circular shapes for different content types 
+  - **Animated Effect**: Smooth pulse animation with gradient shimmer 
+  - **Flexible Sizing**: Support for both pixel and percentage-based dimensions 
+  - **Responsive**: Works seamlessly with Tailwind CSS grid and flex utilities 
+  - **Customizable**: Fully extensible with custom CSS classes 
+  - **Lightweight**: Minimal bundle size and high performance 
+  - **Accessible**: Semantic HTML structure for screen readers
+</Callout>
+
+## Best Practices
+
+<Callout type="tip">
+  Follow these best practices when using Skeleton loaders:
+</Callout>
+
+1. **Match Content Dimensions**: Use skeleton dimensions that match the actual content size for smooth transitions.
+
+```jsx
+// Good: Skeleton matches final content size
+<Skeleton variant="text" width="80%" height={24} /> {/* Matches h2 size */}
+
+// Avoid: Mismatched dimensions
+<Skeleton variant="text" width="50%" height={24} /> {/* Too small */}
+```
+
+2. **Use Loading State Duration**: Keep loading states visible for at least 300-500ms for better UX.
+
+```jsx
+useEffect(() => {
+  const timer = setTimeout(() => setIsLoading(false), Math.max(500, loadTime));
+  return () => clearTimeout(timer);
+}, [loadTime]);
+```
+
+3. **Combine Multiple Skeletons**: Use multiple skeletons to represent complex layouts.
+
+```jsx
+<div className="space-y-3">
+  <Skeleton variant="text" width="60%" height={28} /> {/* Title */}
+  <Skeleton variant="text" width="100%" height={16} /> {/* Paragraph */}
+  <Skeleton variant="text" width="100%" height={16} /> {/* Paragraph */}
+  <Skeleton variant="rectangular" width="100%" height={200} /> {/* Image */}
+</div>
+```
+
+4. **Responsive Layouts**: Adapt skeletons to different screen sizes.
+
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {Array.from({ length: 6 }).map((_, idx) => (
+    <Skeleton key={idx} variant="rectangular" width="100%" height={200} />
+  ))}
+</div>
+```
+
+5. **Accessibility**: Provide loading text for screen readers.
+
+```jsx
+<div aria-busy={isLoading} aria-live="polite">
+  {isLoading ? (
+    <div>
+      <Skeleton variant="text" width="100%" height={16} />
+      <span className="sr-only">Loading content...</span>
+    </div>
+  ) : (
+    <p>{content}</p>
+  )}
+</div>
+```
+
+## Performance Tips
+
+- Use conditional rendering to avoid rendering skeletons when not needed
+- Batch multiple skeletons with CSS Grid or Flexbox for better performance
+- Consider implementing a timeout to prevent indefinite loading states
+- Use `React.memo` for components that frequently switch between loading/loaded states
+
+## Accessibility
+
+The Skeleton component:
+
+- Uses semantic HTML with proper ARIA attributes
+- Provides visual feedback through animation
+- Works with screen readers when paired with loading text
+- Respects `prefers-reduced-motion` for users who prefer minimal animations
+
+## Related Components
+
+- [Table](/docs/components/Table) - Data display with loading states
+- [Badge](/docs/components/badge) - Status indicators

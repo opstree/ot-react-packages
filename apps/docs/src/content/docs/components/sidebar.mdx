@@ -1,0 +1,88 @@
+---
+title: Sidebar
+description: The primary navigation component for the documentation, featuring grouped links, active state highlighting, and responsive visibility toggles.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import SidebarUsage from "@/usage/Sidebar";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Sidebar is the central navigational hub for the documentation site. It renders a tree-like structure of links based on a configuration object. It supports active path detection, grouped sections, and a toggleable state for responsive layouts.
+
+## Installation
+
+<InstallationCli value="opscli add sidebar" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<SidebarUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Sidebar.tsx"
+      title="Sidebar.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Configuration
+
+The sidebar is driven by the `docsConfig` object:
+
+```typescript
+export const docsConfig: DocsConfig = {
+    sidebarNav: [
+        {
+            title: "Category",
+            items: [
+                {
+                    title: "Page Name",
+                    href: "/docs/path",
+                    label: "new" // Optional badge
+                }
+            ],
+            icon: <IconFile /> // Optional category icon
+        }
+    ]
+}
+```
+
+## Props
+
+### Sidebar Component
+
+```typescript
+interface SidebarProps {
+  isOpen: boolean;                      // Controls the visibility of the sidebar
+  setIsOpen: (open: boolean) => void;   // Callback for toggling the sidebar
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the Sidebar component:
+  - **Auto-Highlighting**: Automatically highlights the active link based on the current URL.
+  - **Badges**: Supports labels like `new`, `recent`, and `updated` with distinct styling.
+  - **Collapsible Layout**: Can be toggled on/off, integrated with Framer Motion for smooth transitions.
+  - **Glassmorphism & Theming**: Combines light/dark theme support with modern glass-style backgrounds.
+  - **Smooth Scrolling**: Integrated with `ScrollArea` for a polished navigation experience.
+</Callout>
+
+## Best Practices
+
+1. **Logical Taxonomy**: Organize documentation into clear, high-level categories (e.g., "Getting Started", "Components", "API").
+2. **Short Titles**: Keep link titles short to prevent wrapping or overcrowding.
+3. **Use Labels Sparingly**: Reserve labels like `new` or `updated` for significant changes to avoid visual clutter.
+4. **Consistency**: Ensure that every item in the sidebar corresponds to a valid route in your application.
+
+## Related Components
+
+- [Header](/docs/components/header) - Often used to show breadcrumbs or the page title

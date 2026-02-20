@@ -1,0 +1,29 @@
+{
+  "name": "spiderview",
+  "type": "components:ui",
+  "title": "SpiderView",
+  "description": "Description for SpiderView",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/docs/SpiderView.tsx",
+      "content": "",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "props": [
+      "className"
+    ],
+    "variants": [],
+    "previewUrl": "/docs/components/spiderview"
+  },
+  "docs": "/components/spiderview",
+  "categories": [
+    "Uncategorized"
+  ]
+}

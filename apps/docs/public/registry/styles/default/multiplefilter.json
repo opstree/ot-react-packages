@@ -1,0 +1,29 @@
+{
+  "name": "multiplefilter",
+  "type": "components:ui",
+  "title": "MultipleFilter",
+  "description": "Description for MultipleFilter",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/docs/MultipleFilter.tsx",
+      "content": "import React, { useEffect, useRef, useState } from \"react\";\r\nimport { ChevronDown, Check, X } from \"lucide-react\";\r\nimport { cn } from \"@/lib/cn\";\r\n\r\ninterface UpgradefilterDetails {\r\n    filterOptions: {\r\n        group: string;\r\n        key: string;\r\n        options: {\r\n            value: string;\r\n            label: string;\r\n        }[];\r\n    }[];\r\n    filters: Record<string, string[]>;\r\n    onFilterChange: (filter: any) => void;\r\n    defaultLabel?: string;\r\n}\r\n\r\nconst Upgradefilter = ({\r\n    filterOptions,\r\n    filters,\r\n    onFilterChange,\r\n    defaultLabel = \"Filter\",\r\n}: UpgradefilterDetails) => {\r\n    const [isOpen, setIsOpen] = useState(false);\r\n    const dropdownRef = useRef<HTMLDivElement>(null);\r\n\r\n    const totalSelected = Object.values(filters).flat().length;\r\n\r\n    useEffect(() => {\r\n        const handleClickOutside = (e: MouseEvent) => {\r\n            if (dropdownRef.current && !dropdownRef.current?.contains(e.target as Node)) {\r\n                setIsOpen(false);\r\n            }\r\n        };\r\n        document.addEventListener(\"mousedown\", handleClickOutside);\r\n        return () =>\r\n            document.removeEventListener(\"mousedown\", handleClickOutside);\r\n    }, []);\r\n\r\n    const toggleValue = (groupKey: string, value: string) => {\r\n        onFilterChange((prev: any) => {\r\n            const exists = prev[groupKey].includes(value);\r\n            return {\r\n                ...prev,\r\n                [groupKey]: exists\r\n                    ? prev[groupKey].filter((v: any) => v !== value)\r\n                    : [...prev[groupKey], value],\r\n            };\r\n        });\r\n    };\r\n\r\n    return (\r\n        <div className=\"relative\" ref={dropdownRef}>\r\n            <button\r\n                onClick={() => setIsOpen(!isOpen)}\r\n                className=\"flex items-center justify-between w-45 px-4 py-1.5 text-sm bg-white  backdrop-blur-sm text-black rounded-lg shadow-sm cursor-pointer outline:none select-none\"\r\n            >\r\n                <span>{defaultLabel}</span>\r\n                {totalSelected > 0 && (\r\n                    <span className=\"ml-2 text-xs bg-blue-600 text-white rounded-full px-2\">\r\n                        {totalSelected}\r\n                    </span>\r\n                )}\r\n                <ChevronDown\r\n                    className={cn(\"w-4 h-4 transition-transform\", isOpen && \"rotate-180\")}\r\n                />\r\n            </button>\r\n\r\n            {isOpen && (\r\n                <div className=\"absolute z-50 mt-2 w-65 bg-white rounded-xl shadow-xl cursor-pointer\">\r\n                    {filterOptions.map((group) => (\r\n                        <div key={group.key}>\r\n                            <p className=\"px-4 py-2 text-xs font-semibold text-black\">\r\n                                {group.group}\r\n                            </p>\r\n                            {group.options.map((opt) => {\r\n                                const isSelected = filters[group.key].includes(opt.value);\r\n                                return (\r\n                                    <button\r\n                                        key={opt.value}\r\n                                        onClick={() => toggleValue(group.key, opt.value)}\r\n                                        className={cn(\r\n                                            \"flex w-full items-center justify-between px-4 py-2 text-sm\",\r\n                                            isSelected\r\n                                                ? \"bg-blue-50 text-blue-700\"\r\n                                                : \"hover:bg-slate-50 text-slate-600\"\r\n                                        )}\r\n                                    >\r\n                                        {opt.label}\r\n                                        {isSelected && <Check className=\"w-4 h-4\" />}\r\n                                    </button>\r\n                                );\r\n                            })}\r\n                        </div>\r\n                    ))}\r\n                </div>\r\n            )}\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default Upgradefilter",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "props": [
+      "className"
+    ],
+    "variants": [],
+    "previewUrl": "/docs/components/multiplefilter"
+  },
+  "docs": "/components/multiplefilter",
+  "categories": [
+    "Uncategorized"
+  ]
+}

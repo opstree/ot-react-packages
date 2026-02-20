@@ -1,0 +1,25 @@
+{
+  "id": "",
+  "name": "Button",
+  "category": "Form",
+  "version": "1.0.0",
+  "framework": "react",
+  "files": [
+    {
+      "path": "ui/button.tsx",
+      "content": "export function Button() { ... }"
+    }
+  ],
+  "dependencies": ["clsx", "tailwind-merge"],
+  "props": [
+    {
+      "name": "variant",
+      "type": "primary | secondary",
+      "default": "primary"
+    }
+  ],
+  "docs": {
+    "description": "Used for user actions",
+    "examples": ["<Button>Click</Button>"]
+  }
+}

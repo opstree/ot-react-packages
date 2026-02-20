@@ -1,0 +1,43 @@
+---
+title: Timeline
+description: A component for displaying chronological events or step-by-step progress indicators.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import TimelineUsage from "@/usage/Timeline";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Timeline component is designed to visualize a sequence of events or status changes over time. 
+
+<Callout type="warning">
+  **Note**: This component is currently in the planning phase and an implementation will be available soon.
+</Callout>
+
+## Installation
+
+<InstallationCli value="opscli add timeline" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<TimelineUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Timeline.tsx"
+      title="Timeline.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+- **Chronological Sorting**: Automatically handles event ordering.
+- **Customizable Markers**: Supports different icons or colors for varying event types.
+- **Interactive Steps**: Allows users to click on specific events for more detail.

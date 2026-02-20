@@ -1,0 +1,44 @@
+{
+  "name": "opscli",
+  "version": "0.0.1",
+  "bin": {
+    "opscli": "./dist/index.js"
+  },
+  "description": "CLI for OPS-UI component library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GOURAVSINGH19/Ops-Ui.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "cli",
+    "components",
+    "ui",
+    "react",
+    "ops-ui"
+  ],
+  "author": "Gourav Singh",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dev": "tsup src/index.ts --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@workspace/eslint-config": "*",
+    "@workspace/typescript-config": "*",
+    "commander": "^14.0.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "fs-extra": "^11.3.3",
+    "path": "^0.12.7",
+    "prompts": "^2.4.2",
+    "zod": "^3.25.76"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "tests",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Integration tests for shadcn CLI",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.19.30",
+    "execa": "^7.2.0",
+    "fs-extra": "^11.3.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.1.9"
+  }
+}
