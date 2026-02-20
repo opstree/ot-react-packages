@@ -1,32 +1,44 @@
-import { Command } from "commander"
-import fs from "fs-extra"
+import { writeFile, mkdir, access } from "fs/promises"
+import { constants } from "fs"
 import path from "path"
-import prompts from "prompts"
+import { confirm } from "../utils/prompts"
 
-export const theme = new Command()
-    .name("theme")
-    .description("Manage themes for your project")
+async function pathExists(p: string): Promise<boolean> {
+    try {
+        await access(p, constants.F_OK)
+        return true
+    } catch {
+        return false
+    }
+}
 
-theme
-    .command("add")
-    .description("Add a new theme to your project")
-    .argument("<name>", "the name of the theme")
-    .action(async (name) => {
+async function ensureDir(p: string) {
+    if (!(await pathExists(p))) {
+        await mkdir(p, { recursive: true })
+    }
+}
+
+export async function theme() {
+    const args = process.argv.slice(3)
+    const subCommand = args[0]
+
+    if (subCommand === "add") {
+        const name = args[1]
+        if (!name) {
+            console.error("Please specify a theme name.")
+            process.exit(1)
+        }
+
         try {
             const projectRoot = process.cwd()
             const stylesDir = path.join(projectRoot, "styles")
-            await fs.ensureDir(stylesDir)
+            await ensureDir(stylesDir)
 
             const themePath = path.join(stylesDir, `${name}.css`)
 
-            if (fs.existsSync(themePath)) {
-                const response = await prompts({
-                    type: "confirm",
-                    name: "overwrite",
-                    message: `Theme ${name} already exists. Overwrite?`,
-                    initial: false
-                })
-                if (!response.overwrite) return
+            if (await pathExists(themePath)) {
+                const overwrite = await confirm(`Theme ${name} already exists. Overwrite?`)
+                if (!overwrite) return
             }
 
             const themeContent = `:root {
@@ -37,11 +49,19 @@ theme
   /* Add more theme variables here */
 }
 `
-            await fs.writeFile(themePath, themeContent)
+            await writeFile(themePath, themeContent)
             console.log(`✓ Created theme: styles/${name}.css`)
             console.log(`Tip: Import this file in your main CSS or layout.`)
 
         } catch (error) {
             console.error("Error adding theme:", error)
         }
-    })
+    } else {
+        console.log(`
+Usage: opscli theme <command>
+
+Commands:
+  add <name>   Add a new theme to your project
+`)
+    }
+}

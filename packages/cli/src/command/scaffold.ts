@@ -1,26 +1,42 @@
-import { Command } from "commander"
-import fs from "fs-extra"
+import { writeFile, mkdir, access } from "fs/promises"
+import { constants } from "fs"
 import path from "path"
 
-export const scaffold = new Command()
-    .name("scaffold")
-    .description("Scaffold a new component with best practices")
-    .argument("<name>", "the name of the component")
-    .action(async (name) => {
-        try {
-            const projectRoot = process.cwd()
-            const componentsDir = path.join(projectRoot, "components", "ui")
-            await fs.ensureDir(componentsDir)
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await access(p, constants.F_OK)
+    return true
+  } catch {
+    return false
+  }
+}
 
-            const componentName = name.charAt(0).toUpperCase() + name.slice(1)
-            const componentPath = path.join(componentsDir, `${componentName}.tsx`)
+async function ensureDir(p: string) {
+  if (!(await pathExists(p))) {
+    await mkdir(p, { recursive: true })
+  }
+}
 
-            if (fs.existsSync(componentPath)) {
-                console.error(`Error: Component ${componentName} already exists at ${componentPath}`)
-                process.exit(1)
-            }
+export async function scaffold(name: string) {
+  if (!name) {
+    console.error("Please specify a component name.")
+    process.exit(1)
+  }
 
-            const template = `import * as React from "react"
+  try {
+    const projectRoot = process.cwd()
+    const componentsDir = path.join(projectRoot, "components", "ui")
+    await ensureDir(componentsDir)
+
+    const componentName = name.charAt(0).toUpperCase() + name.slice(1)
+    const componentPath = path.join(componentsDir, `${componentName}.tsx`)
+
+    if (await pathExists(componentPath)) {
+      console.error(`Error: Component ${componentName} already exists at ${componentPath}`)
+      process.exit(1)
+    }
+
+    const template = `import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -64,10 +80,10 @@ ${componentName}.displayName = "${componentName}"
 
 export { ${componentName}, ${name}Variants }
 `
-            await fs.writeFile(componentPath, template)
-            console.log(`✓ Scaffolded ${componentName} at components/ui/${componentName}.tsx`)
+    await writeFile(componentPath, template)
+    console.log(`✓ Scaffolded ${componentName} at components/ui/${componentName}.tsx`)
 
-        } catch (error) {
-            console.error("Error scaffolding component:", error)
-        }
-    })
+  } catch (error) {
+    console.error("Error scaffolding component:", error)
+  }
+}

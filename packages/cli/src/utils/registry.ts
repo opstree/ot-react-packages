@@ -1,46 +1,95 @@
-import { z } from "zod"
+import { readFile, access } from "fs/promises"
+import { constants } from "fs"
+import path from "path"
 
+export interface RegistryIndexItem {
+    name: string
+    type: string
+    registryDependencies?: string[]
+}
 
-export const registryIndexSchema = z.array(
-    z.object({
-        name: z.string(),
-        type: z.string(),
-        registryDependencies: z.array(z.string()).optional(),
-    })
-)
+export type RegistryIndex = RegistryIndexItem[]
 
-export const registryItemSchema = z.object({
-    name: z.string(),
-    type: z.string(),
-    dependencies: z.array(z.string()).optional(),
-    registryDependencies: z.array(z.string()).optional(),
-    files: z.array(
-        z.object({
-            path: z.string(),
-            content: z.string(),
-            type: z.string().optional(), // registry:ui, etc.
-        })
-    ),
-})
+export interface RegistryItem {
+    name: string
+    type: string
+    dependencies?: string[]
+    registryDependencies?: string[]
+    files: {
+        path: string
+        content: string
+        type?: string
+    }[]
+}
 
 // TODO: Update this URL to the production URL or make it configurable
-export const REGISTRY_BASE_URL = "https://raw.githubusercontent.com/GOURAVSINGH19/Ops-Ui/main/apps/docs/public/registry"
+const rawBaseUrl = process.env.BASE_URL || "";
+export const REGISTRY_BASE_URL = rawBaseUrl.trim().replace(/^['"]+|['"]+$/g, '')
 
-export async function fetchRegistryIndex() {
+async function pathExists(p: string): Promise<boolean> {
     try {
-        const response = await fetch(`${REGISTRY_BASE_URL}/index.json`)
-        if (!response.ok) throw new Error("Failed to fetch registry index")
-        return registryIndexSchema.parse(await response.json())
+        await access(p, constants.F_OK)
+        return true
+    } catch {
+        return false
+    }
+}
+
+async function findRoot(startDir: string): Promise<string | null> {
+    let currentDir = startDir
+    while (currentDir !== path.parse(currentDir).root) {
+        // Look for common workspace/root markers
+        if (
+            await pathExists(path.join(currentDir, "pnpm-workspace.yaml")) ||
+            await pathExists(path.join(currentDir, "package-lock.json")) ||
+            await pathExists(path.join(currentDir, "yarn.lock")) ||
+            await pathExists(path.join(currentDir, "turbo.json")) ||
+            await pathExists(path.join(currentDir, ".git"))
+        ) {
+            return currentDir
+        }
+        currentDir = path.dirname(currentDir)
+    }
+    return null
+}
+
+export async function fetchRegistryIndex(): Promise<RegistryIndex> {
+    try {
+        // Try local fallback first
+        const root = await findRoot(process.cwd())
+        if (root) {
+            const localPath = path.join(root, "apps/docs/public/registry/index.json")
+            if (await pathExists(localPath)) {
+                const content = await readFile(localPath, "utf-8")
+                return JSON.parse(content) as RegistryIndex
+            }
+        }
+
+        const url = `${REGISTRY_BASE_URL}/index.json`
+        const response = await fetch(url)
+        if (!response.ok) throw new Error(`Failed to fetch registry index: ${response.statusText}`)
+        return await response.json() as RegistryIndex
     } catch (error) {
         throw new Error(`Failed to fetch registry index: ${error}`)
     }
 }
 
-export async function fetchRegistryItem(name: string, style: string = "default") {
+export async function fetchRegistryItem(name: string, style: string = "default"): Promise<RegistryItem> {
     try {
-        const response = await fetch(`${REGISTRY_BASE_URL}/styles/${style}/${name}.json`)
+        // Try local fallback first
+        const root = await findRoot(process.cwd())
+        if (root) {
+            const localPath = path.join(root, `apps/docs/public/registry/styles/${style}/${name}.json`)
+            if (await pathExists(localPath)) {
+                const content = await readFile(localPath, "utf-8")
+                return JSON.parse(content) as RegistryItem
+            }
+        }
+
+        const url = `${REGISTRY_BASE_URL}/styles/${style}/${name}.json`
+        const response = await fetch(url)
         if (!response.ok) throw new Error(`Failed to fetch component: ${name}`)
-        return registryItemSchema.parse(await response.json())
+        return await response.json() as RegistryItem
     } catch (error) {
         throw new Error(`Failed to fetch component ${name}: ${error}`)
     }
@@ -49,9 +98,9 @@ export async function fetchRegistryItem(name: string, style: string = "default")
 export async function resolveDependencies(
     componentName: string,
     style: string
-): Promise<z.infer<typeof registryItemSchema>[]> {
+): Promise<RegistryItem[]> {
     const visited = new Set<string>()
-    const results: z.infer<typeof registryItemSchema>[] = []
+    const results: RegistryItem[] = []
 
     async function resolve(name: string) {
         if (visited.has(name)) return
