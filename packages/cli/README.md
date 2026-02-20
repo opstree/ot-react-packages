@@ -29,22 +29,22 @@ npm install -g @demouser22/opscli
 ### 1. Initialize Project
 Setup the basic project structure and project configuration.
 ```bash
-npx opscli init
+opscli init
 ```
 
 ### 2. Add Components
 Download and install components from the OPS-UI registry. The CLI will interactively ask if you want to install or skip dependencies.
 ```bash
-npx opscli add <component-name>
+opscli add <component-name>
 
 # Example
-npx opscli add table
+opscli add table
 ```
 
 ### 3. List Available Components
 Browse all components available in the current registry.
 ```bash
-npx opscli list
+opscli list
 ```
 
 ### 4. Scaffold New Components
@@ -59,18 +59,8 @@ npx opscli scaffold MyCustomButton
 ### 5. Manage Themes
 Add and manage CSS themes for your project.
 ```bash
-npx opscli theme add <theme-name>
+opscli theme add <theme-name>
 ```
-
----
-
-## ⚙️ Configuration
-
-The CLI can be configured via a `.env` file in your project root or via environment variables.
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `BASE_URL` | The URL of the component registry | GitHub Raw URL |
 
 ---
 
@@ -79,7 +69,7 @@ The CLI can be configured via a `.env` file in your project root or via environm
 If you encounter any issues:
 1. Ensure you are using **Node.js v20.12+** (required for native environment loading).
 2. Check if your project root has a `package.json` file.
-3. Use `npx opscli --help` for a full list of commands.
+3. Use `opscli --help` for a full list of commands.
 
 ---
 
