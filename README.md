@@ -48,9 +48,9 @@ npm run build
 
 The CLI is designed to be the primary way users interact with the OPS-UI library. It allows you to:
 
-- **Add Components**: `npx opscli add <component-name>` (Installs components directly into your local project from our registry).
-- **Scaffold**: `npx opscli scaffold <name>` (Creates a brand new component following our design patterns).
-- **Initialize**: `npx opscli init` (Sets up a new project to use OPS-UI).
+- **Add Components**: `opscli add <component-name>` (Installs components directly into your local project from our registry).
+- **Scaffold**: `opscli scaffold <name>` (Creates a brand new component following our design patterns).
+- **Initialize**: `opscli init` (Sets up a new project to use OPS-UI).
 
 For more details on the CLI, check out the [CLI README](./packages/cli/README.md).
 
