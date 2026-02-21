@@ -22,9 +22,20 @@ export interface RegistryItem {
     }[]
 }
 
-// TODO: Update this URL to the production URL or make it configurable
-const rawBaseUrl = process.env.BASE_URL || "";
-export const REGISTRY_BASE_URL = rawBaseUrl.trim().replace(/^['"]+|['"]+$/g, '')
+// Fallback to the production GitHub raw URL if no environment variable is set
+const DEFAULT_REGISTRY_URL = "https://raw.githubusercontent.com/opstree/ot-react-packages/fe-components/apps/www/public/registry";
+
+const rawBaseUrl = process.env.BASE_URL || DEFAULT_REGISTRY_URL;
+export const REGISTRY_BASE_URL = rawBaseUrl.trim().replace(/^['"]+|['"]+$/g, '').replace(/\/$/, '')
+
+function constructUrl(path: string): string {
+    // If it's already an absolute URL, return it
+    if (path.startsWith('http')) return path;
+
+    // Ensure we don't have double slashes
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${REGISTRY_BASE_URL}${cleanPath}`;
+}
 
 async function pathExists(p: string): Promise<boolean> {
     try {
@@ -58,14 +69,14 @@ export async function fetchRegistryIndex(): Promise<RegistryIndex> {
         // Try local fallback first
         const root = await findRoot(process.cwd())
         if (root) {
-            const localPath = path.join(root, "apps/docs/public/registry/index.json")
+            const localPath = path.join(root, "apps/www/public/registry/registry.json")
             if (await pathExists(localPath)) {
                 const content = await readFile(localPath, "utf-8")
                 return JSON.parse(content) as RegistryIndex
             }
         }
 
-        const url = `${REGISTRY_BASE_URL}/index.json`
+        const url = constructUrl("registry.json")
         const response = await fetch(url)
         if (!response.ok) throw new Error(`Failed to fetch registry index: ${response.statusText}`)
         return await response.json() as RegistryIndex
@@ -79,14 +90,14 @@ export async function fetchRegistryItem(name: string, style: string = "default")
         // Try local fallback first
         const root = await findRoot(process.cwd())
         if (root) {
-            const localPath = path.join(root, `apps/docs/public/registry/styles/${style}/${name}.json`)
+            const localPath = path.join(root, `apps/www/public/registry/components/${name}.json`)
             if (await pathExists(localPath)) {
                 const content = await readFile(localPath, "utf-8")
                 return JSON.parse(content) as RegistryItem
             }
         }
 
-        const url = `${REGISTRY_BASE_URL}/styles/${style}/${name}.json`
+        const url = constructUrl(`components/${name}.json`)
         const response = await fetch(url)
         if (!response.ok) throw new Error(`Failed to fetch component: ${name}`)
         return await response.json() as RegistryItem

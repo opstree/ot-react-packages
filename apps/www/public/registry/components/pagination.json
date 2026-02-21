@@ -1,0 +1,20 @@
+{
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "Pagination",
+  "description": "A Pagination component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Pagination.tsx",
+      "content": "import React from \"react\";\r\n\r\ninterface PaginationDetails {\r\n    currentPage: number;\r\n    totalPages: number;\r\n    onPageChange: (page: number) => void;\r\n}\r\n\r\nconst PaginationControls = ({ currentPage, totalPages = 6, onPageChange }: PaginationDetails) => {\r\n    if (!totalPages || totalPages <= 0) return null;\r\n\r\n    return (\r\n        <div className=\"flex items-center justify-center py-3 \">\r\n            <button\r\n                disabled={currentPage === 1 || totalPages <= 1}\r\n                onClick={() => onPageChange(currentPage - 1)}\r\n                className={` px-3 py-1 rounded-md cursor-pointer select-none outline-none text-sm ${currentPage === 1 || totalPages <= 1 ? \"bg-gray-400 text-white\" : \"bg-blue-500 text-white shadow-sm\"}`}\r\n            >\r\n                Previous\r\n            </button>\r\n\r\n            <span className=\"dark:text-neutral-400 text-gray-600 text-sm mx-4 select-none\">\r\n                Page {currentPage} of {totalPages}\r\n            </span>\r\n\r\n            <button\r\n                disabled={currentPage === totalPages || totalPages <= 1}\r\n                onClick={() => onPageChange(currentPage + 1)}\r\n                className={` px-4 py-1 rounded-md select-none outline-none text-sm cursor-pointer ${currentPage === totalPages || totalPages <= 1 ? \"bg-gray-400 text-white\" : \"bg-blue-500 text-white shadow-sm\"}`}\r\n            >\r\n                Next\r\n            </button>\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default PaginationControls;\r\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

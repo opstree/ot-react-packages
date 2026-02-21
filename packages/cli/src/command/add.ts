@@ -1,111 +1,219 @@
-import { writeFile, mkdir, access } from "fs/promises";
-import { constants } from "fs";
-import path from "path";
-import { fetchRegistryIndex, resolveDependencies } from "../utils/registry";
-import { confirm } from "../utils/prompts";
+import { writeFile, mkdir, access, readFile } from "fs/promises"
+import { constants } from "fs"
+import path from "path"
+import { execSync } from "child_process"
+import { confirm } from "../utils/prompts"
+import { REGISTRY_BASE_URL } from "../utils/registry"
 
-async function pathExists(p: string): Promise<boolean> {
+interface AddOptions {
+  yes?: boolean
+  force?: boolean
+  dryRun?: boolean
+}
+
+interface ComponentManifest {
+  name: string
+  version: string
+  files: string[]
+  dependencies?: string[]
+  registryDependencies?: string[]
+}
+
+async function pathExists(p: string) {
   try {
-    await access(p, constants.F_OK);
-    return true;
+    await access(p, constants.F_OK)
+    return true
   } catch {
-    return false;
+    return false
   }
 }
 
-async function ensureDir(p: string) {
-  // mkdir with recursive already safe if folder exists
-  await mkdir(p, { recursive: true });
-}
-
-async function installFiles(targetDir: string, component: any) {
-  if (!component.files) return;
-
-  for (const file of component.files) {
-    const fileName = path.basename(file.path);
-    let filePath = path.join(targetDir, fileName);
-
-    // Special handling if file is index.tsx inside nested folder
-    if (file.path.includes("/") && fileName === "index.tsx") {
-      const componentFolder = path.join(targetDir, component.name);
-      await ensureDir(componentFolder);
-      filePath = path.join(componentFolder, "index.tsx");
+function installDeps(pkgs: string[], dryRun?: boolean) {
+  if (!pkgs.length) return
+  console.log(`\n📦 Installing external dependencies: ${pkgs.join(", ")}...`)
+  if (!dryRun) {
+    try {
+      execSync(`npm install ${pkgs.join(" ")}`, { stdio: "inherit" })
+    } catch (err) {
+      console.error("! Failed to install dependencies. Please run manually:")
+      console.log(`npm install ${pkgs.join(" ")}`)
     }
-
-    await writeFile(filePath, file.content);
-    console.log(`  ✓ ${path.relative(process.cwd(), filePath)}`);
   }
 }
 
-export async function add(componentName: string) {
-  if (!componentName) throw new Error("Please specify a component name.");
+async function getProjectRoot() {
+  const root = process.cwd()
+  const configPath = path.join(root, "components.json")
 
-  const targetDir = path.join(process.cwd(), "components/ui");
-  await ensureDir(targetDir);
-
-  console.log(`Checking registry for ${componentName}...`);
-
-  const registryIndex = await fetchRegistryIndex();
-  const entry = registryIndex.find((entry) => entry.name === componentName);
-
-  if (!entry) {
-    console.error(`Component ${componentName} not found in registry.`);
-    console.log(
-      `\nTip: You can use 'opscli scaffold ${componentName}' to create a new component from a template.`
-    );
-    return;
+  if (!(await pathExists(configPath))) {
+    throw new Error(
+      "OPS-UI is not initialized. Run `opscli init` first."
+    )
   }
 
-  console.log(`Found ${componentName}. Resolving dependencies...`);
-  const allComponents = await resolveDependencies(componentName, "default");
+  return root
+}
 
-  const componentsToInstall: any[] = [];
+async function getInstalledDeps(root: string) {
+  try {
+    const pkg = JSON.parse(
+      await readFile(path.join(root, "package.json"), "utf-8")
+    )
+    return {
+      ...pkg.dependencies,
+      ...pkg.devDependencies
+    }
+  } catch (err) {
+    return {}
+  }
+}
 
-  for (const component of allComponents) {
-    const componentPath = path.join(targetDir, `${component.name}.tsx`);
-    const folderPath = path.join(targetDir, component.name);
-    const exists = (await pathExists(componentPath)) || (await pathExists(folderPath));
+async function fetchManifest(name: string): Promise<ComponentManifest> {
+  const res = await fetch(
+    `${REGISTRY_BASE_URL}/components/${name}.json`
+  )
+  if (!res.ok) {
+    throw new Error(`Component "${name}" not found in registry (HTTP ${res.status}).`)
+  }
+  return res.json()
+}
 
-    if (component.name === componentName) {
-      // Main component
-      if (exists) {
-        const overwrite = await confirm(
-          `Component '${component.name}' already exists. Overwrite?`,
-          false
-        );
-        if (overwrite) componentsToInstall.push(component);
-      } else {
-        componentsToInstall.push(component);
+async function fetchFile(file: string): Promise<string> {
+  const res = await fetch(`${REGISTRY_BASE_URL}/files/${file}`)
+  if (!res.ok) {
+    throw new Error(`Failed to fetch file ${file} (HTTP ${res.status})`)
+  }
+  return res.text()
+}
+
+async function ensureDir(dir: string, dryRun?: boolean) {
+  if (!(await pathExists(dir))) {
+    if (!dryRun) await mkdir(dir, { recursive: true })
+  }
+}
+
+async function writeComponentFile(
+  root: string,
+  file: string,
+  content: string,
+  options: AddOptions
+): Promise<boolean> {
+  const targetPath = path.join(root, "components/ui", file)
+  await ensureDir(path.dirname(targetPath), options.dryRun)
+
+  if (await pathExists(targetPath) && !options.force) {
+    if (!options.yes) {
+      const overwrite = await confirm(
+        `${file} already exists. Overwrite?`,
+        false
+      )
+      if (!overwrite) {
+        console.log(`! Skipped ${file}`)
+        return false
       }
-      continue;
-    }
-
-    // Dependencies
-    if (exists) {
-      const shouldSkip = await confirm(
-        `Dependency '${component.name}' already exists. Skip?`,
-        true
-      );
-      if (!shouldSkip) componentsToInstall.push(component);
-    } else {
-      const shouldInstall = await confirm(
-        `Install dependency '${component.name}'?`,
-        true
-      );
-      if (shouldInstall) componentsToInstall.push(component);
     }
   }
 
-  if (componentsToInstall.length === 0) {
-    console.log("Nothing to install.");
-    return;
+  if (!options.dryRun) {
+    await writeFile(targetPath, content)
   }
 
-  console.log("\nInstalling...");
-  for (const component of componentsToInstall) {
-    console.log(`- ${component.name}...`);
-    await installFiles(targetDir, component);
+  console.log(`✓ Added components/ui/${file}`)
+  return true
+}
+
+async function resolveAndInstallExternalDeps(
+  manifest: ComponentManifest,
+  installedDeps: Record<string, any>,
+  dryRun?: boolean
+) {
+  const externalDeps = manifest.dependencies || []
+  const missing = externalDeps.filter((d) => !installedDeps[d])
+
+  if (missing.length > 0) {
+    installDeps(missing, dryRun)
+  }
+}
+
+async function processComponent(
+  name: string,
+  root: string,
+  installedDeps: Record<string, any>,
+  options: AddOptions,
+  visited = new Set<string>()
+): Promise<boolean> {
+  if (visited.has(name)) return false
+  visited.add(name)
+
+  let componentAdded = false
+  console.log(`\n🚚 Adding ${name}...`)
+
+  console.log(`🔍 Fetching manifest from: ${REGISTRY_BASE_URL}/components/${name}.json`)
+  let manifest: ComponentManifest
+  try {
+    manifest = await fetchManifest(name)
+  } catch (err: any) {
+    console.error(`! Could not fetch manifest for ${name}: ${err.message}`)
+    return false
   }
 
-  console.log(`\nSuccessfully added ${componentName} and its selected dependencies.`);
+  // Resolve registry dependencies (sub-components) FIRST
+  if (manifest.registryDependencies?.length) {
+    for (const dep of manifest.registryDependencies) {
+      const depAdded = await processComponent(dep, root, installedDeps, options, visited)
+      if (depAdded) componentAdded = true
+    }
+  }
+
+  // Install external npm dependencies
+  await resolveAndInstallExternalDeps(manifest, installedDeps, options.dryRun)
+
+  // Fetch + write component files
+  for (const file of manifest.files) {
+    try {
+      const content = await fetchFile(file)
+      const added = await writeComponentFile(root, file, content, options)
+      if (added) componentAdded = true
+    } catch (err: any) {
+      console.error(`! Failed to add ${file}: ${err.message}`)
+    }
+  }
+
+  return componentAdded
+}
+
+export async function add(
+  components: string[],
+  options: AddOptions = {}
+) {
+  try {
+    if (!components || components.length === 0) {
+      throw new Error("Please specify at least one component (e.g., opscli add button).")
+    }
+
+    const root = await getProjectRoot()
+    const installedDeps = await getInstalledDeps(root)
+
+    await ensureDir(path.join(root, "components/docs"), options.dryRun)
+
+    let anyComponentAdded = false
+    for (const component of components) {
+      const added = await processComponent(
+        component,
+        root,
+        installedDeps,
+        options
+      )
+      if (added) anyComponentAdded = true
+    }
+
+    if (anyComponentAdded) {
+      console.log("\n✔ Components added successfully!")
+      console.log("\nYou can now import them in your project:")
+      console.log("\n")
+    }
+  } catch (err: any) {
+    console.error("\n❌ Failed to add components:", err.message)
+    process.exit(1)
+  }
 }

@@ -1,0 +1,263 @@
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "title": "Button",
+    "description": "Highly customizable button component with multiple variants.",
+    "categories": [
+      "General"
+    ]
+  },
+  {
+    "name": "accordion",
+    "type": "registry:ui",
+    "title": "Accordion",
+    "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+    "categories": [
+      "Disclosure"
+    ]
+  },
+  {
+    "name": "badge",
+    "type": "registry:ui",
+    "title": "Badge",
+    "description": "A Badge component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "cards",
+    "type": "registry:ui",
+    "title": "Cards",
+    "description": "A Cards component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "chatbot",
+    "type": "registry:ui",
+    "title": "Chatbot",
+    "description": "A Chatbot component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "filterchip",
+    "type": "registry:ui",
+    "title": "Filterchip",
+    "description": "A Filterchip component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "filters",
+    "type": "registry:ui",
+    "title": "Filters",
+    "description": "A Filters component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "header",
+    "type": "registry:ui",
+    "title": "Header",
+    "description": "A Header component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "multiplefilter",
+    "type": "registry:ui",
+    "title": "MultipleFilter",
+    "description": "A MultipleFilter component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "pagination",
+    "type": "registry:ui",
+    "title": "Pagination",
+    "description": "A Pagination component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "sidebar",
+    "type": "registry:ui",
+    "title": "Sidebar",
+    "description": "A Sidebar component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "skeleton",
+    "type": "registry:ui",
+    "title": "Skeleton",
+    "description": "A Skeleton component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "spiderview",
+    "type": "registry:ui",
+    "title": "SpiderView",
+    "description": "A SpiderView component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "table",
+    "type": "registry:ui",
+    "title": "Table",
+    "description": "A Table component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "timeline",
+    "type": "registry:ui",
+    "title": "Timeline",
+    "description": "A Timeline component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "toggle",
+    "type": "registry:ui",
+    "title": "Toggle",
+    "description": "A Toggle component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "accordion",
+    "type": "registry:ui",
+    "title": "accordion",
+    "description": "A accordion component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "alert",
+    "type": "registry:ui",
+    "title": "alert",
+    "description": "A alert component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "aspect-ratio",
+    "type": "registry:ui",
+    "title": "aspect-ratio",
+    "description": "A aspect-ratio component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "badge",
+    "type": "registry:ui",
+    "title": "badge",
+    "description": "A badge component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "title": "button",
+    "description": "A button component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "collapsible",
+    "type": "registry:ui",
+    "title": "collapsible",
+    "description": "A collapsible component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "dropdown",
+    "type": "registry:ui",
+    "title": "dropdown",
+    "description": "A dropdown component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "icons",
+    "type": "registry:ui",
+    "title": "icons",
+    "description": "A icons component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "popover",
+    "type": "registry:ui",
+    "title": "popover",
+    "description": "A popover component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "scroll-area",
+    "type": "registry:ui",
+    "title": "scroll-area",
+    "description": "A scroll-area component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "separator",
+    "type": "registry:ui",
+    "title": "separator",
+    "description": "A separator component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "tabs",
+    "type": "registry:ui",
+    "title": "tabs",
+    "description": "A tabs component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "tooltip",
+    "type": "registry:ui",
+    "title": "tooltip",
+    "description": "A tooltip component.",
+    "categories": [
+      "ui"
+    ]
+  }
+]

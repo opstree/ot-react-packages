@@ -11,7 +11,8 @@ Commands:
   init      Initialize your project with OPS-UI
   add       Add a component to your project
   list      List all available components
-  help      Display this help message
+  remove    Remove a component from your project
+  help      Display help for command
 
 Options:
   -v, --version  output the version number

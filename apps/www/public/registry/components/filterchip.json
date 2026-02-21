@@ -1,0 +1,20 @@
+{
+  "name": "filterchip",
+  "type": "registry:ui",
+  "title": "Filterchip",
+  "description": "A Filterchip component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Filterchip.tsx",
+      "content": "import React from \"react\";\r\nimport { motion } from \"framer-motion\";\r\nimport { X } from \"lucide-react\";\r\n\r\ninterface FilterChipProps {\r\n    filterOptions: {\r\n        group: string;\r\n        key: string;\r\n        options: { label: string; value: string }[];\r\n    }[];\r\n    filters: Record<string, string[]>;\r\n    removeValue: (groupKey: string, value: string) => void;\r\n}\r\n\r\nexport const FilterChip = ({ filterOptions, filters, removeValue }: FilterChipProps) => {\r\n    return (\r\n        <div className=\"flex gap-2 overflow-x-auto overflow-hidden\">\r\n            {filterOptions.map(group =>\r\n                filters[group.key].map((val) => {\r\n                    const opt = group.options.find((o: any) => o.value === val);\r\n                    return (\r\n                        <motion.div\r\n                            key={`${String(group.key)}-${val}`}\r\n                            initial={{ opacity: 0, scale: 0.8 }}\r\n                            animate={{ opacity: 1, scale: 1 }}\r\n                            exit={{ opacity: 0, scale: 0.8 }}\r\n                            className=\"flex items-center gap-2 bg-white text-blue-700 px-3 py-1 rounded-full text-[11px] font-medium \"\r\n                        >\r\n                            <span className=\"text-slate-400 font-normal\">{group.group}:</span>\r\n                            <span>{opt?.label || val}</span>\r\n                            <button\r\n                                onClick={() => removeValue(group.key, val)}\r\n                                className=\"text-red-500 cursor-pointer\"\r\n                            >\r\n                                <X size={12} />\r\n                            </button>\r\n                        </motion.div>\r\n                    );\r\n                })\r\n            )}\r\n        </div>\r\n    );\r\n};",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

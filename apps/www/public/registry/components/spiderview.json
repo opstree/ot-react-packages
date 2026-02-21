@@ -1,0 +1,20 @@
+{
+  "name": "spiderview",
+  "type": "registry:ui",
+  "title": "SpiderView",
+  "description": "A SpiderView component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "SpiderView.tsx",
+      "content": "",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

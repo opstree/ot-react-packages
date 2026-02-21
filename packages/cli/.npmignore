@@ -1,0 +1,21 @@
+# Source files (we usually ship compiled code only)
+src/
+tests/
+scripts/
+
+# Local config / IDE files
+.vscode/
+.idea/
+*.log
+.env
+
+# Node modules (never publish these)
+node_modules/
+
+# Build outputs (optional if you include them via "files" in package.json)
+dist/
+
+# Misc
+.DS_Store
+*.tgz
+coverage/

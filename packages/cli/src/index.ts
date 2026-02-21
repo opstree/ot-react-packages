@@ -1,67 +1,55 @@
 #!/usr/bin/env node
-
-import "./env"
+import { Command } from "commander"
 import { add } from "./command/add"
 import { init } from "./command/init"
 import { list } from "./command/list"
+import { remove } from "./command/remove"
 import { theme } from "./command/theme"
-import { scaffold } from "./command/scaffold"
+import { type RemoveOptions } from "./command/remove"
+import packageJson from "../package.json"
 
-const pkg = { version: "0.0.3" }
+const program = new Command()
 
 async function main() {
-  const args = process.argv.slice(2)
-  const command = args[0]
+  program
+    .name("opscli")
+    .description("CLI for OPS-UI component library")
+    .version(packageJson.version)
 
-  if (!command || command === "-h" || command === "--help" || command === "help") {
-    console.log(`
-opscli v${pkg.version}
-CLI for OPS-UI
+  program
+    .command("init")
+    .description("Initialize your project with OPS-UI")
+    .option("-y, --yes", "Skip confirmation prompts", false)
+    .option("-f, --force", "Overwrite existing files", false)
+    .action(init)
 
-Usage:
-  opscli <command> [arguments]
+  program
+    .command("add")
+    .description("Add components to your project")
+    .argument("<components...>", "Components to add")
+    .option("-y, --yes", "Skip confirmation prompts", false)
+    .option("-f, --force", "Overwrite existing files", false)
+    .action((components: string[], options: any) => add(components, options))
 
-Commands:
-  init              Initialize your project with OPS-UI
-  add <component>   Add an existing component from the registry (e.g., opscli add button)
-  list              List all available components in the registry
-  theme             Manage and add themes (opscli theme add <name>)
-  scaffold <name>   Create a new component template with best practices
-  help              Show this help message
+  program
+    .command("remove")
+    .description("Remove components from your project")
+    .argument("<components...>", "Components to remove")
+    .option("-y, --yes", "Skip confirmation prompts", false)
+    .option("-f, --force", "Force removal even if there are dependents", false)
+    .action((components: string[], options: RemoveOptions) => remove(components, options))
 
-Options:
-  -v, --version     Show version number
-  -h, --help        Show help message
-`)
-    return
-  }
+  program
+    .command("list")
+    .description("List all available components")
+    .action(list)
 
-  if (command === "-v" || command === "--version") {
-    console.log(pkg.version)
-    return
-  }
+  program
+    .command("theme")
+    .description("Generate theme for your project")
+    .action(theme)
 
-  switch (command) {
-    case "init":
-      await init()
-      break
-    case "add":
-      await add(args[1])
-      break
-    case "list":
-      await list()
-      break
-    case "theme":
-      await theme()
-      break
-    case "scaffold":
-      await scaffold(args[1])
-      break
-    default:
-      console.error(`Unknown command: ${command}`)
-      console.log("Run 'opscli --help' for usage.")
-      process.exit(1)
-  }
+  program.parse()
 }
 
 main().catch((err) => {
