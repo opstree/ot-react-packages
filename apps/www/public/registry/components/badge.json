@@ -1,16 +1,16 @@
 {
   "name": "badge",
   "type": "registry:ui",
-  "title": "badge",
-  "description": "A badge component.",
+  "title": "Badge",
+  "description": "A Badge component.",
   "dependencies": [
     "clsx",
     "tailwind-merge"
   ],
   "files": [
     {
-      "path": "badge.tsx",
-      "content": "import * as React from \"react\"\r\nimport { cva, type VariantProps } from \"class-variance-authority\"\r\n\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nconst badgeVariants = cva(\r\n  \"inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2\",\r\n  {\r\n    variants: {\r\n      variant: {\r\n        default:\r\n          \"border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80\",\r\n        secondary:\r\n          \"border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80\",\r\n        destructive:\r\n          \"border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80\",\r\n        outline: \"text-foreground\",\r\n      },\r\n    },\r\n    defaultVariants: {\r\n      variant: \"default\",\r\n    },\r\n  }\r\n)\r\n\r\nexport interface BadgeProps\r\n  extends React.HTMLAttributes<HTMLDivElement>,\r\n    VariantProps<typeof badgeVariants> {}\r\n\r\nfunction Badge({ className, variant, ...props }: BadgeProps) {\r\n  return (\r\n    <div className={cn(badgeVariants({ variant }), className)} {...props} />\r\n  )\r\n}\r\n\r\nexport { Badge, badgeVariants }",
+      "path": "Badge.tsx",
+      "content": "import { motion } from \"motion/react\"\r\n\r\ninterface BadgesubItems {\r\n    title: string,\r\n    desc: string\r\n}\r\ninterface BadgeProps {\r\n    data: BadgesubItems[]\r\n}\r\n\r\nconst Badge = ({ data }: BadgeProps) => {\r\n    return (\r\n        <>\r\n            {data.map((card: BadgesubItems, idx: number) => (\r\n                <motion.div\r\n                    whileHover={{ y: -4 }}\r\n                    key={idx}\r\n                    className=\"p-5 rounded-2xl bg-neutral-50 dark:bg-white/5 border border-neutral-200 dark:border-white/10 hover:border-neutral-300 dark:hover:border-white/20 transition-all cursor-pointer\"\r\n                >\r\n                    <h4 className=\"text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-3\">{card.title}</h4>\r\n                    <p className=\"text-sm font-medium text-neutral-700 dark:text-neutral-300\">{card.desc}</p>\r\n                </motion.div>\r\n            ))}\r\n        </>\r\n    )\r\n}\r\nexport default Badge;",
       "type": "registry:ui"
     }
   ],
