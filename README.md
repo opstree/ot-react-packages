@@ -117,9 +117,13 @@ The **OPS-UI CLI** (`@opstreepackage/opscli`) lets you add components directly i
 
 ```bash
 # Step 1: Initialize OPS-UI in your project
-npx @opstreepackage/opscli@latest init
+npm i @opstreepackage/opscli@latest -g
+npm i @opstreepackage/ui@latest -D
+
 
 # Step 2: Add a component
+opscli init
+
 opscli add button
 
 # Step 3: Import and use
@@ -208,14 +212,12 @@ Place your `.tsx` file in one of these directories:
 | Location | When to Use |
 |---|---|
 | `apps/www/src/components/docs/` | Custom/documentation components (recommended for new components) |
-| `packages/ui/src/components/ui/` | Core UI primitives shared across the monorepo |
 
 ### Step 2: Register It
 
 Open the corresponding registry file in `apps/www/src/registry/`:
 
 - **`components.ts`** — for components in `apps/www/src/components/docs/`
-- **`ui.ts`** — for components in `packages/ui/src/components/ui/`
 
 Add an entry like this:
 
@@ -307,9 +309,10 @@ We welcome contributions! Here's how:
 
 1. **Fork** the repository
 2. **Create a branch**: `git checkout -b feature/my-feature`
-3. **Make your changes** following the patterns in the codebase
-4. **Test locally**: Run `npm run dev` and verify your changes in the docs site
-5. **Submit a Pull Request** with a clear description of what you changed and why
+3. **Check a branch** : `git branch`
+4. **Make your changes** following the patterns in the codebase
+5. **Test locally**: Run `npm run dev` and verify your changes in the docs site
+6. **Submit a Pull Request** with a clear description of what you changed and why
 
 ### Contribution Ideas
 - Add new components to the registry
@@ -332,5 +335,5 @@ We welcome contributions! Here's how:
 
 ## ⚖️ License
 
-Licensed under the [ISC](./LICENSE) License.
-Built with 🔥 by **Gourav Singh** & **Prashant Sir** for the engineering community.
+Licensed under the [MIT](./LICENSE) License.
+Built with 🔥 by **Gourav Singh** & **Prashant Sir** for the Opstree Engineering Team.
