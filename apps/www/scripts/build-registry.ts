@@ -5,14 +5,12 @@ import { registryEntrySchema, type RegistryEntry } from "../src/registry/schema"
 
 const REGISTRY_DIR = path.join(process.cwd(), "public", "registry")
 const MANIFESTS_DIR = path.join(REGISTRY_DIR, "components")
-const FILES_DIR = path.join(REGISTRY_DIR, "files")
 
 async function buildRegistry() {
     console.log("🚀 Building OPS-UI Registry...")
 
     await fs.ensureDir(REGISTRY_DIR)
     await fs.ensureDir(MANIFESTS_DIR)
-    await fs.ensureDir(FILES_DIR)
 
     const fullRegistry: RegistryEntry[] = []
 
@@ -42,17 +40,14 @@ async function buildRegistry() {
                             console.log(`  ✨ Transformed imports in ${item.name}`)
                         }
 
-                        // Write the actual file to public/registry/files for the CLI to fetch
                         const fileName = path.basename(file.path)
-                        await fs.writeFile(path.join(FILES_DIR, fileName), content)
-
                         return {
                             ...file,
                             path: fileName, // Update path to just be the filename for the manifest
                             content,
                         }
                     } else {
-                        console.warn(`  ⚠️  File not found: ${file.path} at ${sourcePath}`)
+                        console.warn(`⚠️File not found: ${file.path} at ${sourcePath}`)
                         return file
                     }
                 })

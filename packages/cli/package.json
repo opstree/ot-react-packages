@@ -1,6 +1,6 @@
 {
   "name": "@opstreepackage/opscli",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "bin": {
     "opscli": "dist/index.js"
   },
@@ -38,5 +38,9 @@
     "picocolors": "^1.1.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
   }
 }

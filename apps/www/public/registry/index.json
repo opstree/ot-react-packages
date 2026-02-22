@@ -1,23 +1,5 @@
 [
   {
-    "name": "button",
-    "type": "registry:ui",
-    "title": "Button",
-    "description": "Highly customizable button component with multiple variants.",
-    "categories": [
-      "General"
-    ]
-  },
-  {
-    "name": "accordion",
-    "type": "registry:ui",
-    "title": "Accordion",
-    "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-    "categories": [
-      "Disclosure"
-    ]
-  },
-  {
     "name": "badge",
     "type": "registry:ui",
     "title": "Badge",

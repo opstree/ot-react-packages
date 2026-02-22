@@ -1,54 +1,5 @@
 [
   {
-    "name": "button",
-    "type": "registry:ui",
-    "title": "Button",
-    "description": "Highly customizable button component with multiple variants.",
-    "dependencies": [
-      "clsx",
-      "tailwind-merge",
-      "react",
-      "lucide-react",
-      "framer-motion"
-    ],
-    "registryDependencies": [],
-    "files": [
-      {
-        "path": "button.tsx",
-        "content": "/**\r\n * @name Button\r\n * @description Highly customizable button component with multiple variants.\r\n * @category General\r\n */\r\n\r\nimport * as React from \"react\"\r\nimport { Slot } from \"@radix-ui/react-slot\"\r\nimport { cva, type VariantProps } from \"class-variance-authority\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nconst buttonVariants = cva(\r\n  \"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive\",\r\n  {\r\n    variants: {\r\n      variant: {\r\n        default:\r\n          \"bg-primary text-primary-foreground shadow-xs ring-1 ring-white/60 duration-600 ease-inOut hover:bg-primary/95 \",\r\n        destructive:\r\n          \"bg-destructive text-white shadow-[inset_0_.2px_.2px_red,0_1px_2px_2px_#00000030,0_2px_2px_#00000015] hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60\",\r\n        outline:\r\n          \"border bg-background shadow-[inset_0_.5px_.5px_#ffffff30,0_1px_2px_2px_#00000030,0_2px_2px_#00000015] hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50\",\r\n        primary:\r\n          \"bg-secondary text-secondary-foreground shadow-[inset_0_.5px_.5px_#ffffff30,0_1px_2px_2px_#00000030,0_2px_2px_#00000015] hover:bg-secondary/80\",\r\n        link: \"text-primary underline-offset-4 hover:underline\",\r\n      },\r\n      size: {\r\n        default: \"h-9 px-4 py-2 has-[>svg]:px-3\",\r\n        sm: \"h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5\",\r\n        lg: \"h-10 rounded-md px-6 has-[>svg]:px-4\",\r\n        icon: \"size-8 rounded-full\",\r\n      },\r\n    },\r\n    defaultVariants: {\r\n      variant: \"default\",\r\n      size: \"default\",\r\n    },\r\n  }\r\n)\r\n\r\nfunction Button({\r\n  className,\r\n  variant,\r\n  size,\r\n  asChild = false,\r\n  ...props\r\n}: React.ComponentProps<\"button\"> &\r\n  VariantProps<typeof buttonVariants> & {\r\n    asChild?: boolean\r\n  }) {\r\n  const Comp = asChild ? Slot : \"button\"\r\n\r\n  return (\r\n    <Comp\r\n      data-slot=\"button\"\r\n      className={cn(buttonVariants({ variant, size, className }), \"overflow-hidden\")}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nexport { Button, buttonVariants }\r\n",
-        "type": "registry:ui"
-      }
-    ],
-    "categories": [
-      "General"
-    ]
-  },
-  {
-    "name": "accordion",
-    "type": "registry:ui",
-    "title": "Accordion",
-    "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-    "dependencies": [
-      "clsx",
-      "tailwind-merge",
-      "react",
-      "lucide-react",
-      "framer-motion",
-      "@radix-ui/react-accordion"
-    ],
-    "registryDependencies": [],
-    "files": [
-      {
-        "path": "accordion.tsx",
-        "content": "/**\r\n * @name Accordion\r\n * @description A vertically stacked set of interactive headings that each reveal a section of content.\r\n * @category Disclosure\r\n */\r\n\r\nimport * as React from \"react\"\r\nimport * as AccordionPrimitive from \"@radix-ui/react-accordion\"\r\nimport { ChevronDown } from \"lucide-react\"\r\n\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nconst Accordion = AccordionPrimitive.Root\r\n\r\nconst AccordionItem = React.forwardRef<\r\n  React.ElementRef<typeof AccordionPrimitive.Item>,\r\n  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>\r\n>(({ className, ...props }, ref) => (\r\n  <AccordionPrimitive.Item\r\n    ref={ref}\r\n    className={cn(\"border-b\", className)}\r\n    {...props}\r\n  />\r\n))\r\nAccordionItem.displayName = \"AccordionItem\"\r\n\r\nconst AccordionTrigger = React.forwardRef<\r\n  React.ElementRef<typeof AccordionPrimitive.Trigger>,\r\n  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>\r\n>(({ className, children, ...props }, ref) => (\r\n  <AccordionPrimitive.Header className=\"flex\">\r\n    <AccordionPrimitive.Trigger\r\n      ref={ref}\r\n      className={cn(\r\n        \"flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline text-left [&[data-state=open]>svg]:rotate-180\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      {children}\r\n      <ChevronDown className=\"h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200\" />\r\n    </AccordionPrimitive.Trigger>\r\n  </AccordionPrimitive.Header>\r\n))\r\nAccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName\r\n\r\nconst AccordionContent = React.forwardRef<\r\n  React.ElementRef<typeof AccordionPrimitive.Content>,\r\n  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>\r\n>(({ className, children, ...props }, ref) => (\r\n  <AccordionPrimitive.Content\r\n    ref={ref}\r\n    className=\"overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down\"\r\n    {...props}\r\n  >\r\n    <div className={cn(\"pb-4 pt-0\", className)}>{children}</div>\r\n  </AccordionPrimitive.Content>\r\n))\r\nAccordionContent.displayName = AccordionPrimitive.Content.displayName\r\n\r\nexport { Accordion, AccordionItem, AccordionTrigger, AccordionContent }",
-        "type": "registry:ui"
-      }
-    ],
-    "categories": [
-      "Disclosure"
-    ]
-  },
-  {
     "name": "badge",
     "type": "registry:ui",
     "title": "Badge",

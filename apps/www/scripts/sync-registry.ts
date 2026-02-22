@@ -6,11 +6,6 @@ const SEARCH_DIRS = [
         path: path.join(process.cwd(), "src/components/docs"),
         basePath: "src/components/docs",
         category: "ui"
-    },
-    {
-        path: path.join(process.cwd(), "../../packages/ui/src/components/ui"),
-        basePath: "../../packages/ui/src/components/ui",
-        category: "ui"
     }
 ]
 

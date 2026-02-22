@@ -163,7 +163,6 @@ export async function init(options: InitOptions = {}) {
     // Setup Directories
     // --------------------
     const componentsDir = path.join(root, "components/ui")
-    const layoutDir = path.join(root, "components/layout")
     const libDir = path.join(root, "lib")
     const hooksDir = path.join(root, "hooks")
     const utilsDir = path.join(root, "utils")
@@ -172,7 +171,6 @@ export async function init(options: InitOptions = {}) {
 
     console.log("\n Setting up directories...")
     await ensureDir(componentsDir, dryRun)
-    await ensureDir(layoutDir, dryRun)
     await ensureDir(libDir, dryRun)
     await ensureDir(hooksDir, dryRun)
     await ensureDir(utilsDir, dryRun)
@@ -182,7 +180,7 @@ export async function init(options: InitOptions = {}) {
     // --------------------
     // Install Dependencies
     // --------------------
-    const requiredDeps = ["clsx", "tailwind-merge", "tailwindcss-animate", "class-variance-authority"]
+    const requiredDeps = ["clsx", "tailwind-merge", "tailwindcss-animate", "class-variance-authority", "react", "react-dom"]
     const missingDeps = requiredDeps.filter((d) => !deps[d])
 
     if (!hasTailwind) {
@@ -220,9 +218,9 @@ export async function init(options: InitOptions = {}) {
         cssVariables: true
       },
       aliases: {
-        components: "@/components",
-        utils: "@/lib/utils",
-        hooks: "@/hooks"
+        components: "@/src/components",
+        utils: "@/src/utils",
+        hooks: "@/src/hooks"
       }
     }
 
@@ -241,7 +239,8 @@ export async function init(options: InitOptions = {}) {
     // tsconfig aliases
     if (isTypeScript && !dryRun) {
       await updateTsConfig(root, {
-        "@/*": "./*"
+        "@/*": "./*",
+        "@/lib/*": "./src/lib/*"
       })
     }
 

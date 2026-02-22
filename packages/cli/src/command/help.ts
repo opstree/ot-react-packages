@@ -14,6 +14,7 @@ Commands:
   remove    Remove a component from your project
   help      Display help for command
 
+
 Options:
   -v, --version  output the version number
   -h, --help     display help for command

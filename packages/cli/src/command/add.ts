@@ -13,8 +13,11 @@ interface AddOptions {
 
 interface ComponentManifest {
   name: string
-  version: string
-  files: string[]
+  files: {
+    path: string
+    content: string
+    type?: string
+  }[]
   dependencies?: string[]
   registryDependencies?: string[]
 }
@@ -98,7 +101,7 @@ async function writeComponentFile(
   content: string,
   options: AddOptions
 ): Promise<boolean> {
-  const targetPath = path.join(root, "components/ui", file)
+  const targetPath = path.join(root, "components/docs", file)
   await ensureDir(path.dirname(targetPath), options.dryRun)
 
   if (await pathExists(targetPath) && !options.force) {
@@ -118,7 +121,7 @@ async function writeComponentFile(
     await writeFile(targetPath, content)
   }
 
-  console.log(`✓ Added components/ui/${file}`)
+  console.log(`✓ Added components/docs/${file}`)
   return true
 }
 
@@ -148,7 +151,6 @@ async function processComponent(
   let componentAdded = false
   console.log(`\n🚚 Adding ${name}...`)
 
-  console.log(`🔍 Fetching manifest from: ${REGISTRY_BASE_URL}/components/${name}.json`)
   let manifest: ComponentManifest
   try {
     manifest = await fetchManifest(name)
@@ -168,14 +170,13 @@ async function processComponent(
   // Install external npm dependencies
   await resolveAndInstallExternalDeps(manifest, installedDeps, options.dryRun)
 
-  // Fetch + write component files
+  // Write component files
   for (const file of manifest.files) {
     try {
-      const content = await fetchFile(file)
-      const added = await writeComponentFile(root, file, content, options)
+      const added = await writeComponentFile(root, file.path, file.content, options)
       if (added) componentAdded = true
     } catch (err: any) {
-      console.error(`! Failed to add ${file}: ${err.message}`)
+      console.error(`! Failed to add ${file.path}: ${err.message}`)
     }
   }
 
