@@ -13,7 +13,6 @@ import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/ui
 import { AspectRatio } from "@workspace/ui/components/ui/aspect-ratio"
 import { Button } from "@workspace/ui/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/ui/tabs"
-import { getIconForLanguageExtension } from "@workspace/ui/components/ui/icons"
 import { ComponentPreviewTabs } from "./src/components/docspagescomponent/ComponentPreview"
 import { CodeCollapsibleWrapper } from "./src/components/docspagescomponent/CodeCollapse"
 import { CodeTabs } from "./src/components/docspagescomponent/CodeTabs"
@@ -101,10 +100,10 @@ export const mdxComponents = {
     <strong className={cn("font-medium", className)} {...props} />
   ),
   ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
-    <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
+    <ul className={cn("my-6 ml-2 list-disc", className)} {...props} />
   ),
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
-    <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
+    <ol className={cn("my-6 ml-2 list-decimal", className)} {...props} />
   ),
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
@@ -172,29 +171,6 @@ export const mdxComponents = {
   },
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
     return <figure className={cn(className)} {...props} />
-  },
-  figcaption: ({
-    className,
-    children,
-    ...props
-  }: React.ComponentProps<"figcaption">) => {
-    const iconExtension =
-      "data-language" in props && typeof props["data-language"] === "string"
-        ? getIconForLanguageExtension(props["data-language"])
-        : null
-
-    return (
-      <figcaption
-        className={cn(
-          "text-code-foreground [&_svg]:text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70",
-          className
-        )}
-        {...props}
-      >
-        {iconExtension}
-        {children}
-      </figcaption>
-    )
   },
   Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
     <h3

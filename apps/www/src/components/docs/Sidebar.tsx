@@ -63,13 +63,83 @@ export const docsConfig: DocsConfig = {
             title: "Components",
             items: [
                 {
-                    title: "Table",
-                    href: "/docs/components/table",
+                    title: "Addaccount",
+                    href: "/docs/components/addaccount",
+                    items: [],
+                },
+                {
+                    title: "Badge",
+                    href: "/docs/components/badge",
+                    items: [],
+                },
+                {
+                    title: "Button",
+                    href: "/docs/components/button",
+                    items: [],
+                },
+                {
+                    title: "Cards",
+                    href: "/docs/components/cards",
+                    items: [],
+                },
+                {
+                    title: "Chatbot",
+                    href: "/docs/components/chatbot",
+                    items: [],
+                },
+                {
+                    title: "Filterchip",
+                    href: "/docs/components/filterchip",
+                    items: [],
+                },
+                {
+                    title: "Filters",
+                    href: "/docs/components/filters",
+                    items: [],
+                },
+                {
+                    title: "Header",
+                    href: "/docs/components/header",
+                    items: [],
+                },
+                {
+                    title: "Multiple Filter",
+                    href: "/docs/components/multiple-filter",
+                    items: [],
+                },
+                {
+                    title: "Pagination",
+                    href: "/docs/components/pagination",
+                    items: [],
+                },
+                {
+                    title: "Sidebar",
+                    href: "/docs/components/sidebar",
                     items: [],
                 },
                 {
                     title: "Skeleton",
                     href: "/docs/components/skeleton",
+                    items: [],
+                },
+                {
+                    title: "SpiderView",
+                    href: "/docs/components/spiderview",
+                    items: [],
+                },
+                {
+                    title: "Table",
+                    href: "/docs/components/table",
+                    items: [],
+                },
+                {
+                    title: "Timeline",
+                    href: "/docs/components/timeline",
+                    items: [],
+                },
+                {
+                    title: "Toggle",
+                    href: "/docs/components/toggle",
                     items: [],
                 }
             ],

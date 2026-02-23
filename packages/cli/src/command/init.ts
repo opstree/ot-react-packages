@@ -180,7 +180,7 @@ export async function init(options: InitOptions = {}) {
     // --------------------
     // Install Dependencies
     // --------------------
-    const requiredDeps = ["clsx", "tailwind-merge", "tailwindcss-animate", "class-variance-authority", "react", "react-dom"]
+    const requiredDeps = ["clsx", "tailwind-merge", "tailwindcss-animate", "class-variance-authority", "react", "react-dom", "lucide-react", "nucleo-glass"]
     const missingDeps = requiredDeps.filter((d) => !deps[d])
 
     if (!hasTailwind) {
@@ -218,9 +218,11 @@ export async function init(options: InitOptions = {}) {
         cssVariables: true
       },
       aliases: {
-        components: "@/src/components",
-        utils: "@/src/utils",
-        hooks: "@/src/hooks"
+        components: "@/components",
+        ui: "@/components/ui",
+        utils: "@/lib/utils",
+        hooks: "@/hooks",
+        types: "@/types"
       }
     }
 
@@ -240,7 +242,8 @@ export async function init(options: InitOptions = {}) {
     if (isTypeScript && !dryRun) {
       await updateTsConfig(root, {
         "@/*": "./*",
-        "@/lib/*": "./src/lib/*"
+        "@/lib/*": "./lib/*",
+        "@/types/*": "./types/*"
       })
     }
 

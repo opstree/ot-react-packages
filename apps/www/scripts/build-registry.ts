@@ -32,9 +32,10 @@ async function buildRegistry() {
 
                         // Transform imports for the registry
                         const originalContent = content;
-                        content = content.replace(/from ["']@workspace\/ui\/lib\/utils["']/g, 'from "@/lib/utils"')
                         content = content.replace(/from ["']\.\.\/\.\.\/lib\/(cn|utils)["']/g, 'from "@/lib/utils"')
                         content = content.replace(/from ["']@\/lib\/cn["']/g, 'from "@/lib/utils"')
+                        content = content.replace(/from ["']\.\.\/\.\.\/\.\.\/types\/(.+)["']/g, 'from "@/types/$1"')
+                        content = content.replace(/from ["']\.\.\/\.\.\/types\/(.+)["']/g, 'from "@/types/$1"')
 
                         if (content !== originalContent) {
                             console.log(`  ✨ Transformed imports in ${item.name}`)
@@ -87,6 +88,29 @@ async function buildRegistry() {
     }))
     await fs.writeJSON(path.join(REGISTRY_DIR, "index.json"), index, { spaces: 2 })
     console.log(`✨ Generated compatibility index.json`)
+
+    // Handle types
+    const TYPES_SOURCE_DIR = path.join(process.cwd(), "types")
+    const TYPES_TARGET_DIR = path.join(REGISTRY_DIR, "types")
+
+    if (await fs.pathExists(TYPES_SOURCE_DIR)) {
+        await fs.ensureDir(TYPES_TARGET_DIR)
+        const typeFiles = await fs.readdir(TYPES_SOURCE_DIR)
+        const typesList: string[] = []
+
+        for (const file of typeFiles) {
+            if (file.endsWith(".ts") || file.endsWith(".d.ts")) {
+                await fs.copy(
+                    path.join(TYPES_SOURCE_DIR, file),
+                    path.join(TYPES_TARGET_DIR, file)
+                )
+                typesList.push(file)
+            }
+        }
+
+        await fs.writeJSON(path.join(REGISTRY_DIR, "types.json"), typesList, { spaces: 2 })
+        console.log(`✨ Generated types registry with ${typesList.length} files`)
+    }
 }
 
 buildRegistry().catch(err => {

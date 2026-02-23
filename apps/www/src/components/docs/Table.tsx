@@ -1,13 +1,8 @@
 import React from "react"
 import { ArrowDown, ArrowUp, ArrowUpFromLine, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
-import { Link } from "react-router-dom";
 import Skeleton from "./Skeleton";
-import { TableProps } from "../../../types/Table";
-// import {
-//     IconButton,
-//     Tooltip
-// } from "@mui/material";
+import { TableProps } from "@/types/Table";
 
 export default function Table({
     columns = [],
@@ -129,17 +124,16 @@ export default function Table({
                                         >
                                             {expandable && (
                                                 <td className="px-4 py-3 w-8">
-                                                    {/* <IconButton
-                                                        size="small"
+                                                    <div
                                                         onClick={(e: React.MouseEvent) => toggleRow(key, e)}
-                                                        className="p-1 hover:bg-white/50"
+                                                        className="p-1 hover:bg-white/50 text-sm"
                                                     >
                                                         {isExpanded ? (
                                                             <ChevronDown size={16} className="text-slate-600" />
                                                         ) : (
                                                             <ChevronRight size={16} className="text-slate-600" />
                                                         )}
-                                                    </IconButton> */}
+                                                    </div>
                                                 </td>
                                             )}
                                             {columns.map((col) => {

@@ -1,15 +1,17 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Github } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { buttonVariants, containerVariants, textVariants } from '../../lib/variants'
 import { cn } from "@/lib/utils";
+import NoiseBackgroundDemo from '../docs/Button';
+import { LandingImg } from './LandingImg';
 
 const Home = () => {
     return (
-        <section className={cn(" relative flex min-h-[600px] h-[70vh] max-h-[900px] border rounded-2xl overflow-hidden mx-auto w-full max-w-[1400px] bg-origin-border")}>
-            <div className="flex flex-col z-2 px-4 size-full md:p-8 max-md:items-center max-md:text-center">
+        <section className={cn(" relative rounded-2xl mx-auto w-full max-w-[1400px] flex flex-col items-center justify-center space-y-10")}>
+            <div className={cn("flex flex-col z-2 px-4 size-full md:p-2 max-md:items-center max-md:text-center gap-10 px-4 md:px-8 lg:px-12")}>
                 <motion.div
-                    className="space-y-2 w-full"
+                    className="space-y-4 w-full flex justify-center items-center flex-col"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -21,35 +23,31 @@ const Home = () => {
                         <p className=' text-[8px] md:text-[10px]'>A modern UI library designed for speed, flexibility, and simplicity.</p>
                     </motion.div>
                     <motion.h1
-                        className="font-serif text-5xl md:text-6xl lg:text-6xl leading-[1.1] text-balance font-serif text-5xl leading-[1.1] text-balance"
+                        className="font-serif text-5xl md:text-6xl lg:text-6xl leading-[1.1] text-balance text-center"
                         variants={textVariants}
                     >
                         Build beautiful
                         <br />
                         consistent UIs — fast.
                     </motion.h1>
-                    <motion.div variants={buttonVariants} className='ml-1'>
+                    <motion.div variants={buttonVariants} className='ml-1 flex items-center gap-4'>
                         <Link to="/docs/introduction">
-                            <button className="inline-flex cursor-pointer items-center gap-2 dark:bg-primary dark:text-primary-foreground  text-primary-foreground bg-[var(--bg)] dark:text-[var(--text)] px-4 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors ring-1 dark:ring-neutral-200 ring-neutral-200">
+                            <NoiseBackgroundDemo variant="default" className="inline-flex cursor-pointer items-center gap-2">
                                 Get Started
                                 <ArrowRight className="w-4 h-4" />
-                            </button>
+                            </NoiseBackgroundDemo>
+                        </Link>
+                        <Link to="https://github.com/opstree/ot-react-packages" target="_blank" rel="noopener noreferrer">
+                            <NoiseBackgroundDemo variant="emerald" className="inline-flex cursor-pointer items-center gap-2">
+                                Github
+                                <Github size={16} />
+                            </NoiseBackgroundDemo>
                         </Link>
                     </motion.div>
                 </motion.div>
-            </div>
-            <motion.img
-                initial={{ opacity: 0, y: 100, filter: 'blur(10px)' }}
-                animate={{
-                    opacity: 1,
-                    y: [0, -20, 0],
-                    filter: 'blur(0px)',
-                }}
-                src="./Home.png"
-                alt="Home"
-                className="absolute top-[460px] -right-[20px] max-w-[900px] rounded-xl border-2 lg:top-[400px] mr-2 shadow-2xl"
-            />
-        </section>
+            </div >
+            <LandingImg />
+        </section >
     )
 }
 

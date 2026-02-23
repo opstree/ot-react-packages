@@ -81,13 +81,6 @@ async function fetchManifest(name: string): Promise<ComponentManifest> {
   return res.json()
 }
 
-async function fetchFile(file: string): Promise<string> {
-  const res = await fetch(`${REGISTRY_BASE_URL}/files/${file}`)
-  if (!res.ok) {
-    throw new Error(`Failed to fetch file ${file} (HTTP ${res.status})`)
-  }
-  return res.text()
-}
 
 async function ensureDir(dir: string, dryRun?: boolean) {
   if (!(await pathExists(dir))) {
@@ -101,7 +94,7 @@ async function writeComponentFile(
   content: string,
   options: AddOptions
 ): Promise<boolean> {
-  const targetPath = path.join(root, "components/docs", file)
+  const targetPath = path.join(root, "components/ui", file)
   await ensureDir(path.dirname(targetPath), options.dryRun)
 
   if (await pathExists(targetPath) && !options.force) {
@@ -121,7 +114,7 @@ async function writeComponentFile(
     await writeFile(targetPath, content)
   }
 
-  console.log(`✓ Added components/docs/${file}`)
+  console.log(`✓ Added components/${file}`)
   return true
 }
 
@@ -195,7 +188,7 @@ export async function add(
     const root = await getProjectRoot()
     const installedDeps = await getInstalledDeps(root)
 
-    await ensureDir(path.join(root, "components/docs"), options.dryRun)
+    await ensureDir(path.join(root, "components/ui"), options.dryRun)
 
     let anyComponentAdded = false
     for (const component of components) {

@@ -1,5 +1,5 @@
+import { RegistryEntry } from "@/src/registry/schema";
 
-import { RegistryEntry } from "./schema"
 
 export const components: RegistryEntry[] = [
   {

@@ -1,15 +1,10 @@
 import { Link, useParams } from "react-router-dom"
 import { mdxComponents } from "../../mdx-component"
-import {
-    ArrowLeft,
-    ArrowRight,
-} from "lucide-react"
 
 import { source } from "../../src/lib/source"
 import { cn } from "@workspace/ui/lib/utils"
 import { docsConfig } from "../../src/config/docs"
 import { Suspense } from "react"
-import React from "react"
 
 function flattenNav(items: any[]): Array<{ url: string; name: string }> {
     const result: Array<{ url: string; name: string }> = []
@@ -56,40 +51,27 @@ export default function Page() {
     const MDX = doc.body
 
     const neighbours = findNeighboursFromConfig(page.url)
+    const prevPage = neighbours.previous ? source.getPage(neighbours.previous.url.split('/').filter(Boolean).slice(1)) : null
+    const nextPage = neighbours.next ? source.getPage(neighbours.next.url.split('/').filter(Boolean).slice(1)) : null
     //@ts-ignore
     const links = doc.links as { doc?: string; api?: string } | undefined
     return (
         <article
             data-slot="docs"
-            className={cn("flex flex-col flex-wrap max-w-screen mx-auto md:pt-6 xl:pt-0 xl:layout:[--fd-toc-width:268px] lg:overflow-y-auto lg:h-screen relative overflow-hidden")}
+            className={cn("flex flex-col flex-wrap  mx-auto pt-10 md:pt-6 xl:pt-0 xl:layout:[--fd-toc-width:268px] lg:overflow-y-auto lg:h-screen relative overflow-hidden")}
         >
             <div className="flex min-w-0 flex-1 flex-col">
-                <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-1 gap-8 px-0 py-0 lg:px-4 lg:py-6 text-neutral-800 lg:py-8 lg:px-4 dark:text-neutral-300">
-                    <div className="flex-1 py-4 px-6">
-                        <div className="flex flex-col gap-2">
+                <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-1 gap-8 px-0 py-0 lg:px-4 lg:py-6 text-neutral-800 lg:py-8 lg:px-0 dark:text-neutral-300">
+                    <div className="flex-1 py-4 px-4 sm:px-6 lg:px-10">
+                        <div className="flex flex-col gap-2 w-full max-w-4xl">
                             <div className="flex flex-col gap-2">
                                 <div className="flex items-center justify-between w-full">
                                     <h1 className="scroll-m-20 text-2xl lg:text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
                                         {doc.title}
                                     </h1>
-                                    <div className="docs-nav fixed inset-x-0 bottom-0 isolate z-50 flex items-center gap-2 px-6 py-4 backdrop-blur-sm static sm:z-0 sm:border-t-0 sm:bg-transparent sm:px-0 sm:pt-1.5 sm:backdrop-blur-none">
-                                        {neighbours.previous &&
-                                            <Link to={neighbours.previous.url}>
-                                                <button className='rounded-full py-2 px-2 button-3 dark:bg-white flex items-center gap-2 w-max  cursor-pointer '>
-                                                    <ArrowLeft className="w-3 h-3 dark:text-neutral-800 text-neutral-900" />
-                                                </button>
-                                            </Link>
-                                        }
-                                        {neighbours.next &&
-                                            <Link to={neighbours.next.url}>
-                                                <button className='rounded-full py-2 px-2  button-3 dark:bg-white flex items-center gap-2 w-max  cursor-pointer '>
-                                                    <ArrowRight className="w-3 h-3 dark:text-neutral-800 text-neutral-900" />
-                                                </button>
-                                            </Link>}
-                                    </div>
                                 </div>
                                 {doc.description && (
-                                    <p className="text-muted-foreground text-[1.05rem] text-balance sm:text-base">
+                                    <p className="text-muted-foreground text-[1.05rem]  sm:text-base">
                                         {doc.description}
                                     </p>
                                 )}
@@ -109,10 +91,42 @@ export default function Page() {
                                 </div>
                             ) : null}
                         </div>
-                        <div data-slot="docs-content" className="w-full flex-1 mt-8 *:data-[slot=alert]:first:mt-0]">
+                        <div data-slot="docs-content" className="w-full flex-1 mt-8 *:data-[slot=alert]:first:mt-0] max-w-2xl">
                             {MDX ? (
                                 <Suspense fallback={<div className="text-neutral-400">Loading...</div>}>
                                     <MDX components={mdxComponents} />
+                                    <div className="w-full h-32 overflow-hidden flex justify-between items-center gap-4">
+                                        <div className="flex items-end w-1/2">
+                                            {neighbours.previous ?
+                                                <Link to={neighbours.previous.url}>
+                                                    <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'>
+                                                        {neighbours.previous.name}
+                                                        {prevPage?.data.description && (
+                                                            <p className="text-muted-foreground   sm:text-base">
+                                                                {prevPage?.data.description.length > 50 ? prevPage?.data.description.slice(0, 35) + "..." : prevPage?.data.description}
+                                                            </p>
+                                                        )}
+                                                    </button>
+                                                </Link>
+                                                : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
+                                            }
+                                        </div>
+                                        <div className="flex items-start justify-end w-1/2">
+                                            {neighbours.next ?
+                                                <Link to={neighbours.next.url}>
+                                                    <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2  button-3 dark:bg-white flex items-end gap-2 cursor-pointer flex-col'>
+                                                        {neighbours.next.name}
+                                                        {nextPage?.data.description && (
+                                                            <p className="text-muted-foreground   sm:text-base">
+                                                                {nextPage?.data.description.length > 50 ? nextPage?.data.description.slice(0, 35) + "..." : nextPage?.data.description}
+                                                            </p>
+                                                        )}
+                                                    </button>
+                                                </Link>
+                                                : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
+                                            }
+                                        </div>
+                                    </div>
                                 </Suspense>
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-neutral-800 rounded-xl text-neutral-500">

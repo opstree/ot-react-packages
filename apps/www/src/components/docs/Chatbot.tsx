@@ -1,6 +1,6 @@
 import { Github, Monitor, Wand2, Paperclip, AtSign, SendHorizontal, Code, Calculator, X } from 'lucide-react'
 import { motion } from 'motion/react'
-import Badge from './Badge'
+import Badge from '../../usage/Badge'
 const Chatbot = () => {
     return (
         <section className="w-full max-w-screen-lg mx-auto rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#171717] overflow-hidden shadow-2xl transition-all duration-300">

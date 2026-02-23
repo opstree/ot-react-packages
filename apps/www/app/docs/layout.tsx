@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
 import Page from "./page"
 import { Sidebar } from "./Sidebar"
-import { ChevronDown, Circle, PanelRightClose, Search } from "lucide-react"
+import { ChevronDown, ChevronUp, Circle, PanelRightClose, Search } from "lucide-react"
 import { DocsTableOfContents } from "../../src/components/docspagescomponent/Doc-toc"
 import { Link, useParams } from "react-router-dom"
 import { source } from "../../src/lib/source"
 import { cn } from "@/lib/utils"
+import { DocsTableOfContentsMobile } from "../../src/components/docspagescomponent/Doc-toc-mobile"
 
 
 export default function DocsLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [tocOpen, setTocOpen] = useState(true)
   const params = useParams()
   const slug = params["*"] ? params["*"]?.split('/') : []
   const page = source.getPage(slug)
@@ -43,9 +45,9 @@ export default function DocsLayout() {
           </button>
         </div>
       )}
-      <div className="[grid-area:header]  sticky top-(--fd-docs-row-1) z-30 flex items-center p-4 border-b transition-colors backdrop-blur-sm h-(--fd-header-height) md:hidden max-md:layout:[--fd-header-height:--spacing(14)] data-[transparent=false]:bg-fd-background/80">
+      <div className="[grid-area:header]  sticky top-(--fd-docs-row-1) z-30 flex items-center py-1 px-2 border-b transition-colors backdrop-blur-sm h-(--fd-header-height) md:hidden max-md:layout:[--fd-header-height:--spacing(14)] data-[transparent=false]:bg-fd-background/80">
         <Link to="/" rel="stylesheet" >
-          <div className="w-full h-full flex items-center gap-2">
+          <div className="w-full h-full flex items-center gap-2 ml-2.5">
             <div className="w-4 h-4 bg-[#adfa1d] rounded-full"></div>
           </div>
         </Link>
@@ -54,14 +56,17 @@ export default function DocsLayout() {
           <Search />
         </button>
       </div>
-      <div className="fixed w-full top-[var(--fd-docs-row-2)] z-10 [grid-area:toc-popover] h-(--fd-toc-popover-height) xl:hidden max-lg:h:[--fd-toc-popover-height:--spacing(10)]">
-        <header className="border-b backdrop-blur-sm transition-colors bg-fd-background/80">
+      <div className="sticky w-full top-[var(--fd-docs-row-2)] z-10 [grid-area:toc-popover] h-(--fd-toc-popover-height) xl:hidden max-lg:h:[--fd-toc-popover-height:--spacing(10)]">
+        <header onClick={() => setTocOpen(!tocOpen)} className="border-b backdrop-blur-sm transition-colors bg-fd-background/80">
           <button className="flex w-full h-10 items-center text-sm text-fd-muted-foreground gap-2.5 px-4 py-2.5 text-start focus-visible:outline-none [&_svg]:size-4 md:px-6">
             <Circle size={16} />
             <span className="grid flex-1 *:my-auto *:row-start-1 *:col-start-1">Table of Contents</span>
-            <ChevronDown size={16} className="text-neutral-400" />
+            {tocOpen ? <ChevronUp size={16} className="text-neutral-400" /> : <ChevronDown size={16} className="text-neutral-400" />}
           </button>
         </header>
+        {tocOpen && <div className="h-[calc(100%-40px)] overflow-y-auto absolute top-[40px]">
+          <DocsTableOfContentsMobile toc={toc} />
+        </div>}
       </div>
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <Page />

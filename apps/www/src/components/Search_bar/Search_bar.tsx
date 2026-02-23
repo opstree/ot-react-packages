@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useRef, useState, useMemo }
 import { ArrowRight, X, CornerUpLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { docsConfig } from '@/config/docs';
+import { docsConfig } from '../../config/docs';
 import { SidebarNavItem } from '../../../types/nav';
 
 const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
@@ -30,7 +30,7 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
     const allItems = useMemo(() => {
         const items: Array<{ title: string; href: string; category: string }> = [];
 
-        docsConfig.sidebarNav.forEach((section) => {
+        docsConfig.sidebarNav.forEach((section:any) => {
             const flattenItems = (navItems: SidebarNavItem[], category: string) => {
                 navItems.forEach((item) => {
                     if (item.href) {
@@ -85,7 +85,7 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
     return (
         <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 4, animationDuration: 800 }} className='w-[90%] md:w-[80%] lg:w-[60%] mx-auto absolute bottom-1 h-[60dvh] left-[50%] -translate-x-[50%] bg-neutral-50 dark:bg-neutral-800  px-4 pt-[1rem] rounded-t-2xl'>
             <div className='w-full'>
-                <p onClick={handleclick} onKeyDown={handlenavigate} tabIndex={0} className='rounded-full  px-4 py-2 bg-neutral-50 dark:bg-[var(--bg)] flex items-center gap-2 w-max shadow-[var(--shadow-m)] cursor-pointer hover:shadow-[var(--shadow-l)] '>
+                <p onClick={handleclick} onKeyDown={handlenavigate} tabIndex={0} className='rounded-full  px-4 py-2 bg-neutral-50 dark:bg-[var(--bg)] flex items-center gap-2 w-max shadow-[var(--shadow)] cursor-pointer hover:shadow-[var(--shadow-l)] '>
                     <CornerUpLeft className='w-3 h-3 dark:text-white text-black' />
                     <span className='text-sm dark:text-[#ffffff68]'>Esc</span>
                 </p>
@@ -93,10 +93,10 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
             <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 4 }}
-                className="p-[1rem] rounded-t-md bg-neutral-50 dark:bg-[var(--bg)] mt-2 shadow-[var(--shadow-m)] flex flex-col h-full"
+                className="p-[1rem] rounded-t-md bg-neutral-50 dark:bg-[var(--bg)] mt-2 shadow-[var(--shadow)] flex flex-col h-full"
             >
                 <div className='relative'>
-                    <input ref={Inputref} type="text" value={Search} onChange={(e) => setSearch(e.target.value)} placeholder='Search...' className='w-full py-2 px-2 rounded-lg bg-neutral-50 dark:bg-[var(--bg)] shadow-[var(--shadow-m)] outline-none border-none text-black dark:text-[var(--foreground)]' />
+                    <input ref={Inputref} type="text" value={Search} onChange={(e) => setSearch(e.target.value)} placeholder='Search...' className='w-full py-2 px-2 rounded-lg bg-neutral-50 dark:bg-[var(--bg)] shadow-[var(--shadow)] outline-none border-none text-black dark:text-[var(--foreground)]' />
                     <X onClick={() => setSearch("")} className='hover:scale-[.9] cursor-pointer absolute right-[1rem] top-[50%] -translate-y-[50%] w-4' />
                 </div>
                 <div

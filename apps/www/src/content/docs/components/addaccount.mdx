@@ -1,0 +1,54 @@
+---
+title: Addaccount
+description: A modal-based multi-step form for onboarding cloud accounts, designed for budget and cost management.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import AddaccountUsage from "../../../usage/Addaccount";
+import { InstallationCli } from "@/components/docspagescomponent/cli-install-button.tsx"
+
+## Overview
+
+The Addaccount component provides a structured, multi-step process for registering cloud accounts (specifically AWS). It includes validation, dynamic trust policy generation, and connection testing to ensure a seamless onboarding experience.
+
+# Installation
+<InstallationCli value=" opscli add addaccount"/>
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<AddaccountUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Addaccount.tsx"
+      title="Addaccount.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+<Callout type="info">
+  Key features of the Addaccount component:
+  - **Multi-step Process**: Guided onboarding with step indicators.
+  - **Validation**: Built-in validation for account IDs, emails, and ARNs.
+  - **Trust Policy Generation**: Automatically generates AWS IAM trust policies based on the provided account ID.
+  - **Connection Testing**: Interactive testing state to simulate verification of cloud connections.
+  - **Dark Theme Optimized**: Sleek, modern design tailored for dark mode environments.
+</Callout>
+
+## Steps
+
+### 1. Account Details
+Collects basic information like Account ID, Alias, Environment (Prod, Staging, etc.), and Owner Email.
+
+### 2. IAM Trust
+Displays the required trust policy and permissions. Users provide the IAM Role ARN at this stage.
+
+### 3. Validate & Add
+Shows a summary of all entered details and provides a button to test the connection before final submission.

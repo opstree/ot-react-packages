@@ -1,9 +1,27 @@
 [
   {
+    "name": "addaccount",
+    "type": "registry:ui",
+    "title": "Addaccount",
+    "description": "A Addaccount component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
     "name": "badge",
     "type": "registry:ui",
     "title": "Badge",
     "description": "A Badge component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "title": "Button",
+    "description": "A Button component.",
     "categories": [
       "ui"
     ]

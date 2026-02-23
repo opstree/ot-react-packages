@@ -27,6 +27,9 @@
       "@/*": [
         "./*"
       ],
+      "@/src/*": [
+        "./src/*"
+      ],
       "@/lib/*": [
         "./src/lib/*"
       ],
@@ -43,7 +46,7 @@
     "scripts/build-registry.mts",
     "next.config.mjs",
     ".next/dev/types/**/*.ts"
-  ],
+, "src/lib/NoiseBackground.tsx"  ],
   "exclude": [
     "node_modules"
   ]

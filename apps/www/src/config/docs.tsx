@@ -37,6 +37,16 @@ export const docsConfig: DocsConfig = {
             title: "Components",
             items: [
                 {
+                    title: "Button",
+                    href: "/docs/components/button",
+                    items: [],
+                },
+                {
+                    title: "Addaccount",
+                    href: "/docs/components/addaccount",
+                    items: [],
+                },
+                {
                     title: "Table",
                     href: "/docs/components/table",
                     items: [],
@@ -54,11 +64,6 @@ export const docsConfig: DocsConfig = {
                 {
                     title: "Cards",
                     href: "/docs/components/cards",
-                    items: [],
-                },
-                {
-                    title: "SpiderView",
-                    href: "/docs/components/spiderview",
                     items: [],
                 },
                 {
@@ -84,11 +89,6 @@ export const docsConfig: DocsConfig = {
                 {
                     title: "Sidebar",
                     href: "/docs/components/sidebar",
-                    items: [],
-                },
-                {
-                    title: "Timeline",
-                    href: "/docs/components/timeline",
                     items: [],
                 },
                 {
