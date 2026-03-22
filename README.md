@@ -140,7 +140,6 @@ import { Button } from "@/components/docs/button"
 | `opscli add <name> -f` | Force overwrite if the component already exists |
 | `opscli remove <name>` | Removes a component from your project |
 | `opscli list` | Lists all available components in the registry |
-| `opscli theme` | Generates a theme configuration file |
 
 ### What `init` Does
 

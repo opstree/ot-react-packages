@@ -2,7 +2,7 @@ import { writeFile, mkdir, access, readFile } from "fs/promises"
 import { constants } from "fs"
 import path from "path"
 import { execSync } from "child_process"
-import { confirm } from "../utils/prompts"
+import { confirm, prompt } from "../utils/prompts"
 import { REGISTRY_BASE_URL } from "../utils/registry"
 import { mergeJsonFile, updateTsConfig } from "../utils/config-merger"
 
@@ -94,24 +94,27 @@ async function pathExists(p: string) {
   }
 }
 
-async function ensureDir(p: string, dryRun?: boolean) {
+async function ensureDir(p: string, dryRun?: boolean): Promise<string | null> {
   if (!(await pathExists(p))) {
     if (!dryRun) await mkdir(p, { recursive: true })
-    console.log(`✓ Created ${path.relative(process.cwd(), p)}`)
+    return path.relative(process.cwd(), p)
   }
+  return null
 }
 
-function installDeps(pkgs: string[], dryRun?: boolean) {
-  if (!pkgs.length) return
-  console.log(`Installing dependencies: ${pkgs.join(", ")}...`)
+function installDeps(pkgs: string[], dryRun?: boolean): string[] {
+  if (!pkgs.length) return []
   if (!dryRun) {
     try {
       execSync(`npm install ${pkgs.join(" ")}`, { stdio: "inherit" })
+      return pkgs
     } catch (err) {
-      console.error("! Failed to install dependencies. Please run manually:")
+      console.error("\n! Failed to install dependencies. Please run manually:")
       console.log(`npm install ${pkgs.join(" ")}`)
+      return []
     }
   }
+  return pkgs
 }
 
 async function getPackageJson(root: string) {
@@ -160,34 +163,62 @@ export async function init(options: InitOptions = {}) {
     console.log(`✓ Tailwind: ${hasTailwind ? "Yes" : "No"}`)
 
     // --------------------
+    // Directory Configuration
+    // --------------------
+    let componentsPath = "components/ui"
+    let utilsPath = "lib"
+
+    if (!yes) {
+      console.log("\n  Configure directories:")
+      componentsPath = await prompt("Where should components go?", componentsPath)
+      utilsPath = await prompt("Where should utilities go?", utilsPath)
+    }
+
+    // --------------------
     // Setup Directories
     // --------------------
-    const componentsDir = path.join(root, "components/ui")
-    const libDir = path.join(root, "lib")
+    const componentsDir = path.join(root, componentsPath)
+    const libDir = path.join(root, utilsPath)
     const hooksDir = path.join(root, "hooks")
     const utilsDir = path.join(root, "utils")
     const stylesDir = path.join(root, "styles")
     const typesDir = path.join(root, "types")
 
-    console.log("\n Setting up directories...")
-    await ensureDir(componentsDir, dryRun)
-    await ensureDir(libDir, dryRun)
-    await ensureDir(hooksDir, dryRun)
-    await ensureDir(utilsDir, dryRun)
-    await ensureDir(stylesDir, dryRun)
-    await ensureDir(typesDir, dryRun)
+    console.log("\n📁 Setting up directories...")
+    const createdDirs = []
+    
+    const d1 = await ensureDir(componentsDir, dryRun); if (d1) createdDirs.push(d1)
+    const d2 = await ensureDir(libDir, dryRun);        if (d2) createdDirs.push(d2)
+    const d3 = await ensureDir(hooksDir, dryRun);      if (d3) createdDirs.push(d3)
+    const d4 = await ensureDir(utilsDir, dryRun);      if (d4) createdDirs.push(d4)
+    const d5 = await ensureDir(stylesDir, dryRun);     if (d5) createdDirs.push(d5)
+    const d6 = await ensureDir(typesDir, dryRun);      if (d6) createdDirs.push(d6)
+
+    if (createdDirs.length) {
+      createdDirs.forEach(d => console.log(`  ✓ ${d}`))
+    } else {
+      console.log("  (no new directories created)")
+    }
 
     // --------------------
     // Install Dependencies
     // --------------------
-    const requiredDeps = ["clsx", "tailwind-merge", "tailwindcss-animate", "class-variance-authority", "react", "react-dom", "lucide-react", "nucleo-glass"]
+    const requiredDeps = ["clsx", "tailwind-merge"]
+
+    if (framework === "react" || framework === "next") {
+      requiredDeps.push("class-variance-authority", "lucide-react")
+    } 
     const missingDeps = requiredDeps.filter((d) => !deps[d])
 
     if (!hasTailwind) {
       missingDeps.push("tailwindcss", "postcss", "autoprefixer")
     }
 
-    installDeps(missingDeps, dryRun)
+    const installed = installDeps(missingDeps, dryRun)
+    if (installed.length) {
+      console.log("\n📦 Installing dependencies...")
+      installed.forEach(p => console.log(`  ✓ ${p}`))
+    }
 
     // --------------------
     // Setup Utils (cn helper)
@@ -206,6 +237,7 @@ export async function init(options: InitOptions = {}) {
     // Config Files
     // --------------------
     console.log("\n⚙️  Generating configuration files...")
+    const configFiles = []
 
     // components.json
     const configPath = path.join(root, "components.json")
@@ -218,9 +250,9 @@ export async function init(options: InitOptions = {}) {
         cssVariables: true
       },
       aliases: {
-        components: "@/components",
-        ui: "@/components/ui",
-        utils: "@/lib/utils",
+        components: `@/${componentsPath.split("/")[0]}`,
+        ui: `@/${componentsPath}`,
+        utils: `@/${utilsPath}/utils`,
         hooks: "@/hooks",
         types: "@/types"
       }
@@ -228,14 +260,14 @@ export async function init(options: InitOptions = {}) {
 
     if (!dryRun) {
       await mergeJsonFile(configPath, baseConfig)
-      console.log("✓ Updated components.json")
+      configFiles.push("components.json")
     }
 
     // tailwind.config.js
     if (!hasTailwind && !dryRun) {
       const twPath = path.join(root, isTypeScript ? "tailwind.config.ts" : "tailwind.config.js")
       await writeFile(twPath, TAILWIND_CONFIG)
-      console.log(`✓ Created ${path.relative(root, twPath)}`)
+      configFiles.push(path.basename(twPath))
     }
 
     // tsconfig aliases
@@ -245,12 +277,16 @@ export async function init(options: InitOptions = {}) {
         "@/lib/*": "./lib/*",
         "@/types/*": "./types/*"
       })
+      configFiles.push("tsconfig.json")
     }
+
+    configFiles.forEach(f => console.log(`  ✓ ${f}`))
 
     // --------------------
     // Fetch Registry Types
     // --------------------
     console.log("\n🌐 Fetching registry types...")
+    const fetchedTypes = []
 
     try {
       const manifestRes = await fetch(`${REGISTRY_BASE_URL}/types.json`)
@@ -267,8 +303,14 @@ export async function init(options: InitOptions = {}) {
           const content = await res.text()
 
           if (!dryRun) await writeFile(filePath, content)
-          console.log(`✓ Created types/${file}`)
+          fetchedTypes.push(file)
         }
+      }
+      
+      if (fetchedTypes.length) {
+        fetchedTypes.forEach(t => console.log(`  ✓ ${t}`))
+      } else {
+        console.log("  (types already up to date)")
       }
     } catch {
       console.log("! Could not fetch remote types (skipped)")

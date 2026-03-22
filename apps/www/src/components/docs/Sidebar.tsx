@@ -221,7 +221,7 @@ export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavPr
                     <PanelLeftClose
                         onClick={() => setIsOpen(false)}
                         size={16}
-                        className="cursor-pointer text-neutral-500 hover:text-foreground transition-colors"
+                        className="cursor-pointer text-neutral-500 transition-colors"
                     />
                 </header>
                 <div className="space-y-4">

@@ -12,7 +12,7 @@ const Header = ({ page, subPage, action }: HeaderProps) => {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative top-4 z-40 mx-5 mb-6 rounded-lg dark:bg-[var(--bg)] bg-neutral-200 px-6 py-3 flex items-center justify-between"
+      className="relative top-4 z-40 mx-5 mb-6 rounded-lg bg-neutral-200/80 ring-1 ring-neutral-200  bg-neutral-200 px-6 py-3 flex items-center justify-between"
     >
       {page && (
         <div className='flex flex-col'>
@@ -20,7 +20,6 @@ const Header = ({ page, subPage, action }: HeaderProps) => {
           {subPage && <span className='text-xs font-medium dark:text-neutral-400 text-slate-500 mt-0.5'>{subPage}</span>}
         </div>
       )}
-
       <div className="flex items-center gap-4">
         {action}
       </div>

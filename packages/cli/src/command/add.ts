@@ -88,13 +88,23 @@ async function ensureDir(dir: string, dryRun?: boolean) {
   }
 }
 
+async function getComponentPath(root: string) {
+  try {
+    const config = JSON.parse(await readFile(path.join(root, "components.json"), "utf-8"))
+    return config.aliases?.ui || "components/ui"
+  } catch {
+    return "components/ui"
+  }
+}
+
 async function writeComponentFile(
   root: string,
   file: string,
   content: string,
   options: AddOptions
 ): Promise<boolean> {
-  const targetPath = path.join(root, "components/ui", file)
+  const componentPath = await getComponentPath(root)
+  const targetPath = path.join(root, componentPath, file)
   await ensureDir(path.dirname(targetPath), options.dryRun)
 
   if (await pathExists(targetPath) && !options.force) {
@@ -114,7 +124,7 @@ async function writeComponentFile(
     await writeFile(targetPath, content)
   }
 
-  console.log(`✓ Added components/${file}`)
+  console.log(`✓ Added ${path.join(componentPath, file)}`)
   return true
 }
 

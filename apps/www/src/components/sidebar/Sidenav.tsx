@@ -97,9 +97,11 @@ function NavItem({ item, pathname, className }: NavItemProps) {
       <Link
         to={item.href}
         className={cn(
-          "group flex w-full items-center rounded-md border border-transparent px-2 py-1",
+          "group flex w-full items-center rounded-md border border-transparent px-2 py-1.5 transition-all duration-200",
           item.disabled && "cursor-not-allowed opacity-60",
-          isActive ? "font-medium dark:text-white text-neutral-900" : "text-zinc-500",
+          isActive 
+            ? "font-medium bg-white text-black shadow-sm ring-1 ring-black/5 dark:bg-zinc-800 dark:text-white" 
+            : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/50",
           className
         )}
         target={item.external ? "_blank" : ""}

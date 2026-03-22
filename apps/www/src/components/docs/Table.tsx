@@ -1,9 +1,9 @@
-import React from "react"
-import { ArrowDown, ArrowUp, ArrowUpFromLine, ChevronDown, ChevronRight } from "lucide-react";
-import { cn } from "@workspace/ui/lib/utils";
-import Skeleton from "./Skeleton";
+import { ArrowDown, ArrowUp, ArrowUpFromLine, ChevronDown, ChevronRight, Loader } from "lucide-react";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { TableProps } from "@/types/Table";
-
+import Skeleton from "./Skeleton";
 export default function Table({
     columns = [],
     data = [],
@@ -12,7 +12,6 @@ export default function Table({
     sortConfig = { key: null, direction: null },
     onSort,
     emptyState,
-    onRowClick,
     className,
     expandable = false,
     renderExpandedContent,
@@ -20,7 +19,7 @@ export default function Table({
 }: TableProps) {
     const [expandedRows, setExpandedRows] = React.useState(new Set());
 
-    const toggleRow = (key: string | number, e: React.MouseEvent) => {
+    const toggleRow = (key: any, e: React.MouseEvent) => {
         e.stopPropagation();
         const newExpandedRows = new Set(expandedRows);
         if (newExpandedRows.has(key)) {
@@ -31,28 +30,26 @@ export default function Table({
         setExpandedRows(newExpandedRows);
     };
 
-    const handleSort = (key: string) => {
+    const handleSort = (key: any) => {
         if (onSort) {
             onSort(key);
         }
     };
 
-
-
     return (
-        <div className={cn("w-full overflow-hidden rounded-xl glass border-none shadow-sm", className)}>
+        <div className={cn("w-full overflow-hidden rounded", className)}>
             <div className="w-full overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="border-b border-neutral-200 bg-neutral-50">
+                        <tr className="border-b border-[#e8eaed] bg-[#ffff] shadow-sm">
                             {expandable && (
-                                <th className="px-4 py-3 w-8" />
+                                <th className="px-[1.1rem] py-[0.85rem] w-8" />
                             )}
                             {columns.map((col) => (
                                 <th
                                     key={col.key}
                                     className={cn(
-                                        "px-4 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider select-none",
+                                        "px-[1.1rem] py-[0.85rem] text-[11px] font-bold text-[#383838] uppercase tracking-[0.08em] select-none",
                                         col.className
                                     )}
                                     align={col.align || "left"}
@@ -61,8 +58,8 @@ export default function Table({
                                         className={cn(
                                             "flex items-center gap-1",
                                             col.sortable && "cursor-pointer hover:text-blue-600 transition-colors",
-                                            col.align === 'right' && "justify-end",
-                                            col.align === 'center' && "justify-center"
+                                            // col.align === 'right' && "justify-end",
+                                            // col.align === 'center' && "justify-center"
                                         )}
                                         onClick={() => col.sortable && handleSort(col.key)}
                                     >
@@ -84,14 +81,14 @@ export default function Table({
                                 </th>
                             ))}
                             {actions.length > 0 && (
-                                <th className="px-4 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider text-right w-[1%] whitespace-nowrap">
+                                <th className="px-[1.1rem] py-[0.85rem] text-[11px] font-bold text-[#383838] uppercase tracking-[0.08em] text-right w-[1%] whitespace-nowrap">
                                     Actions
                                 </th>
                             )}
                         </tr>
                     </thead>
 
-                    <tbody className="divide-y divide-white/10 bg-white">
+                    <tbody className="border-b border-neutral-600/20  bg-white">
                         {isLoading ? (
                             [...Array(5)].map((_, index) => (
                                 <tr key={`skeleton-${index}`} className="animate-pulse">
@@ -111,29 +108,27 @@ export default function Table({
                             data.map((row, rowIndex) => {
                                 const key = rowKey(row, rowIndex);
                                 const isExpanded = expandedRows.has(key);
-
                                 return (
                                     <React.Fragment key={key}>
                                         <tr
-                                            onClick={() => onRowClick && onRowClick(row)}
+                                            style={{ animationDelay: `${Math.min(rowIndex * 0.04, 0.4)}s` }}
                                             className={cn(
-                                                "transition-colors duration-200 group hover:bg-white/30",
-                                                onRowClick && "cursor-pointer",
-                                                isExpanded && "bg-white/20"
+                                                "border-b border-[#f0f1f4] transition-all duration-200 group animate-[rowIn_0.3s_ease_both]",
+                                                isExpanded && "bg-[#f8faff]"
                                             )}
                                         >
                                             {expandable && (
                                                 <td className="px-4 py-3 w-8">
-                                                    <div
-                                                        onClick={(e: React.MouseEvent) => toggleRow(key, e)}
-                                                        className="p-1 hover:bg-white/50 text-sm"
+                                                    <button
+                                                        onClick={(e) => toggleRow(key, e)}
+                                                        className="p-1 hover:bg-white/50"
                                                     >
                                                         {isExpanded ? (
                                                             <ChevronDown size={16} className="text-slate-600" />
                                                         ) : (
                                                             <ChevronRight size={16} className="text-slate-600" />
                                                         )}
-                                                    </div>
+                                                    </button>
                                                 </td>
                                             )}
                                             {columns.map((col) => {
@@ -179,7 +174,7 @@ export default function Table({
                                                 return (
                                                     <td
                                                         key={col.key}
-                                                        className={cn("px-4 py-3 text-sm text-slate-700", col.cellClassName)}
+                                                        className={cn("px-[1.1rem] py-4 text-[12px] text-[#111827] align-middle", col.cellClassName)}
                                                         align={col.align || "left"}
                                                     >
                                                         {displayValue}
@@ -196,38 +191,39 @@ export default function Table({
                                                             const tooltipTitle = typeof action.tooltip === 'function' ? action.tooltip(row) : (action.tooltip || action.label || '');
 
                                                             const ButtonContent = (
-                                                                // <IconButton
-                                                                //     size="small"
-                                                                //     onClick={(e: React.MouseEvent) => {
-                                                                //         e.stopPropagation();
-                                                                //         action.onClick?.(row);
-                                                                //     }}
-                                                                //     disabled={isDisabled}
-                                                                //     className={cn(
-                                                                //         "p-1.5 transition-all duration-200 hover:bg-white/60",
-                                                                //         isDisabled && "opacity-40 cursor-not-allowed",
-                                                                //         action.color === "error" && !isDisabled && "text-red-500 hover:text-red-700 hover:bg-red-50",
-                                                                //         action.color === "success" && !isDisabled && "text-green-600 hover:text-green-800 hover:bg-green-50",
-                                                                //         (!action.color || action.color === "default") && !isDisabled && "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
-                                                                //     )}
-                                                                // >
-                                                                //     {ActionIcon ? <ActionIcon size={16} /> : <ArrowUpFromLine size={16} />}
-                                                                // </IconButton>
-                                                                <></>
-                                                            )
+                                                                <div
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        action.onClick?.(row);
+                                                                    }}
+                                                                    className={cn(
+                                                                        "p-1.5 transition-all duration-200 hover:bg-white/60",
+                                                                        isDisabled && "opacity-40 cursor-not-allowed",
+                                                                        action.color === "error" && !isDisabled && "text-red-500 hover:text-red-700 hover:bg-red-50",
+                                                                        action.color === "success" && !isDisabled && "text-green-600 hover:text-green-800 hover:bg-green-50",
+                                                                        (!action.color || action.color === "default") && !isDisabled && "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
+                                                                    )}
+                                                                >
+                                                                    {typeof action.icon === 'function' ? (
+                                                                        <action.icon row={row} size={16} />
+                                                                    ) : action.icon ? (
+                                                                        <action.icon size={16} />
+                                                                    ) : (
+                                                                        <ArrowUpFromLine size={16} />
+                                                                    )}
+                                                                </div>
+                                                            );
 
                                                             return (
-                                                                <>
-                                                                    {/* <Tooltip key={actionIndex} title={tooltipTitle} arrow>
-                                                                        {linkPath ? (
-                                                                            <Link to={linkPath} onClick={(e) => e.stopPropagation()}>
-                                                                                {ButtonContent}
-                                                                            </Link>
-                                                                        ) : (
-                                                                            <span>{ButtonContent}</span>
-                                                                        )}
-                                                                    </Tooltip> */}
-                                                                </>
+                                                                <div key={actionIndex} title={tooltipTitle} >
+                                                                    {linkPath ? (
+                                                                        <NavLink to={linkPath} onClick={(e) => e.stopPropagation()}>
+                                                                            {ButtonContent}
+                                                                        </NavLink>
+                                                                    ) : (
+                                                                        <span>{ButtonContent}</span>
+                                                                    )}
+                                                                </div>
                                                             );
                                                         })}
                                                     </div>

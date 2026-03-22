@@ -9,15 +9,6 @@
     ]
   },
   {
-    "name": "badge",
-    "type": "registry:ui",
-    "title": "Badge",
-    "description": "A Badge component.",
-    "categories": [
-      "ui"
-    ]
-  },
-  {
     "name": "button",
     "type": "registry:ui",
     "title": "Button",
@@ -40,6 +31,15 @@
     "type": "registry:ui",
     "title": "Chatbot",
     "description": "A Chatbot component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "dataviewpanel",
+    "type": "registry:ui",
+    "title": "DataViewPanel",
+    "description": "A DataViewPanel component.",
     "categories": [
       "ui"
     ]
@@ -139,6 +139,15 @@
     "type": "registry:ui",
     "title": "Toggle",
     "description": "A Toggle component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "notification",
+    "type": "registry:ui",
+    "title": "notification",
+    "description": "A notification component.",
     "categories": [
       "ui"
     ]

@@ -28,20 +28,20 @@ const defaultIcons = {
 export function Callout({ title, children, icon, type = "default", ...props }: CalloutProps) {
   const IconComponent = icon ? null : defaultIcons[type]
   const variant = type === "error" ? "destructive" : undefined
-  
+
   return (
-    <Alert 
+    <Alert
       variant={variant}
-      className={cn(calloutVariants[type], "my-4")}
+      className={cn(calloutVariants[type], " my-4")}
       {...props}
     >
-      {icon ? (
-        <span className="mr-2 text-lg">{icon}</span>
-      ) : IconComponent && (
-        <IconComponent className="h-4 w-4" />
-      )}
-      {title && <AlertTitle>{title}</AlertTitle>}
-      <AlertDescription>{children}</AlertDescription>
+        {icon ? (
+          <span className="mr-2 text-lg">{icon}</span>
+        ) : IconComponent && (
+          <IconComponent className="h-4 w-4" />
+        )}
+        {title && <AlertTitle>{title}</AlertTitle>}
+        <AlertDescription className="flex-1">{children}</AlertDescription>
     </Alert>
   )
 }

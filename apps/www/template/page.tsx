@@ -6,7 +6,7 @@ import axios from "axios"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TableScehma, TableSchema } from "../src/lib/Schema"
-import Navbar from "@/components/navbar/Navbar"
+import Navbar from "@/src/components/navbar/Navbar"
 
 const CATEGORIES = [
     { id: "ui", label: "UI Component", icon: Zap, color: "text-blue-400" },

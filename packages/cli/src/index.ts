@@ -4,7 +4,6 @@ import { add } from "./command/add"
 import { init } from "./command/init"
 import { list } from "./command/list"
 import { remove } from "./command/remove"
-import { theme } from "./command/theme"
 import { type RemoveOptions } from "./command/remove"
 import packageJson from "../package.json"
 
@@ -43,11 +42,6 @@ async function main() {
     .command("list")
     .description("List all available components")
     .action(list)
-
-  program
-    .command("theme")
-    .description("Generate theme for your project")
-    .action(theme)
 
   program.parse()
 }

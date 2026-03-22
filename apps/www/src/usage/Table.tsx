@@ -117,9 +117,9 @@ const DempTable = () => {
     );
 
     const columns = [
-        { key: "name", label: "Cluster Name", sortable: true },
-        { key: "provider_cluster_id", label: "Cluster ID", sortable: true },
-        { key: "current_version", label: "Current Version", sortable: true },
+        { key: "name", label: "Cluster Name" },
+        { key: "provider_cluster_id", label: "Cluster ID" },
+        { key: "current_version", label: "Current Version" },
         {
             key: "target_version",
             label: "Target Version",

@@ -13,3 +13,16 @@ export async function confirm(message: string, initial: boolean = true): Promise
     if (!answer) return initial
     return answer.toLowerCase() === "y" || answer.toLowerCase() === "yes"
 }
+
+export async function prompt(message: string, initial: string = ""): Promise<string> {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    })
+
+    const suffix = initial ? `(${initial})` : ""
+    const answer = await rl.question(`${message} ${suffix} `)
+    rl.close()
+
+    return answer || initial
+}

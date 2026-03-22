@@ -22,25 +22,6 @@ export const components: RegistryEntry[] = [
     ]
   },
   {
-    "name": "badge",
-    "type": "registry:ui",
-    "title": "Badge",
-    "description": "A Badge component.",
-    "dependencies": [
-      "clsx",
-      "tailwind-merge"
-    ],
-    "files": [
-      {
-        "path": "src/components/docs/Badge.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "categories": [
-      "ui"
-    ]
-  },
-  {
     "name": "button",
     "type": "registry:ui",
     "title": "Button",
@@ -90,6 +71,25 @@ export const components: RegistryEntry[] = [
     "files": [
       {
         "path": "src/components/docs/Chatbot.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "dataviewpanel",
+    "type": "registry:ui",
+    "title": "DataViewPanel",
+    "description": "A DataViewPanel component.",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "files": [
+      {
+        "path": "src/components/docs/DataViewPanel.tsx",
         "type": "registry:ui"
       }
     ],
@@ -299,6 +299,25 @@ export const components: RegistryEntry[] = [
     "files": [
       {
         "path": "src/components/docs/Toggle.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "notification",
+    "type": "registry:ui",
+    "title": "notification",
+    "description": "A notification component.",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "files": [
+      {
+        "path": "src/components/docs/notification.tsx",
         "type": "registry:ui"
       }
     ],

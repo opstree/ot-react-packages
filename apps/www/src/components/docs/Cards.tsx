@@ -19,28 +19,12 @@ const Card = () => {
   return (
     <div className="w-1/2 gap-2">
       {carddata.map((kpi) => (
-        <div key={kpi.title} className="group relative shadow-md rounded border border-[var(--border-color)] p-2 overflow-hidden bg-[var(--card-bg)] transition-all duration-300">
-          <div className={cn(
-            "absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 transition-all duration-300 rounded-tl",
-            kpi.positive ? "border-neutral-500/50" : "border-red-500"
-          )} />
-          <div className={cn(
-            "absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 transition-all duration-300 rounded-tr",
-            kpi.positive ? "border-neutral-500/50" : "border-red-500"
-          )} />
-          <div className={cn(
-            "absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 transition-all duration-300 rounded-bl",
-            kpi.positive ? "border-neutral-500/50" : "border-red-500"
-          )} />
-          <div className={cn(
-            "absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 transition-all duration-300 rounded-br",
-            kpi.positive ? "border-neutral-500/50" : "border-red-500"
-          )} />
+        <div key={kpi.title} className="group relative shadow-md rounded ring-black/20 ring-[1px] p-2 overflow-hidden bg-[var(--card-bg)]">
           <div className="flex items-center justify-between mb-4">
             <span className="text-[10px] font-bold uppercase tracking-widest leading-none text-[var(--text-secondary)]">{kpi.title}</span>
             <span className={cn(
               "p-1 rounded-sm border flex items-center justify-center",
-              kpi.background ? kpi.background : "bg-neutral-300/20 border-[var(--border-color)]"
+              kpi.background ? kpi.background : "bg-neutral-200/20 ring-black/20 ring-[1px]"
             )}>
               {kpi.icon}
             </span>

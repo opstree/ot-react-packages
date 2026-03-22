@@ -62,11 +62,6 @@ export const docsConfig: DocsConfig = {
                     items: [],
                 },
                 {
-                    title: "Cards",
-                    href: "/docs/components/cards",
-                    items: [],
-                },
-                {
                     title: "Filters",
                     href: "/docs/components/filters",
                     items: [],
@@ -92,8 +87,8 @@ export const docsConfig: DocsConfig = {
                     items: [],
                 },
                 {
-                    title: "Toggle",
-                    href: "/docs/components/toggle",
+                    title: "DataViewPanel",
+                    href: "/docs/components/dataviewpanel",
                     items: [],
                 },
             ],

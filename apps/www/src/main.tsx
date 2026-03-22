@@ -8,12 +8,14 @@ import './style/index.css'
 import { ThemeProvider } from './components/theme-provider.js'
 import App from './App.js'
 import { BrowserRouter } from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop.js'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <LenisProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <App />
         </BrowserRouter>
       </LenisProvider>
