@@ -1,0 +1,88 @@
+---
+title: Header
+description: A page header component that displays the current page title, optional sub-page breadcrumbs, and custom action slots.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import HeaderUsage from "@/usage/Header";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Header component provides consistent page-anchored branding and navigation inside the application. It uses a modern glassmorphism design with a fixed height and supports motion animations for entrance effects.
+
+## Installation
+
+<InstallationCli value="opscli add header" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<HeaderUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Header.tsx"
+      title="Header.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### HeaderProps Interface
+
+```typescript
+interface HeaderProps {
+  page: string;              // Main title of the current page
+  subPage?: string;          // Optional sub-heading or breadcrumb-style text
+  action?: React.ReactNode;  // Slot for action buttons or components in the top-right
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the Header component:
+  - **Animated Entrance**: Smoothly fades and slides into position using `framer-motion`.
+  - **Action Slot**: Dedicated area on the right for primary actions or tools.
+  - **Visual Polish**: Uses a `glass` utility class for a semi-transparent, premium aesthetic.
+  - **Responsive Layout**: Flexbox-based alignment ensures clean spacing between titles and actions.
+</Callout>
+
+## Examples
+
+### Dashboard Header
+
+```jsx
+<Header 
+  page="Dashboard" 
+  subPage="Live Metrics" 
+/>
+```
+
+### Action-Oriented Header
+
+```jsx
+<Header 
+  page="Infrastructure"
+  subPage="Clusters"
+  action={<Button>Create Cluster</Button>}
+/>
+```
+
+## Best Practices
+
+1. **Clear Titles**: Use descriptive, high-level names for the `page` prop.
+2. **Contextual Subtitles**: Use `subPage` to provide more context about what the user is currently viewing.
+3. **Primary Actions**: Reserve the `action` slot for the most common or important action on a given page.
+4. **Consistency**: Use the Header component across all main application pages to maintain a unified user experience.
+
+## Related Components
+
+- [Sidebar](/docs/components/sidebar) - The side-navigation that typically leads to Header-defined pages
+- [Button](/docs/components/button) - Frequently used within the Header's action slot

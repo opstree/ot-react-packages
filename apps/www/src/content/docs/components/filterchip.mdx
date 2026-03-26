@@ -1,0 +1,72 @@
+---
+title: FilterChip
+description: A dynamic chip component for displaying and managing active filter states with animated transitions.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import FilterChipUsage from "@/usage/Filterchip";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The FilterChip component provides a compact, visual representation of active filters. It allows users to see their current filter selection at a glance and remove individual filters with ease. It features smooth entry and exit animations powered by Framer Motion.
+
+## Installation
+
+<InstallationCli value="opscli add filterchip" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<FilterChipUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Filterchip.tsx"
+      title="Filterchip.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### Filterchip Interface
+
+```typescript
+interface Filterchip {
+  filterOptions: {
+    group: string;
+    key: string;
+    options: { label: string; value: string; }[];
+  }[];
+  filters: Record<string, string[]>; // Map of group keys to active values
+  removeValue: (groupKey: string, value: string) => void; // Handler for removing a filter
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the FilterChip component:
+  - **Animated Transitions**: Smooth scale and opacity animations using `framer-motion`.
+  - **Group-Aware Rendering**: Displays the filter group name alongside the value for better context.
+  - **Horizontal Scrolling**: Automatically handles overflow with a clean horizontal scroll layout.
+  - **Interactive**: Built-in "X" button for quick removal of individual filter items.
+  - **Styling**: Modern rounded-pill design with clear typography.
+</Callout>
+
+## Best Practices
+
+1. **Contextual Labels**: Ensure that `group` labels are concise and descriptive (e.g., "Status", "Tag", "Assignee").
+2. **State Management**: Pair with a robust filtration system that updates data immediately when `removeValue` is triggered.
+3. **Empty States**: If no filters are active, consider hiding the FilterChip container or showing a "No active filters" message.
+4. **Layout**: Place FilterChip above your data table or list results for the most intuitive UX.
+
+## Related Components
+
+- [Filters](/docs/components/filters) - The full filtering interface
+- [Table](/docs/components/table) - Typically used to display filtered data

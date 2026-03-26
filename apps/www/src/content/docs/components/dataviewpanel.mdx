@@ -1,0 +1,51 @@
+---
+title: DataViewPanel
+description: A comprehensive data dashboard component with built-in sorting, pagination, and toggleable views (Cards and Table).
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import DataViewPanelUsage from "../../../usage/DataViewPanel";
+import { InstallationCli } from "@/components/docspagescomponent/cli-install-button.tsx"
+
+## Overview
+
+The `DataViewPanel` component provides a robust interface for managing and viewing datasets. It features a sleek design with smooth transitions between card-based and table layouts. It includes out-of-the-box support for pagination and server-side-ready sorting logic.
+
+# Installation
+<InstallationCli value=" opscli add dataviewpanel"/>
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<DataViewPanelUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/DataViewPanel.tsx"
+      title="DataViewPanel.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:min-w-[55vw] w-[90vw] max-w-[60vw]"
+  align="center"
+/>
+
+## Features
+
+<Callout type="info">
+  Key features of the DataViewPanel component:
+  - **Dual Views**: Seamlessly switch between high-level Cards and detailed Table views.
+  - **Smart Sorting**: Built-in multi-column sorting with type-safe comparison logic.
+  - **Pagination**: Integrated pagination controls for large datasets.
+  - **Status Indicators**: Visual status badges (Healthy, Warning, Error) with pulsing animations.
+  - **Premium UI**: Uses gradients, glassmorphism-inspired borders, and smooth hover effects.
+</Callout>
+
+## Components
+
+### Card View
+Ideal for a quick overview of node health and key metrics.
+
+### Table View
+Best for deep-diving into specific data points and comparing across multiple rows.

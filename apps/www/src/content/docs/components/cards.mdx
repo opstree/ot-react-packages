@@ -1,0 +1,103 @@
+---
+title: Cards
+description: A collection of data display cards used for dashboards and metric overviews, featuring glassmorphism styles and interactive animations.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import CardsUsage from "@/usage/Cards";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Card component is a visually appealing data display element designed for dashboard metrics, status summaries, and highlighted information. It features a modern glassmorphism effect, customizable icons, and hover animations with gradient glows.
+
+## Installation
+
+<InstallationCli value="opscli add cards" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<CardsUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Cards.tsx"
+      title="Cards.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### CardDetails Interface
+
+```typescript
+interface CardDetails {
+  name: string;           // Header label for the card
+  icon: React.ReactNode;  // Icon element displayed in the top right
+  number: string;         // Main metric/value text
+  sidenumber?: string;    // Sub-metric or percentage change text
+  info?: string;          // Description text at the bottom
+  className?: string;     // Additional CSS classes for the container
+  textcolor?: string;    // Text color class for the info text
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the Card component:
+  - **Glassmorphism Design**: Semi-transparent background with blur effects.
+  - **Responsive**: Adapts perfectly to grid layouts for dashboards.
+  - **Dynamic Visuals**: Animated background glow on hover for a premium feel.
+  - **Flexible Information**: Supports multiple data points including main value, sub-values, and info text.
+  - **Icon Support**: Easily integrate any icon library like Lucide React.
+</Callout>
+
+## Examples
+
+### Dashboard Metric
+
+```jsx
+import Card from "@/components/docs/Cards";
+import { Home } from "lucide-react";
+
+<Card
+  name="Total Revenue"
+  icon={<Home className="w-4 h-4" />}
+  number="$45,231.89"
+  sidenumber="+20.1%"
+  info="from last month"
+  textcolor="text-green-500"
+/>
+```
+
+### Alert Card
+
+```jsx
+<Card
+  name="System Status"
+  icon={<Activity className="w-4 h-4 text-red-500" />}
+  number="Critical"
+  info="3 server nodes are currently down"
+  className="border-red-500/50 bg-red-500/10"
+  textcolor="text-red-600"
+/>
+```
+
+## Best Practices
+
+1. **Grid Layout**: Use cards within a CSS Grid (e.g., `grid grid-cols-1 md:grid-cols-4`) for consistent dashboard layouts.
+2. **Icon Consistency**: Use consistent icon sizes (usually `w-4 h-4`) across all cards in a group.
+3. **Color Semantic**: Use `textcolor` and `className` to convey status color-coding (e.g., green for success, red for alerts).
+4. **Information Density**: Keep text short and focused to maintain readability across different screen sizes.
+
+## Related Components
+
+- [Table](/docs/components/table) - Detailed list representation
+- [Badge](/docs/components/badge) - Status indicators

@@ -1,0 +1,44 @@
+---
+title: SpiderView
+description: A radar chart visualization for displaying multivariate data on a two-dimensional chart of three or more quantitative variables.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import SpiderViewUsage from "@/usage/SpiderView";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The SpiderView component is ideal for comparing multiple quantitative variables. It is commonly used for performance metrics, system health comparisons, or feature set analysis.
+
+<Callout type="warning">
+  **Note**: This component is currently in the architectural design phase.
+</Callout>
+
+## Installation
+
+<InstallationCli value="opscli add spiderview" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<SpiderViewUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/SpiderView.tsx"
+      title="SpiderView.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+- **Multi-Axis Comparison**: Visualize relationships between multiple dimensions effortlessly.
+- **Interactive Data Points**: Hover to see precise values and category labels.
+- **Customizable Scales**: Adjust axis ranges and grid increments.
+- **Responsive Sizing**: Automatically scales to fit its parent container.

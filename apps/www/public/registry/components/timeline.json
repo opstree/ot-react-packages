@@ -1,0 +1,20 @@
+{
+  "name": "timeline",
+  "type": "registry:ui",
+  "title": "Timeline",
+  "description": "A Timeline component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Timeline.tsx",
+      "content": "",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

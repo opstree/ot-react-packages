@@ -1,0 +1,155 @@
+[
+  {
+    "name": "addaccount",
+    "type": "registry:ui",
+    "title": "Addaccount",
+    "description": "A Addaccount component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "title": "Button",
+    "description": "A Button component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "cards",
+    "type": "registry:ui",
+    "title": "Cards",
+    "description": "A Cards component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "chatbot",
+    "type": "registry:ui",
+    "title": "Chatbot",
+    "description": "A Chatbot component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "dataviewpanel",
+    "type": "registry:ui",
+    "title": "DataViewPanel",
+    "description": "A DataViewPanel component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "filterchip",
+    "type": "registry:ui",
+    "title": "Filterchip",
+    "description": "A Filterchip component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "filters",
+    "type": "registry:ui",
+    "title": "Filters",
+    "description": "A Filters component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "header",
+    "type": "registry:ui",
+    "title": "Header",
+    "description": "A Header component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "multiplefilter",
+    "type": "registry:ui",
+    "title": "MultipleFilter",
+    "description": "A MultipleFilter component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "pagination",
+    "type": "registry:ui",
+    "title": "Pagination",
+    "description": "A Pagination component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "sidebar",
+    "type": "registry:ui",
+    "title": "Sidebar",
+    "description": "A Sidebar component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "skeleton",
+    "type": "registry:ui",
+    "title": "Skeleton",
+    "description": "A Skeleton component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "spiderview",
+    "type": "registry:ui",
+    "title": "SpiderView",
+    "description": "A SpiderView component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "table",
+    "type": "registry:ui",
+    "title": "Table",
+    "description": "A Table component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "timeline",
+    "type": "registry:ui",
+    "title": "Timeline",
+    "description": "A Timeline component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "toggle",
+    "type": "registry:ui",
+    "title": "Toggle",
+    "description": "A Toggle component.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
+    "name": "notification",
+    "type": "registry:ui",
+    "title": "notification",
+    "description": "A notification component.",
+    "categories": [
+      "ui"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "extends": "@workspace/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/ui/*": ["./src/*"],
+      "@workspace/ui/public/*": ["./public/*"]
+    }
+  },
+  "include": ["src/**/*", "../../apps/www/src/components/docs/copy-button.tsx", "../../apps/www/src/components/docs"],
+  "exclude": ["node_modules", "dist"]
+}

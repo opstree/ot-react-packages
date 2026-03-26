@@ -1,0 +1,20 @@
+{
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "Pagination",
+  "description": "A Pagination component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Pagination.tsx",
+      "content": "import { ChevronLeft, ChevronRight } from \"lucide-react\";\r\nimport React from \"react\";\r\n\r\ninterface PaginationDetails {\r\n    currentPage: number;\r\n    totalPages: number;\r\n    onPageChange: (page: number) => void;\r\n}\r\n\r\nconst PaginationControls = ({ currentPage, totalPages = 6, onPageChange }: PaginationDetails) => {\r\n    if (!totalPages || totalPages <= 0) return null;\r\n\r\n    return (\r\n        <div className=\"flex items-center justify-center py-4 gap-1\">\r\n            <button\r\n                className=\"inline-flex items-center gap-1 h-8 px-3 text-[13px] font-medium rounded-md border border-neutral-200 bg-white text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white\"\r\n                disabled={currentPage === 1 || totalPages <= 1}\r\n                onClick={() => onPageChange(currentPage - 1)}\r\n            >\r\n                <ChevronLeft size={14} />\r\n                Previous\r\n            </button>\r\n\r\n            <div className=\"flex items-center gap-1 mx-2\">\r\n                <span className=\"h-6 min-w-[32px] px-2 inline-flex items-center justify-center text-xs font-medium text-neutral-900 bg-neutral-100 rounded-md border border-neutral-200\">\r\n                    {currentPage}\r\n                </span>\r\n                <span className=\"text-xs text-neutral-400 mx-1\">of</span>\r\n                <span className=\"text-xs font-medium text-neutral-600\">\r\n                    {totalPages}\r\n                </span>\r\n            </div>\r\n\r\n            <button\r\n                className=\"inline-flex items-center gap-1 h-8 px-3 text-[13px] font-medium rounded-md border border-neutral-200 bg-white text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white\"\r\n                disabled={currentPage === totalPages || totalPages <= 1}\r\n                onClick={() => onPageChange(currentPage + 1)}\r\n            >\r\n                Next\r\n                <ChevronRight size={14} />\r\n            </button>\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default PaginationControls;\r\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

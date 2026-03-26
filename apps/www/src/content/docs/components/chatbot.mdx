@@ -1,0 +1,43 @@
+---
+title: Chatbot
+description: An integrated AI-powered chatbot interface for user assistance and automated support.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import ChatbotUsage from "@/usage/Chatbot";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The Chatbot component provides a conversational interface for users to interact with AI-driven support or search functionality.
+
+<Callout type="warning">
+  **Note**: This component is currently in development. Full documentation and usage examples will be updated shortly.
+</Callout>
+
+## Installation
+
+<InstallationCli value="opscli add chatbot" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<ChatbotUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/Chatbot.tsx"
+      title="Chatbot.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Features
+
+- **AI-Powered**: Integrates with LLMs for intelligent responses.
+- **Interactive UI**: Supports rich text, images, and quick-reply buttons.
+- **Chat History**: Persists conversations across sessions.

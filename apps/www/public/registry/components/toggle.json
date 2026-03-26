@@ -1,0 +1,20 @@
+{
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "A Toggle component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Toggle.tsx",
+      "content": "import React from \"react\"\r\nimport { Moon, Sun } from \"lucide-react\"\r\nimport { motion, AnimatePresence } from \"framer-motion\"\r\nimport { useTheme } from \"../theme-provider\"\r\nimport { cn } from \"@workspace/ui/lib/utils\"\r\n\r\nexport const Toggle = () => {\r\n    const { theme, setTheme } = useTheme()\r\n\r\n    const toggleTheme = () => {\r\n        setTheme(theme === \"dark\" ? \"light\" : \"dark\")\r\n    }\r\n\r\n    return (\r\n        <button\r\n            onClick={toggleTheme}\r\n            className={cn(\r\n                \"relative flex items-center justify-center rounded-md transition-all duration-300 py-1.5 px-4 ring-[.5px] ring-black/20\",\r\n                \"overflow-hidden flex justify-between cursor-pointer relative items-center p-2 dark:ring-[.5px] dark:ring-white/30 hover:ring-white/10 hover:scale-[.98] flex justify-center items-center dark:bg-[var(--bg)] bg-neutral-200 shadow-sm dark:shadow-[var(--shadow-s)] rounded-md outline-0 text-sm gap-2 items-center flex duration-600 ease-inOut \",\r\n                \"outline-none focus-visible:ring-primary/50\"\r\n            )}\r\n            aria-label=\"Toggle theme\"\r\n        >\r\n            <AnimatePresence mode=\"wait\" initial={false}>\r\n                {theme === \"dark\" ? (\r\n                    <motion.div\r\n                        key=\"moon\"\r\n                        initial={{ y: 20, opacity: 0, rotate: 45 }}\r\n                        animate={{ y: 0, opacity: 1, rotate: 0 }}\r\n                        exit={{ y: -20, opacity: 0, rotate: -45 }}\r\n                        transition={{ duration: 0.2, ease: \"easeInOut\" }}\r\n                    >\r\n                        <Moon size={16} className=\"text-neutral-400 group-hover:text-neutral-200\" />\r\n                    </motion.div>\r\n                ) : (\r\n                    <motion.div\r\n                        key=\"sun\"\r\n                        initial={{ y: 20, opacity: 0, rotate: 45 }}\r\n                        animate={{ y: 0, opacity: 1, rotate: 0 }}\r\n                        exit={{ y: -20, opacity: 0, rotate: -45 }}\r\n                        transition={{ duration: 0.2, ease: \"easeInOut\" }}\r\n                    >\r\n                        <Sun size={16} className=\"text-yellow-500\" />\r\n                    </motion.div>\r\n                )}\r\n            </AnimatePresence>\r\n            <span className=\"sr-only\">Toggle theme</span>\r\n        </button>\r\n    )\r\n}\r\n\r\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

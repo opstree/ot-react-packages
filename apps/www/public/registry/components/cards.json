@@ -1,0 +1,20 @@
+{
+  "name": "cards",
+  "type": "registry:ui",
+  "title": "Cards",
+  "description": "A Cards component.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "Cards.tsx",
+      "content": "import { ArrowUp, DollarSign, Globe, TrendingUp, Zap } from \"lucide-react\";\r\nimport { cn } from \"@/lib/utils\";\r\n\r\ninterface cardDetails {\r\n  title: string;\r\n  value: string;\r\n  trend: string;\r\n  positive: boolean;\r\n  icon: React.ReactNode;\r\n  background?: string;\r\n}\r\n\r\nconst carddata: cardDetails[] = [\r\n  { title: \"Last 30 Days\", value: \"€12,220.64\", trend: \"+22.2%\", positive: true, icon: <DollarSign size={16} className=\"text-green-500\" />, background: \"bg-neutral-50/50\" },\r\n]\r\n\r\n\r\nconst Card = () => {\r\n  return (\r\n    <div className=\"w-1/2 gap-2\">\r\n      {carddata.map((kpi) => (\r\n        <div key={kpi.title} className=\"group relative shadow-md rounded ring-black/20 ring-[1px] p-2 overflow-hidden bg-[var(--card-bg)]\">\r\n          <div className=\"flex items-center justify-between mb-4\">\r\n            <span className=\"text-[10px] font-bold uppercase tracking-widest leading-none text-[var(--text-secondary)]\">{kpi.title}</span>\r\n            <span className={cn(\r\n              \"p-1 rounded-sm border flex items-center justify-center\",\r\n              kpi.background ? kpi.background : \"bg-neutral-200/20 ring-black/20 ring-[1px]\"\r\n            )}>\r\n              {kpi.icon}\r\n            </span>\r\n          </div>\r\n          <div className=\"flex flex-col gap-1\">\r\n            <span className=\"text-2xl font-semibold tracking-tight text-[var(--text-primary)]\">{kpi.value}</span>\r\n            <div className=\"flex items-center gap-2 mt-2\">\r\n              <span className={cn(\r\n                \"text-[10px] font-bold px-1.5 py-0.5 flex items-center gap-0.5 rounded\",\r\n                kpi.positive ? \"bg-green-500 text-white\" : \"bg-red-500 text-white\"\r\n              )}>\r\n                {kpi.positive ? <ArrowUp size={8} strokeWidth={3} /> : <ArrowUp size={8} strokeWidth={3} className=\"rotate-180\" />}\r\n                {kpi.trend}\r\n              </span>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      ))}\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default Card\r\n\r\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ]
+}

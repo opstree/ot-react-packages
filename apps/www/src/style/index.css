@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+:root {
+  --foreground: #ededed;
+  --bg-dark: oklch(0.1 0 264);
+  --bg-light: oklch(0.3 0 264);
+  --bg: oklch(16.376% 0.00002 271.152);
+  --shadow:
+    inset 0 -0.01px 0.6px #ffff, 0 1px 2px #00000030, 0 1px 2px 2px #00000030,
+    0 1px 1px #00000015;
+  --shadow-s:
+    inset 0 1px 2px #ffffff30, 0 1px 2px 2px #00000030, 0 2px 2px #00000015;
+  --shadow-m:
+    inset 0 1px 2px #ffffff50, 0 1px 2px 2px #00000030, 0 2px 2px #00000015;
+  --shadow-l:
+    inset 0 1px 2px #ffffff70, 0 1px 2px 2px #00000030, 0 2px 2px #00000015;
+  --colora: #ffffff;
+}
+
+
+:root {
+  --fd-layout-width: 0px;
+  --fd-sidebar-width: 268px;
+  --fd-sidebar-col: 268px;
+  --fd-toc-width: 268px;
+  --fd-docs-height: 100dvh;
+}
+
+body {
+  font-family: 'Geist', 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.button {
+  border-radius: 30px;
+  padding: 10px 20px;
+  overflow: hidden;
+  transition: transform 0.6s ease;
+  cursor: pointer;
+}
+
+.button::before {
+  --colora2: #ff6a00;
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(to left,
+      var(--colora) 35%,
+      var(--colora2) 80%,
+      var(--colora) 108%);
+  z-index: 0;
+  border-radius: 8px;
+  background-size: 200% auto;
+}
+
+
+@media (min-width: 1024px) {
+  .sidebar {
+    display: grid;
+    height: 100dvh;
+    overflow: hidden;
+    grid-template-areas:
+      "sidebar header toc"
+      "sidebar toc-popover toc"
+      "sidebar main toc";
+    grid-template-columns: auto 1fr var(--fd-toc-width);
+    grid-template-rows: auto auto 1fr;
+  }
+}
+
+.grid-sidebar {
+  grid-area: sidebar;
+}
+
+.grid-main {
+  grid-area: main;
+}
+
+.grid-toc {
+  grid-area: toc;
+}

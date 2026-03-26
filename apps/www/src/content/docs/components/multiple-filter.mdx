@@ -1,0 +1,100 @@
+---
+title: MultipleFilter
+description: A multi-select dropdown filter component with group support and selection counters.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import MultipleFilterUsage from "@/usage/MultipleFilter";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
+
+## Overview
+
+The MultipleFilter (internal name `Upgradefilter`) is a specialized dropdown component designed for handling complex filtering requirements. It supports grouping options, multi-selection with visual feedback (checkmarks), and displays a selection count badge on the main trigger.
+
+## Installation
+
+<InstallationCli value="opscli add multiple-filter" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<MultipleFilterUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/MultipleFilter.tsx"
+      title="MultipleFilter.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### UpgradefilterDetails Interface
+
+```typescript
+interface UpgradefilterDetails {
+  filterOptions: {
+    group: string;
+    key: string;
+    options: {
+      value: string;
+      label: string;
+    }[];
+  }[];
+  filters: Record<string, string[]>;
+  onFilterChange: (filter: any) => void;
+  defaultLabel?: string;
+}
+```
+
+## Features
+
+<Callout type="info">
+  Key features of the MultipleFilter component:
+  - **Grouped Options**: Organizes filter options into distinct categories.
+  - **Multi-select**: Allows selecting multiple values across different groups.
+  - **Selection Counter**: Automatically displays a badge with the total number of items selected.
+  - **Visual Feedback**: Active options are highlighted with a background color and checkmark.
+  - **Click Outside to Close**: Automatically closes the dropdown when the user clicks elsewhere.
+  - **Glassmorphism Trigger**: Sophisticated trigger design with backdrop blur.
+</Callout>
+
+## Examples
+
+### Complex Data Filtering
+
+```jsx
+const options = [
+  {
+    group: "Cloud Provider",
+    key: "provider",
+    options: [
+      { label: "AWS", value: "aws" },
+      { label: "Azure", value: "azure" },
+    ]
+  }
+];
+
+<Upgradefilter 
+  filterOptions={options} 
+  filters={currentFilters} 
+  onFilterChange={setFilters} 
+/>
+```
+
+## Best Practices
+
+1. **Logical Grouping**: Group related filters together (e.g., "Status", "Priority", "Project").
+2. **Descriptive Labels**: Use clear labels for both the trigger and the individual options.
+3. **Handle State**: Ensure your filtration logic can handle an empty selection as a "select all" or "no filter" state.
+4. **Z-Index**: Be mindful of the surrounding UI to ensure the dropdown doesn't get clipped by other containers.
+
+## Related Components
+
+- [FilterChip](/docs/components/filterchip) - Visual Representation of selected filters
+- [Table](/docs/components/table) - Typically used with this filter for data views

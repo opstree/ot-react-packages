@@ -1,0 +1,46 @@
+{
+  "name": "@opstreepackage/opscli",
+  "version": "0.1.9",
+  "bin": {
+    "opscli": "dist/index.js"
+  },
+  "description": "CLI for OPS-UI component library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opstree/ot-react-packages.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "cli",
+    "components",
+    "ui",
+    "react",
+    "ops-ui"
+  ],
+  "author": "Gourav Singh & Prashant Sir",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup --minify",
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/prompts": "^2.4.9",
+    "@workspace/eslint-config": "*",
+    "@workspace/typescript-config": "*",
+    "commander": "^14.0.3",
+    "picocolors": "^1.1.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  }
+}
