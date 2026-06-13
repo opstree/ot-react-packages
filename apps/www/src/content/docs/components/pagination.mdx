@@ -23,7 +23,7 @@ The Pagination component (internal name `PaginationControls`) provides a simple 
   component={<PaginationUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/Pagination.tsx"
+      src="src/components/docs/ts/Pagination.tsx"
       title="Pagination.tsx"
       language="tsx"
     />
@@ -31,18 +31,6 @@ The Pagination component (internal name `PaginationControls`) provides a simple 
   className="lg:w-[55vw] w-[90vw]"
   align="center"
 />
-
-## Props
-
-### PaginationDetails Interface
-
-```typescript
-interface PaginationDetails {
-  currentPage: number;                  // The currently active page (1-indexed)
-  totalPages: number;                   // Total number of pages available
-  onPageChange: (page: number) => void; // Callback function called when a page is changed
-}
-```
 
 ## Features
 
@@ -57,7 +45,7 @@ interface PaginationDetails {
 ## Examples
 
 ### Basic Pagination
-
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <PaginationControls 
   currentPage={1} 
@@ -65,6 +53,7 @@ interface PaginationDetails {
   onPageChange={(page) => console.log('New page:', page)} 
 />
 ```
+</div>
 
 ## Best Practices
 

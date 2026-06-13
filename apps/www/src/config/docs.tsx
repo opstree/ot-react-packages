@@ -86,11 +86,11 @@ export const docsConfig: DocsConfig = {
                     href: "/docs/components/sidebar",
                     items: [],
                 },
-                {
-                    title: "DataViewPanel",
-                    href: "/docs/components/dataviewpanel",
-                    items: [],
-                },
+                // {
+                //     title: "DataViewPanel",
+                //     href: "/docs/components/dataviewpanel",
+                //     items: [],
+                // },
             ],
             icon: <IconFolders size={16} />
         },

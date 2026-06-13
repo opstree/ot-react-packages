@@ -30,6 +30,7 @@ export default function DocsLayout() {
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+  
   return (
     <div className={cn("min-h-[100dvh] sidebar dark:bg-[var(--bg)] bg-neutral-100", "overflow-x-clip")}>
       {!sidebarOpen && (

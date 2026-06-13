@@ -72,7 +72,7 @@ export function componentApi() {
                             const id = name.toLowerCase().replace(/\s+/g, '-');
 
                             // 1. Save TSX file
-                            const tsxPath = path.resolve(rootDir, `src/components/docs/${name}.tsx`);
+                            const tsxPath = path.resolve(rootDir, `src/components/docs/ts/${name}.tsx`);
                             await fs.writeFile(tsxPath, code);
 
                             // 2. Create MDX file

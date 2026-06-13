@@ -2,18 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PaginationControls from "./Pagination";
 
-interface Node {
-    id: number;
-    name: string;
-    status: "healthy" | "warning" | "error";
-    region: string;
-    uptime: string;
-    requests: string;
-    latency: string;
-}
-
 // ── Sample Data (extended for pagination demo) ───────────────
-const SAMPLE_NODES: Node[] = [
+const SAMPLE_NODES = [
     { id: 1, name: "Auth Service", status: "healthy", region: "us-east-1", uptime: "99.98%", requests: "1.2M", latency: "12ms" },
     { id: 2, name: "API Gateway", status: "healthy", region: "eu-west-2", uptime: "99.95%", requests: "3.4M", latency: "8ms" },
 ];
@@ -29,12 +19,7 @@ const STATUS = {
 };
 
 // ── ViewToggle ───────────────────────────────────────────────
-interface ViewToggleProps {
-    view: string;
-    setView: (view: string) => void;
-    nodeCount: number;
-}
-function ViewToggle({ view, setView, nodeCount }: ViewToggleProps) {
+function ViewToggle({ view, setView, nodeCount }) {
     return (
         <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-inner">
@@ -69,11 +54,7 @@ function ViewToggle({ view, setView, nodeCount }: ViewToggleProps) {
 }
 
 // ── NodeCard ─────────────────────────────────────────────────
-interface NodeCardProps {
-    node: Node;
-    index: number;
-}
-function NodeCard({ node, index }: NodeCardProps) {
+function NodeCard({ node, index }) {
     const s = STATUS[node.status];
     return (
         <div
@@ -115,7 +96,7 @@ function NodeCard({ node, index }: NodeCardProps) {
 }
 
 // ── NodeCardView (with pagination) ───────────────────────────
-function NodeCardView({ nodes }: { nodes: Node[] }) {
+function NodeCardView({ nodes }) {
     const [page, setPage] = useState(1);
     const totalPages = Math.ceil(nodes.length / CARDS_PER_PAGE);
 
@@ -143,12 +124,12 @@ function NodeCardView({ nodes }: { nodes: Node[] }) {
 }
 
 // ── NodeTableView (with pagination) ──────────────────────────
-function NodeTableView({ nodes }: { nodes: Node[] }) {
-    const [sortKey, setSortKey] = useState<keyof Node | null>(null);
-    const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+function NodeTableView({ nodes }) {
+    const [sortKey, setSortKey] = useState(null);
+    const [sortDir, setSortDir] = useState("asc");
     const [page, setPage] = useState(1);
 
-    const toggleSort = (key: any) => {
+    const toggleSort = (key) => {
         setPage(1);
         if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
         else { setSortKey(key); setSortDir("asc"); }

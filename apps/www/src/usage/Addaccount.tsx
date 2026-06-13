@@ -1,5 +1,5 @@
 import React from "react";
-import AWSOnboardModal from "../components/docs/Addaccount";
+import AWSOnboardModal from "../components/docs/ts/Addaccount";
 
 export default function AddaccountUsage() {
     return (

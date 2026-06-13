@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Upgradefilter from '../components/docs/MultipleFilter';
+import Upgradefilter from '../components/docs/ts/MultipleFilter';
 
 const MultipleFilterUsage = () => {
     const [filters, setFilters] = useState({

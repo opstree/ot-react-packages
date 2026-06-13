@@ -23,7 +23,7 @@ The Header component provides consistent page-anchored branding and navigation i
   component={<HeaderUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/Header.tsx"
+      src="src/components/docs/ts/Header.tsx"
       title="Header.tsx"
       language="tsx"
     />
@@ -36,6 +36,7 @@ The Header component provides consistent page-anchored branding and navigation i
 
 ### HeaderProps Interface
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface HeaderProps {
   page: string;              // Main title of the current page
@@ -43,6 +44,7 @@ interface HeaderProps {
   action?: React.ReactNode;  // Slot for action buttons or components in the top-right
 }
 ```
+</div>
 
 ## Features
 
@@ -58,15 +60,18 @@ interface HeaderProps {
 
 ### Dashboard Header
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <Header 
   page="Dashboard" 
   subPage="Live Metrics" 
 />
 ```
+</div>
 
 ### Action-Oriented Header
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <Header 
   page="Infrastructure"
@@ -74,6 +79,7 @@ interface HeaderProps {
   action={<Button>Create Cluster</Button>}
 />
 ```
+</div>
 
 ## Best Practices
 

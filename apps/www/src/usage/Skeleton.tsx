@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Skeleton from '../components/docs/Skeleton'
+import Skeleton from '../components/docs/ts/Skeleton'
 
 const SkeletonUsage = () => {
   const [isLoading, setIsLoading] = useState(true)

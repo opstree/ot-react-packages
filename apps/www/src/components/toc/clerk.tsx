@@ -85,7 +85,7 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
         >
           <TocThumb
             containerRef={containerRef}
-            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-fd-primary transition-[top,height]"
+            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-purple-400 transition-[top,height]"
           />
         </div>
       )}
@@ -132,12 +132,13 @@ function TOCItem({
       style={{
         paddingInlineStart: getItemOffset(item.depth),
       }}
-      className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-fd-primary"
+      className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-purple-900"
     >
       {offset !== upperOffset && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
+          fill='purple'
           className="absolute -top-1.5 start-0 size-4 rtl:-scale-x-100"
         >
           <line

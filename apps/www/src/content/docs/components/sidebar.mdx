@@ -23,7 +23,7 @@ The Sidebar is the central navigational hub for the documentation site. It rende
   component={<SidebarUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/Sidebar.tsx"
+      src="src/components/docs/ts/Sidebar.tsx"
       title="Sidebar.tsx"
       language="tsx"
     />
@@ -36,6 +36,7 @@ The Sidebar is the central navigational hub for the documentation site. It rende
 
 The sidebar is driven by the `docsConfig` object:
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 export const docsConfig: DocsConfig = {
     sidebarNav: [
@@ -53,17 +54,20 @@ export const docsConfig: DocsConfig = {
     ]
 }
 ```
+</div>
 
 ## Props
 
 ### Sidebar Component
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface SidebarProps {
   isOpen: boolean;                      // Controls the visibility of the sidebar
   setIsOpen: (open: boolean) => void;   // Callback for toggling the sidebar
 }
 ```
+</div>
 
 ## Features
 

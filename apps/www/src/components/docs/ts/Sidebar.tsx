@@ -78,11 +78,6 @@ export const docsConfig: DocsConfig = {
                     items: [],
                 },
                 {
-                    title: "Cards",
-                    href: "/docs/components/cards",
-                    items: [],
-                },
-                {
                     title: "Chatbot",
                     href: "/docs/components/chatbot",
                     items: [],

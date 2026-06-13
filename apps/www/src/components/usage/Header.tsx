@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../docs/Header';
+import Header from '../docs/ts/Header';
 import { Button } from '@workspace/ui/components/ui/button';
 import { Plus } from 'lucide-react';
 

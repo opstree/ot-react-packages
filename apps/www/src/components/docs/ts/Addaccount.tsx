@@ -373,7 +373,7 @@ function Step3({ form }: { form: typeof initialForm }) {
       ? "flex items-center gap-2 bg-transparent border border-blue-500 rounded-[7px] text-blue-500 text-[0.8rem] py-2 px-4 cursor-pointer transition-colors duration-150 self-start"
       : testState === "success"
         ? "flex items-center gap-2 bg-transparent border border-emerald-500 rounded-[7px] text-emerald-500 text-[0.8rem] py-2 px-4 cursor-pointer transition-colors duration-150 self-start"
-        : "flex items-center gap-2 bg-transparent border  border-neutral-300 rounded-[7px] text-[#6b7591] text-[0.8rem] py-2 px-4 cursor-pointer transition-colors duration-150 self-start hover:lue-500 hover:text-blue-500";
+        : "flex items-center gap-2 bg-transparent border  border-neutral-300 rounded-[7px] text-[#6b7591] text-[0.8rem] py-2 px-4 cursor-pointer transition-colors duration-150 self-start hover:border-blue-500 hover:text-blue-500";
 
   return (
     <div className="animate-[fadeIn_0.2s_ease] flex flex-col gap-4">

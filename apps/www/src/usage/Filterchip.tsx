@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FilterChip } from '../components/docs/Filterchip';
+import { FilterChip } from '../components/docs/ts/Filterchip';
 
 interface Filters {
     status: string[];

@@ -23,7 +23,7 @@ The Table component is a powerful data display component that provides features 
   component={<DempTable />}
   source={
     <ComponentSource
-      src="src/components/docs/Table.tsx"
+      src="src/components/docs/ts/Table.tsx"
       title="table.tsx"
       language="tsx"
     />
@@ -39,6 +39,7 @@ The Table component is a powerful data display component that provides features 
 
 The Table component accepts the following props:
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface TableDetails {
   columns?: ColumnConfig[];
@@ -58,11 +59,13 @@ interface TableDetails {
   rowKey?: (row: any, index: number) => string | number;
 }
 ```
+</div>
 
 ### Column Configuration
 
 Each column in the `columns` array should have:
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 {
   key: string;              // Unique identifier for the column
@@ -74,11 +77,13 @@ Each column in the `columns` array should have:
   render?: (value: any, row: any) => React.ReactNode; // Custom render function
 }
 ```
+</div>
 
 ### Action Configuration
 
 Each action in the `actions` array should have:
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 {
   icon: React.ComponentType;           // Icon component to display
@@ -90,11 +95,13 @@ Each action in the `actions` array should have:
   onClick?: (row: any) => void;        // Click handler
 }
 ```
+</div>
 
 ## Examples
 
 ### Basic Table
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { Table } from '@workspace/ui';
 
@@ -119,9 +126,11 @@ export default function BasicTable() {
   );
 }
 ```
+</div>
 
 ### Table with Sorting
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { useState } from 'react';
 import { Table } from '@workspace/ui';
@@ -151,9 +160,11 @@ export default function SortableTable() {
   );
 }
 ```
+</div>
 
 ### Table with Custom Rendering
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { Table } from '@workspace/ui';
 
@@ -181,9 +192,11 @@ export default function CustomTable() {
   return <Table columns={columns} data={data} />;
 }
 ```
+</div>
 
 ### Table with Actions
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { Edit, Trash2 } from 'lucide-react';
 import { Table } from '@workspace/ui';
@@ -217,9 +230,11 @@ export default function TableWithActions() {
   );
 }
 ```
+</div>
 
 ### Table with Loading State
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { Table } from '@workspace/ui';
 import { useState } from 'react';
@@ -246,9 +261,11 @@ export default function LoadingTable() {
   );
 }
 ```
+</div>
 
 ### Table with Expandable Rows
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import { Table } from '@workspace/ui';
 
@@ -278,6 +295,7 @@ export default function ExpandableTable() {
   );
 }
 ```
+</div>
 
 ## Features
 
@@ -311,6 +329,7 @@ export default function ExpandableTable() {
 
 7. **Provider Badges**: The table automatically formats provider columns (AWS, Azure) with appropriate badge styling. Use `provider` as the column key to enable this feature.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 // Good: Using unique rowKey for expandable rows
 <Table
@@ -335,6 +354,7 @@ export default function ExpandableTable() {
 // Good: Providing helpful empty state
 <Table emptyState="No records found. Try adjusting your filters." data={data} />
 ```
+</div>
 
 ## Accessibility
 
@@ -351,6 +371,7 @@ The Table component follows WAI-ARIA guidelines:
 
 You can customize the table appearance using the `className` prop to override default styles:
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <Table
   columns={columns}
@@ -358,6 +379,7 @@ You can customize the table appearance using the `className` prop to override de
   className="rounded-lg border-2 border-primary shadow-lg"
 />
 ```
+</div>
 
 The table supports custom styling for:
 - **Table container**: Use `className` prop for wrapper styles
