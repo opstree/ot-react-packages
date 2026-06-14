@@ -20,6 +20,30 @@ import { ComponentSource } from "./src/components/docspagescomponent/ComponentSo
 import { Callout } from "./src/components/docspagescomponent/Callout"
 import { DocsCopyPage } from "./src/components/docspagescomponent/Doc-copy-page"
 import { DocsTableOfContents } from "./src/components/docspagescomponent/Doc-toc"
+import { CopyButton } from "./src/components/docspagescomponent/Copy-button"
+
+const getCodeText = (node: any): string => {
+  if (!node) return ""
+  if (typeof node === "string") return node
+  if (typeof node === "number") return node.toString()
+  if (Array.isArray(node)) {
+    return node.map(getCodeText).join("")
+  }
+  if (React.isValidElement(node)) {
+    const props = node.props as any
+    if (props && props.children) {
+      let text = getCodeText(props.children)
+      if (
+        (props.className?.includes("line") || props["data-line"] !== undefined) &&
+        !text.endsWith("\n")
+      ) {
+        text += "\n"
+      }
+      return text
+    }
+  }
+  return ""
+}
 
 export const mdxComponents = {
   h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
@@ -157,16 +181,24 @@ export const mdxComponents = {
     />
   ),
   pre: ({ className, children, ...props }: React.ComponentProps<"pre">) => {
+    const text = getCodeText(children)
     return (
-      <pre
-        className={cn(
-          "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0",
-          className
+      <div className="relative group/pre-code">
+        <pre
+          className={cn(
+            "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </pre>
+        {text && (
+          <div className="absolute right-4 top-2 z-20">
+            <CopyButton value={text} className="bg-neutral-900 cursor-pointer border border-border" />
+          </div>
         )}
-        {...props}
-      >
-        {children}
-      </pre>
+      </div>
     )
   },
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
