@@ -39,10 +39,37 @@ export function ComponentSource({
         }
 
         const res = await fetch(`/api/source?src=${encodeURIComponent(currentSrc)}&lang=${currentLang}`)
+        const contentType = res.headers.get("content-type")
+        
         if (!res.ok) {
-          const err = await res.json()
-          throw new Error(err.error || "Failed to fetch source")
+          let errMsg = "Failed to fetch source"
+          if (contentType && contentType.includes("application/json")) {
+            try {
+              const err = await res.json()
+              errMsg = err.error || errMsg
+            } catch {
+              // Ignore and use default error msg
+            }
+          } else {
+            try {
+              const text = await res.text()
+              errMsg = `${res.status} ${res.statusText}${text ? `: ${text.slice(0, 100)}` : ""}`
+            } catch {
+              errMsg = `${res.status} ${res.statusText}`
+            }
+          }
+          throw new Error(errMsg)
         }
+
+        if (!contentType || !contentType.includes("application/json")) {
+          try {
+            const text = await res.text()
+            throw new Error(`Expected JSON response, but received content type "${contentType}" with body: ${text.slice(0, 100)}`)
+          } catch {
+            throw new Error(`Expected JSON response but received content type "${contentType}"`)
+          }
+        }
+
         const json = await res.json()
         setData(json)
       } catch (err: any) {

@@ -24,7 +24,8 @@
 
 :root {
   --fd-layout-width: 0px;
-  --fd-sidebar-width: 200px;
+  --lg-sidebar-width:300px;
+  --fd-sidebar-width: 260px;
   --fd-sidebar-col: 268px;
   --fd-toc-width: 268px;
   --fd-docs-height: 100dvh;
