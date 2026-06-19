@@ -2,22 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
-interface FilterChipProps {
-    filterOptions: {
-        group: string;
-        key: string;
-        options: { label: string; value: string }[];
-    }[];
-    filters: Record<string, string[]>;
-    removeValue: (groupKey: string, value: string) => void;
-}
-
-export const FilterChip = ({ filterOptions, filters, removeValue }: FilterChipProps) => {
+export const FilterChip = ({ filterOptions, filters, removeValue }) => {
     return (
         <div className="flex gap-2 overflow-x-auto overflow-hidden">
             {filterOptions.map(group =>
                 filters[group.key].map((val) => {
-                    const opt = group.options.find((o: any) => o.value === val);
+                    const opt = group.options.find((o) => o.value === val);
                     return (
                         <motion.div
                             key={`${String(group.key)}-${val}`}

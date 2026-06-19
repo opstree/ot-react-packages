@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toggle } from '../components/docs/Toggle';
+import { Toggle } from '../components/docs/ts/Toggle';
 
 const ToggleUsage = () => {
     return (

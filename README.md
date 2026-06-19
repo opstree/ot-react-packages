@@ -73,7 +73,7 @@ ot-react-packages/
 | `apps/www` | The documentation website **and** the source of truth for the component registry. Components listed here are what the CLI distributes. |
 | `apps/www/public/registry/` | **Generated output.** The CLI fetches component manifests and source files from this directory (served via GitHub raw URLs or a deployed site). |
 | `apps/www/src/registry/` | **Registry metadata.** Defines which components exist, their dependencies, and where their source files live. This drives the build scripts. |
-| `apps/www/src/components/docs/` | Documentation-specific component implementations (Cards, Table, Sidebar, etc.) that are registered and distributed via the CLI. |
+| `apps/www/src/components/docs/ts/` | Documentation-specific component implementations (Cards, Table, Sidebar, etc.) that are registered and distributed via the CLI. |
 | `packages/ui/` | Core UI primitives (button, accordion, badge, etc.) — shared across the monorepo and also registered for CLI distribution. |
 | `packages/cli/` | The published npm package `@opstreepackage/opscli`. Users install this to add components to their projects. |
 
@@ -210,13 +210,13 @@ Place your `.tsx` file in one of these directories:
 
 | Location | When to Use |
 |---|---|
-| `apps/www/src/components/docs/` | Custom/documentation components (recommended for new components) |
+| `apps/www/src/components/docs/ts/` | Custom/documentation components (recommended for new components) |
 
 ### Step 2: Register It
 
 Open the corresponding registry file in `apps/www/src/registry/`:
 
-- **`components.ts`** — for components in `apps/www/src/components/docs/`
+- **`components.ts`** — for components in `apps/www/src/components/docs/ts/`
 
 Add an entry like this:
 
@@ -230,7 +230,7 @@ Add an entry like this:
   registryDependencies: [],      // other registry components it depends on
   files: [
     {
-      path: "src/components/docs/MyComponent.tsx",  // relative to apps/www
+      path: "src/components/docs/ts/MyComponent.tsx",  // relative to apps/www
       type: "registry:ui",
     },
   ],
@@ -243,10 +243,10 @@ Add an entry like this:
 The registry has two scripts that work together as a pipeline:
 
 #### `npm run registry:sync` — Auto-discover components
-Scans `apps/www/src/components/docs/` for `.tsx` files, extracts metadata (name, description, category from JSDoc comments), and **overwrites** `apps/www/src/registry/components.ts` with the discovered entries. This means you don't have to manually write the registry entry if you just drop a `.tsx` file in the `docs/` folder.
+Scans `apps/www/src/components/docs/ts/` for `.tsx` files, extracts metadata (name, description, category from JSDoc comments), and **overwrites** `apps/www/src/registry/components.ts` with the discovered entries. This means you don't have to manually write the registry entry if you just drop a `.tsx` file in the `docs/` folder.
 
 #### `npm run registry:build` — Generate JSON manifests
-Reads all entries from `apps/www/src/registry/components.ts`, then reads the actual source code directly from `src/components/docs/`, transforms imports (e.g., `@workspace/ui/lib/utils` → `@/lib/utils`), and embeds the source code into JSON manifest files in `apps/www/public/registry/`:
+Reads all entries from `apps/www/src/registry/components.ts`, then reads the actual source code directly from `src/components/docs/ts/`, transforms imports (e.g., `@workspace/ui/lib/utils` → `@/lib/utils`), and embeds the source code into JSON manifest files in `apps/www/public/registry/`:
 
 | Generated File | Purpose |
 |---|---|
@@ -258,7 +258,7 @@ Reads all entries from `apps/www/src/registry/components.ts`, then reads the act
 
 ```
   ┌──────────────────────────┐
-  │  src/components/docs/    │   .tsx files (your components)
+  │  src/components/docs/ts/    │   .tsx files (your components)
   └────────────┬─────────────┘
                │
                ▼  npm run registry:sync

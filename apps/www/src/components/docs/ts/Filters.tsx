@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Header from './Header';
 import { Link, useSearchParams } from 'react-router-dom';
 import Upgradefilter from './MultipleFilter';
 import PaginationControls from './Pagination';

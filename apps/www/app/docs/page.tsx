@@ -58,7 +58,7 @@ export default function Page() {
     return (
         <article
             data-slot="docs"
-            className={cn("flex flex-col flex-wrap  mx-auto pt-10 md:pt-6 xl:pt-0 xl:layout:[--fd-toc-width:268px] lg:overflow-y-auto lg:h-screen relative overflow-hidden")}
+            className={cn("flex flex-col flex-wrap  mx-auto pt-10 md:pt-6 xl:pt-0 xl:w-full lg:overflow-y-auto lg:h-screen relative overflow-hidden")}
         >
             <div className="flex min-w-0 flex-1 flex-col">
                 <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-1 gap-8 px-0 py-0 lg:px-4 lg:py-6 text-neutral-800 lg:py-8 lg:px-0 dark:text-neutral-300">
@@ -91,7 +91,7 @@ export default function Page() {
                                 </div>
                             ) : null}
                         </div>
-                        <div data-slot="docs-content" className="w-full flex-1 mt-8 *:data-[slot=alert]:first:mt-0] max-w-2xl">
+                        <div data-slot="docs-content" className="w-full flex-1 mt-8 *:data-[slot=alert]:first:mt-0] max-w-full">
                             {MDX ? (
                                 <Suspense fallback={<div className="text-neutral-400">Loading...</div>}>
                                     <MDX components={mdxComponents} />
@@ -111,7 +111,7 @@ export default function Page() {
                                                 : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
                                             }
                                         </div>
-                                        <div className="flex items-start justify-end w-1/2">
+                                        <div className="flex items-start justify-end w-1/2 ">
                                             {neighbours.next ?
                                                 <Link to={neighbours.next.url}>
                                                     <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2  button-3 dark:bg-white flex items-end gap-2 cursor-pointer flex-col'>

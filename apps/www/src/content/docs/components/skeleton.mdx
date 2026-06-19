@@ -23,7 +23,7 @@ The Skeleton component is a versatile loading placeholder that displays animated
   component={<SkeletonUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/Skeleton.tsx"
+      src="src/components/docs/ts/Skeleton.tsx"
       title="skeleton.tsx"
       language="tsx"
     />
@@ -36,6 +36,7 @@ The Skeleton component is a versatile loading placeholder that displays animated
 
 ### SkeletonDetails Interface
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface SkeletonDetails {
   variant?: "text" | "rectangular" | "circular";
@@ -44,6 +45,7 @@ interface SkeletonDetails {
   className?: string;
 }
 ```
+</div>
 
 ### Props Details
 
@@ -60,6 +62,7 @@ interface SkeletonDetails {
 
 Used for loading text content like titles, descriptions, and paragraphs.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div className="space-y-2">
   <Skeleton variant="text" width="60%" height={24} /> {/* Title */}
@@ -67,11 +70,13 @@ Used for loading text content like titles, descriptions, and paragraphs.
   <Skeleton variant="text" width="90%" height={16} /> {/* Paragraph */}
 </div>
 ```
+</div>
 
 ### Rectangular Skeleton
 
 Ideal for loading card components, images, and block-level content.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div className="space-y-3">
   <Skeleton
@@ -84,11 +89,13 @@ Ideal for loading card components, images, and block-level content.
   <Skeleton variant="text" width="100%" height={16} />
 </div>
 ```
+</div>
 
 ### Circular Skeleton
 
 Perfect for loading user avatars and profile images.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div className="flex items-center space-x-4">
   <Skeleton variant="circular" width={48} />
@@ -98,9 +105,11 @@ Perfect for loading user avatars and profile images.
   </div>
 </div>
 ```
+</div>
 
 ### Loading Card Component
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import Skeleton from "@/components/docs/Skeleton";
 import { useState, useEffect } from "react";
@@ -151,9 +160,11 @@ export default function CardLoader() {
   );
 }
 ```
+</div>
 
 ### Loading User List
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import Skeleton from "@/components/docs/Skeleton";
 import { useState, useEffect } from "react";
@@ -205,9 +216,11 @@ export default function UserListLoader() {
   );
 }
 ```
+</div>
 
 ### Complex Loading Layout
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import Skeleton from "@/components/docs/Skeleton";
 
@@ -257,9 +270,11 @@ export default function ComplexLoader() {
   );
 }
 ```
+</div>
 
 ### Grid of Skeletons
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 import Skeleton from "@/components/docs/Skeleton";
 
@@ -290,11 +305,13 @@ export default function GridLoader() {
   );
 }
 ```
+</div>
 
 ## Styling
 
 ### With Tailwind Classes
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <Skeleton
   variant="rectangular"
@@ -303,9 +320,11 @@ export default function GridLoader() {
   className="rounded-lg shadow-md"
 />
 ```
+</div>
 
 ### Custom Styling
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <Skeleton
   variant="text"
@@ -314,6 +333,7 @@ export default function GridLoader() {
   className="!bg-blue-200 rounded-full"
 />
 ```
+</div>
 
 ## Features
 
@@ -332,25 +352,33 @@ export default function GridLoader() {
 
 1. **Match Content Dimensions**: Use skeleton dimensions that match the actual content size for smooth transitions.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 // Good: Skeleton matches final content size
 <Skeleton variant="text" width="80%" height={24} /> {/* Matches h2 size */}
-
+```
+</div>
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
+```jsx
 // Avoid: Mismatched dimensions
 <Skeleton variant="text" width="50%" height={24} /> {/* Too small */}
 ```
+</div>
 
 2. **Use Loading State Duration**: Keep loading states visible for at least 300-500ms for better UX.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 useEffect(() => {
   const timer = setTimeout(() => setIsLoading(false), Math.max(500, loadTime));
   return () => clearTimeout(timer);
 }, [loadTime]);
 ```
+</div>
 
 3. **Combine Multiple Skeletons**: Use multiple skeletons to represent complex layouts.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div className="space-y-3">
   <Skeleton variant="text" width="60%" height={28} /> {/* Title */}
@@ -359,9 +387,11 @@ useEffect(() => {
   <Skeleton variant="rectangular" width="100%" height={200} /> {/* Image */}
 </div>
 ```
+</div>
 
 4. **Responsive Layouts**: Adapt skeletons to different screen sizes.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   {Array.from({ length: 6 }).map((_, idx) => (
@@ -369,9 +399,11 @@ useEffect(() => {
   ))}
 </div>
 ```
+</div>
 
 5. **Accessibility**: Provide loading text for screen readers.
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 <div aria-busy={isLoading} aria-live="polite">
   {isLoading ? (
@@ -384,6 +416,7 @@ useEffect(() => {
   )}
 </div>
 ```
+</div>
 
 ## Performance Tips
 

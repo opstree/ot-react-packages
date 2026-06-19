@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Upgradecluster } from '../docs/Filters';
+import { Upgradecluster } from '../docs/ts/Filters';
 import { MemoryRouter } from 'react-router-dom';
 
 const FiltersUsage = () => {

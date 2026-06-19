@@ -30,6 +30,7 @@ export default function DocsLayout() {
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+
   return (
     <div className={cn("min-h-[100dvh] sidebar dark:bg-[var(--bg)] bg-neutral-100", "overflow-x-clip")}>
       {!sidebarOpen && (
@@ -68,7 +69,9 @@ export default function DocsLayout() {
           <DocsTableOfContentsMobile toc={toc} />
         </div>}
       </div>
-      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      <div className="sticky top-(--fd-docs-row-1) z-20 [grid-area:sidebar] pointer-events-none *:pointer-events-auto h-[calc(var(--fd-docs-height)-var(--fd-docs-row-1))] md:layout:[--fd-sidebar-width:268px] max-md:hidden">
+        <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      </div>
       <Page />
       <div className="hidden xl:block px-4 [grid-area:toc] h-screen w-[var(--fd-toc-width)]">
         <DocsTableOfContents toc={toc} />

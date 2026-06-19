@@ -9,7 +9,7 @@
   ],
   "files": [
     {
-      "path": "src/components/docs/Badge.tsx",
+      "path": "src/components/docs/ts/Badge.tsx",
       "type": "registry:ui"
     }
   ],

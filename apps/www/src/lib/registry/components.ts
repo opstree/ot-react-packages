@@ -13,7 +13,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Addaccount.tsx",
+        "path": "src/components/docs/ts/ts/Addaccount.tsx",
         "type": "registry:ui"
       }
     ],
@@ -32,7 +32,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Badge.tsx",
+        "path": "src/components/docs/ts/Badge.tsx",
         "type": "registry:ui"
       }
     ],
@@ -51,26 +51,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Button.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "categories": [
-      "ui"
-    ]
-  },
-  {
-    "name": "cards",
-    "type": "registry:ui",
-    "title": "Cards",
-    "description": "A Cards component.",
-    "dependencies": [
-      "clsx",
-      "tailwind-merge"
-    ],
-    "files": [
-      {
-        "path": "src/components/docs/Cards.tsx",
+        "path": "src/components/docs/ts/Button.tsx",
         "type": "registry:ui"
       }
     ],
@@ -89,7 +70,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Chatbot.tsx",
+        "path": "src/components/docs/ts/Chatbot.tsx",
         "type": "registry:ui"
       }
     ],
@@ -108,7 +89,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Filterchip.tsx",
+        "path": "src/components/docs/ts/Filterchip.tsx",
         "type": "registry:ui"
       }
     ],
@@ -127,7 +108,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Filters.tsx",
+        "path": "src/components/docs/ts/Filters.tsx",
         "type": "registry:ui"
       }
     ],
@@ -146,7 +127,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Header.tsx",
+        "path": "src/components/docs/ts/Header.tsx",
         "type": "registry:ui"
       }
     ],
@@ -165,7 +146,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/MultipleFilter.tsx",
+        "path": "src/components/docs/ts/MultipleFilter.tsx",
         "type": "registry:ui"
       }
     ],
@@ -184,7 +165,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Pagination.tsx",
+        "path": "src/components/docs/ts/Pagination.tsx",
         "type": "registry:ui"
       }
     ],
@@ -203,7 +184,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Sidebar.tsx",
+        "path": "src/components/docs/ts/Sidebar.tsx",
         "type": "registry:ui"
       }
     ],
@@ -222,7 +203,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Skeleton.tsx",
+        "path": "src/components/docs/ts/Skeleton.tsx",
         "type": "registry:ui"
       }
     ],
@@ -241,7 +222,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/SpiderView.tsx",
+        "path": "src/components/docs/ts/SpiderView.tsx",
         "type": "registry:ui"
       }
     ],
@@ -260,7 +241,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Table.tsx",
+        "path": "src/components/docs/ts/Table.tsx",
         "type": "registry:ui"
       }
     ],
@@ -279,7 +260,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Timeline.tsx",
+        "path": "src/components/docs/ts/Timeline.tsx",
         "type": "registry:ui"
       }
     ],
@@ -298,7 +279,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/Toggle.tsx",
+        "path": "src/components/docs/ts/Toggle.tsx",
         "type": "registry:ui"
       }
     ],

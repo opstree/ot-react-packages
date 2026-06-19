@@ -1,5 +1,5 @@
 import React from 'react';
-import Chatbot from '../components/docs/Chatbot';
+import Chatbot from '../components/docs/ts/Chatbot';
 
 const ChatbotUsage = () => {
     return (

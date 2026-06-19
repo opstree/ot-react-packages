@@ -23,7 +23,7 @@ The FilterChip component provides a compact, visual representation of active fil
   component={<FilterChipUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/Filterchip.tsx"
+      src="src/components/docs/ts/Filterchip.tsx"
       title="Filterchip.tsx"
       language="tsx"
     />
@@ -36,6 +36,7 @@ The FilterChip component provides a compact, visual representation of active fil
 
 ### Filterchip Interface
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface Filterchip {
   filterOptions: {
@@ -47,6 +48,7 @@ interface Filterchip {
   removeValue: (groupKey: string, value: string) => void; // Handler for removing a filter
 }
 ```
+</div>
 
 ## Features
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Upgradecluster } from '../components/docs/Filters';
+import { Upgradecluster } from '../components/docs/ts/Filters';
 
 const FiltersUsage = () => {
     return (

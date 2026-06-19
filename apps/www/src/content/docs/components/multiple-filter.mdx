@@ -23,7 +23,7 @@ The MultipleFilter (internal name `Upgradefilter`) is a specialized dropdown com
   component={<MultipleFilterUsage />}
   source={
     <ComponentSource
-      src="src/components/docs/MultipleFilter.tsx"
+      src="src/components/docs/ts/MultipleFilter.tsx"
       title="MultipleFilter.tsx"
       language="tsx"
     />
@@ -36,6 +36,7 @@ The MultipleFilter (internal name `Upgradefilter`) is a specialized dropdown com
 
 ### UpgradefilterDetails Interface
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```typescript
 interface UpgradefilterDetails {
   filterOptions: {
@@ -51,6 +52,7 @@ interface UpgradefilterDetails {
   defaultLabel?: string;
 }
 ```
+</div>
 
 ## Features
 
@@ -68,6 +70,7 @@ interface UpgradefilterDetails {
 
 ### Complex Data Filtering
 
+<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
 ```jsx
 const options = [
   {
@@ -86,6 +89,7 @@ const options = [
   onFilterChange={setFilters} 
 />
 ```
+</div>
 
 ## Best Practices
 

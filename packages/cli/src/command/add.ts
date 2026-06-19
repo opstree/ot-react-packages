@@ -78,6 +78,11 @@ async function fetchManifest(name: string): Promise<ComponentManifest> {
   if (!res.ok) {
     throw new Error(`Component "${name}" not found in registry (HTTP ${res.status}).`)
   }
+  const contentType = res.headers.get("content-type")
+  if (!contentType || !contentType.includes("application/json")) {
+    const text = await res.text()
+    throw new Error(`Expected JSON response for component manifest "${name}", but got content-type "${contentType}" with body: ${text.slice(0, 100)}`)
+  }
   return res.json()
 }
 

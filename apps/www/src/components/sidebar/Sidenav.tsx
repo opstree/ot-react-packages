@@ -25,7 +25,9 @@ interface DocsSidebarNavProps {
 export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavProps) {
   const { pathname } = useLocation();
   return items.length ? (
-    <div className={cn("w-full h-full min-h-screen text-[#1e1e1e]", "pt-0 py-4 px-1", className)}>
+    <aside className={cn("*:w-[var(--fd-sidebar-width)] duration-250 h-full min-h-screen text-[#1e1e1e] bg-red-300",
+      "pt-0 py-4 px-1",
+      className)}>
       <div className="w-full h-full px-4">
         <header className="w-full flex items-center justify-between mb-4">
           <div className="w-full h-full flex items-center gap-2">
@@ -34,7 +36,7 @@ export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavPr
                 '--nc-gradient-1-color-1': '#b95959ff',
                 '--nc-gradient-2-color-2': "pink",
               } as React.CSSProperties}
-              className="mb-1"
+                className="mb-1"
               />
               <span className="font-semibold text-lg uppercase tracking-tight dark:text-white text-black">Opsdocs</span>
             </Link>
@@ -56,7 +58,7 @@ export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavPr
           ))}
         </div>
       </div>
-    </div>
+    </aside>
   ) : null
 }
 
@@ -99,8 +101,8 @@ function NavItem({ item, pathname, className }: NavItemProps) {
         className={cn(
           "group flex w-full items-center rounded-md border border-transparent px-2 py-1.5 transition-all duration-200",
           item.disabled && "cursor-not-allowed opacity-60",
-          isActive 
-            ? "font-medium bg-white text-black shadow-sm ring-1 ring-black/5 dark:bg-zinc-800 dark:text-white" 
+          isActive
+            ? "font-medium bg-white text-black shadow-sm ring-1 ring-black/5 dark:bg-zinc-800 dark:text-white"
             : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/50",
           className
         )}

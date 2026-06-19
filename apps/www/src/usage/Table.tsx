@@ -1,7 +1,7 @@
 import React from "react"
 import { FolderKanban, UserRoundPen } from 'lucide-react';
 import { useEffect, useState } from 'react'
-import Table from '../components/docs/Table';
+import Table from '../components/docs/ts/Table';
 
 const DempTable = () => {
     const [accounts, setAccounts] = useState([]);
@@ -118,6 +118,31 @@ const DempTable = () => {
 
     const columns = [
         { key: "name", label: "Cluster Name" },
+        {
+            key: "provider",
+            label: "Provider",
+            render: (val: string) => {
+                const providerVal = String(val || "").toLowerCase();
+                if (providerVal.includes('eks') || providerVal.includes('aws')) {
+                    return (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 border border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900/50">
+                            AWS
+                        </span>
+                    );
+                } else if (providerVal.includes('azure')) {
+                    return (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/50">
+                            Azure
+                        </span>
+                    );
+                }
+                return val ? (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700">
+                        {val}
+                    </span>
+                ) : "—";
+            }
+        },
         { key: "provider_cluster_id", label: "Cluster ID" },
         { key: "current_version", label: "Current Version" },
         {

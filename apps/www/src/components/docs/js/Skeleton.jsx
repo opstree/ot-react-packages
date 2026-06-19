@@ -1,18 +1,11 @@
 import React from 'react'
 
-interface SkeletonProps {
-  variant?: "text" | "rectangular" | "circular",
-  width?: string | number,
-  height?: string | number,
-  className?: string
-}
-
 const Skeleton = ({
   variant = "text",
   width = '100%',
   height = '16px',
   className = ''
-}: SkeletonProps) => {
+}) => {
   const baseStyles = 'bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse'
 
   const variantStyles = {

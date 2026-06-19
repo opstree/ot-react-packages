@@ -15,7 +15,9 @@ export const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (op
                     exit={{ x: -100 }}
                     transition={{ duration: 0.01, ease: "easeInOut" }}
                     className={cn(
-                        "[grid-sidebar] h-screen absolute top-0  lg:sticky lg:top-0 lg:pt-4 z-30 hidden shrink-0 md:block dark:bg-[#121212] bg-neutral-200/50 border-r-1 w-[var(--fd-sidebar-width)]")}
+                        "[grid-sidebar] h-screen absolute top-0  lg:sticky lg:top-0 lg:pt-4 z-30 hidden shrink-0 md:block dark:bg-[#121212] bg-neutral-200/50 border-r-1 w-[var(--fd-sidebar-width)]",
+                        "lg:w-[var(--lg-sidebar-width)] lg:flex lg:justify-start "
+                    )}
                 >
                     <ScrollArea>
                         <DocsSidebarNav items={docsConfig.sidebarNav} setIsOpen={setIsOpen} />

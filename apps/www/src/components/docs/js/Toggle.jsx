@@ -1,7 +1,7 @@
 import React from "react"
 import { Moon, Sun } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useTheme } from "../theme-provider"
+import { useTheme } from "../../theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
 export const Toggle = () => {

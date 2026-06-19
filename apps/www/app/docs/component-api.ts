@@ -11,6 +11,7 @@ export function componentApi() {
                 const rootDir = process.cwd();
 
                 if (url.pathname === '/api/source' && req.method === 'GET') {
+                    res.setHeader('Content-Type', 'application/json');
                     const src = url.searchParams.get('src');
                     if (!src) {
                         res.statusCode = 400;
@@ -19,7 +20,14 @@ export function componentApi() {
                     }
 
                     try {
-                        const filePath = path.resolve(rootDir, src);
+                        let filePath = path.resolve(rootDir, src);
+                        if (!await fs.pathExists(filePath)) {
+                            const altPath = path.resolve(rootDir, 'apps/www', src);
+                            if (await fs.pathExists(altPath)) {
+                                filePath = altPath;
+                            }
+                        }
+
                         if (!await fs.pathExists(filePath)) {
                             res.statusCode = 404;
                             res.end(JSON.stringify({ error: `File not found: ${src}` }));
@@ -72,7 +80,7 @@ export function componentApi() {
                             const id = name.toLowerCase().replace(/\s+/g, '-');
 
                             // 1. Save TSX file
-                            const tsxPath = path.resolve(rootDir, `src/components/docs/${name}.tsx`);
+                            const tsxPath = path.resolve(rootDir, `src/components/docs/ts/${name}.tsx`);
                             await fs.writeFile(tsxPath, code);
 
                             // 2. Create MDX file

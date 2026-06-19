@@ -1,5 +1,5 @@
 import React from "react";
-import DataViewPanel from "../components/docs/DataViewPanel";
+import DataViewPanel from "../components/docs/ts/DataViewPanel";
 
 export default function DataViewPanelUsage() {
     return (

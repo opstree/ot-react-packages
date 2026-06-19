@@ -2,6 +2,7 @@ import * as React from "react"
 import { cn } from "@workspace/ui/lib/utils"
 import { CodeCollapsibleWrapper } from "./CodeCollapse"
 import { CopyButton } from "./Copy-button"
+import { LanguageContext } from "./ComponentPreview"
 
 export function ComponentSource({
   name,
@@ -20,19 +21,55 @@ export function ComponentSource({
   const [data, setData] = React.useState<{ code: string; highlightedCode: string } | null>(null)
   const [error, setError] = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState(false)
+  const { langType } = React.useContext(LanguageContext)
 
   React.useEffect(() => {
     if (!src) return
 
     setLoading(true)
+    setError(null)
     const fetchSource = async () => {
       try {
-        const lang = language ?? title?.split(".").pop() ?? "tsx"
-        const res = await fetch(`/api/source?src=${encodeURIComponent(src)}&lang=${lang}`)
-        if (!res.ok) {
-          const err = await res.json()
-          throw new Error(err.error || "Failed to fetch source")
+        let currentSrc = src
+        let currentLang = language ?? title?.split(".").pop() ?? "tsx"
+
+        if (langType === "js") {
+          currentSrc = src.replace("/ts/", "/js/").replace(".tsx", ".jsx")
+          currentLang = "jsx"
         }
+
+        const res = await fetch(`/api/source?src=${encodeURIComponent(currentSrc)}&lang=${currentLang}`)
+        const contentType = res.headers.get("content-type")
+        
+        if (!res.ok) {
+          let errMsg = "Failed to fetch source"
+          if (contentType && contentType.includes("application/json")) {
+            try {
+              const err = await res.json()
+              errMsg = err.error || errMsg
+            } catch {
+              // Ignore and use default error msg
+            }
+          } else {
+            try {
+              const text = await res.text()
+              errMsg = `${res.status} ${res.statusText}${text ? `: ${text.slice(0, 100)}` : ""}`
+            } catch {
+              errMsg = `${res.status} ${res.statusText}`
+            }
+          }
+          throw new Error(errMsg)
+        }
+
+        if (!contentType || !contentType.includes("application/json")) {
+          try {
+            const text = await res.text()
+            throw new Error(`Expected JSON response, but received content type "${contentType}" with body: ${text.slice(0, 100)}`)
+          } catch {
+            throw new Error(`Expected JSON response but received content type "${contentType}"`)
+          }
+        }
+
         const json = await res.json()
         setData(json)
       } catch (err: any) {
@@ -44,14 +81,14 @@ export function ComponentSource({
     }
 
     fetchSource()
-  }, [src, language, title])
+  }, [src, language, title, langType])
 
   if (!name && !src) {
     return null
   }
 
   if (loading) {
-    return <div className="text-sm text-neutral-500 p-4">Loading source...</div>
+    return <div className="text-sm text-neutral-500 p-4 flex w-full justify-center items-center h-100">Loading source...</div>
   }
 
   if (error) {

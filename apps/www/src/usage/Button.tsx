@@ -1,5 +1,5 @@
 import React from "react";
-import NoiseBackgroundDemo from "../components/docs/Button";
+import NoiseBackgroundDemo from "../components/docs/ts/Button";
 
 export default function ButtonUsage() {
     return (

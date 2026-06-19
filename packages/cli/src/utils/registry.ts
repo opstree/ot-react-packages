@@ -79,6 +79,12 @@ export async function fetchRegistryIndex(): Promise<RegistryIndex> {
         const url = constructUrl("registry.json")
         const response = await fetch(url)
         if (!response.ok) throw new Error(`Failed to fetch registry index: ${response.statusText}`)
+        
+        const contentType = response.headers.get("content-type")
+        if (!contentType || !contentType.includes("application/json")) {
+            const text = await response.text()
+            throw new Error(`Expected JSON response from registry, but got content-type "${contentType}" with body: ${text.slice(0, 100)}`)
+        }
         return await response.json() as RegistryIndex
     } catch (error) {
         throw new Error(`Failed to fetch registry index: ${error}`)
@@ -100,6 +106,12 @@ export async function fetchRegistryItem(name: string, style: string = "default")
         const url = constructUrl(`components/${name}.json`)
         const response = await fetch(url)
         if (!response.ok) throw new Error(`Failed to fetch component: ${name}`)
+        
+        const contentType = response.headers.get("content-type")
+        if (!contentType || !contentType.includes("application/json")) {
+            const text = await response.text()
+            throw new Error(`Expected JSON response for component "${name}", but got content-type "${contentType}" with body: ${text.slice(0, 100)}`)
+        }
         return await response.json() as RegistryItem
     } catch (error) {
         throw new Error(`Failed to fetch component ${name}: ${error}`)

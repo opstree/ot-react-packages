@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { buttonVariants, containerVariants, textVariants } from '../../lib/variants'
 import { cn } from "@/lib/utils";
-import NoiseBackgroundDemo from '../docs/Button';
+import NoiseBackgroundDemo from '../docs/ts/Button';
 import { LandingImg } from './LandingImg';
 
 const Home = () => {
