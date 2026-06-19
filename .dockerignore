@@ -1,0 +1,9 @@
+node_modules
+.npm
+dist
+.git
+.turbo
+apps/**/dist
+packages/**/dist
+.env*
+*.log
