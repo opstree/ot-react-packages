@@ -4,50 +4,53 @@ import { motion } from 'motion/react'
 import { buttonVariants, containerVariants, textVariants } from '../../lib/variants'
 import { cn } from "@/lib/utils";
 import NoiseBackgroundDemo from '../docs/ts/Button';
-import { LandingImg } from './LandingImg';
+// import { LandingImg } from './LandingImg';
+import { ReactSVG } from './components/React';
 
 const Home = () => {
     return (
-        <section className={cn(" relative rounded-2xl mx-auto w-full max-w-[1400px] flex flex-col items-center justify-center space-y-10")}>
-            <div className={cn("flex flex-col z-2 px-4 size-full md:p-2 max-md:items-center max-md:text-center gap-10 px-4 md:px-8 lg:px-12")}>
-                <motion.div
-                    className="space-y-4 w-full flex justify-center items-center flex-col"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    <motion.div
-                        className=' mt-20 lg:mt-10 w-fit backdrop-blur-2xl bg-white/10 border border-white/10 lg:w-fit px-2 md:px-4 py-1 rounded-2xl flex items-center justify-center gap-3 mb-5 shadow-[var(--shadow-sm)]'
-                        variants={textVariants}
-                    >
-                        <p className=' text-[8px] md:text-[10px]'>A modern UI library designed for speed, flexibility, and simplicity.</p>
-                    </motion.div>
-                    <motion.h1
-                        className="font-serif text-5xl md:text-6xl lg:text-6xl leading-[1.1] text-balance text-center"
-                        variants={textVariants}
-                    >
-                        Build beautiful
-                        <br />
-                        consistent UIs — fast.
-                    </motion.h1>
+        <div className="relative z-20 mx-auto w-full max-w-[84rem] px-4">
+            <div className="flex flex-col pt-11 md:items-strat md:pt-16">
+                <div className="flex items-center gap-0.5 whitespace-nowrap rounded-full ring-black/20 md:justify-start xl:h-8 xl:gap-3 xl:px-3 xl:ring-1 shadow-[2px_2px_1px_#121212] w-fit mb-4">
+                    <div className="flex items-center gap-1.5 xl:gap-2.5">
+                        <ReactSVG />
+                        <span className="text-ln-paragraph-sm text-ln-gray-600">Built for
+                            <span className="font-medium text-ln-gray-800 xl:font-normal ml-1">React</span>
+                        </span>
+                    </div>
+                    <div className="hidden h-4 w-px bg-[var(--sand-6)] xl:block"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" className="size-5 text-ln-gray-300 xl:hidden"><path fill="currentColor" d="M10.003 11.108a1.183 1.183 0 0 1-1.176-1.176c0-.644.532-1.176 1.176-1.176s1.176.532 1.176 1.176-.532 1.176-1.176 1.176"></path></svg>
+                    <div className="flex items-center gap-1.5 xl:gap-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" className="size-4 shrink-0"><path fill="#23B2E7" fill-rule="evenodd" d="M10 5Q6 5 5 8.334q1.5-1.668 3.5-1.25c.76.158 1.305.618 1.906 1.127C11.386 9.041 12.522 10 15 10q4 0 5-3.333-1.5 1.667-3.5 1.25c-.76-.159-1.305-.619-1.906-1.128C13.614 5.96 12.479 5 10 5m-5 5q-4 0-5 3.334 1.5-1.668 3.5-1.25c.76.158 1.305.618 1.906 1.127C6.386 14.041 7.521 15 10 15q4 0 5-3.333-1.5 1.667-3.5 1.25c-.76-.159-1.305-.619-1.906-1.128C8.614 10.96 7.478 10 5 10" clip-rule="evenodd"></path></svg>
+                        <span className="text-ln-paragraph-sm text-ln-gray-600">Styled with<span className="font-medium text-ln-gray-800 xl:font-normal ml-1">TailwindCSS</span>
+                        </span>
+                    </div>
+                </div>
+                <h1 className="relative mt-4 max-w-4xl text-left text-4xl font-bold tracking-tight text-balance text-neutral-900 sm:text-5xl md:text-6xl xl:text-6xl dark:text-neutral-50">
+                    Craft beautiful interfaces effortlessly.
+                </h1>
+                <div className=" mt-4 flex w-full flex-col items-start justify-between gap-4 md:mt-4 md:flex-row md:items-end md:gap-10 font-medium">
+                    <p className='relative mb-8 max-w-2xl text-left text-sm tracking-wide text-neutral-600 antialiased sm:text-base md:text-base dark:text-neutral-400'>
+                        Accelerate your development with 10+ pre-built, fully customizable components
+                    </p>
+                </div>
+                <div className="relative mb-4 flex w-full flex-col justify-center gap-y-2 sm:flex-row sm:justify-start sm:space-y-0 sm:space-x-4">
                     <motion.div variants={buttonVariants} className='ml-1 flex items-center gap-4'>
                         <Link to="/docs/introduction">
-                            <NoiseBackgroundDemo variant="default" className="inline-flex cursor-pointer items-center gap-2">
-                                Get Started
-                                <ArrowRight className="w-4 h-4" />
+                            <NoiseBackgroundDemo variant="default" className="inline-flex cursor-pointer items-center w-fit ">
+                                Brower Components
                             </NoiseBackgroundDemo>
                         </Link>
-                        <Link to="https://github.com/opstree/ot-react-packages" target="_blank" rel="noopener noreferrer">
+                        {/* <Link to="https://github.com/opstree/ot-react-packages" target="_blank" rel="noopener noreferrer">
                             <NoiseBackgroundDemo variant="emerald" className="inline-flex cursor-pointer items-center gap-2">
                                 Github
                                 <Github size={16} />
                             </NoiseBackgroundDemo>
-                        </Link>
+                        </Link> */}
                     </motion.div>
-                </motion.div>
-            </div >
-            <LandingImg />
-        </section >
+                </div>
+            </div>
+        </div>
     )
 }
 

@@ -25,7 +25,7 @@ interface DocsSidebarNavProps {
 export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavProps) {
   const { pathname } = useLocation();
   return items.length ? (
-    <aside className={cn("*:w-[var(--fd-sidebar-width)] duration-250 h-full min-h-screen text-[#1e1e1e] bg-red-300",
+    <aside className={cn("*:w-[var(--fd-sidebar-width)] duration-250 h-full min-h-screen text-[#1e1e1e]",
       "pt-0 py-4 px-1",
       className)}>
       <div className="w-full h-full px-4">

@@ -41,51 +41,51 @@ export const docsConfig: DocsConfig = {
                     href: "/docs/components/button",
                     items: [],
                 },
-                {
-                    title: "Addaccount",
-                    href: "/docs/components/addaccount",
-                    items: [],
-                },
-                {
-                    title: "Table",
-                    href: "/docs/components/table",
-                    items: [],
-                },
-                {
-                    title: "Skeleton",
-                    href: "/docs/components/skeleton",
-                    items: [],
-                },
-                {
-                    title: "FilterChip",
-                    href: "/docs/components/filterchip",
-                    items: [],
-                },
-                {
-                    title: "Filters",
-                    href: "/docs/components/filters",
-                    items: [],
-                },
-                {
-                    title: "Chatbot",
-                    href: "/docs/components/chatbot",
-                    items: [],
-                },
-                {
-                    title: "Header",
-                    href: "/docs/components/header",
-                    items: [],
-                },
-                {
-                    title: "Pagination",
-                    href: "/docs/components/pagination",
-                    items: [],
-                },
-                {
-                    title: "Sidebar",
-                    href: "/docs/components/sidebar",
-                    items: [],
-                },
+                // {
+                //     title: "Addaccount",
+                //     href: "/docs/components/addaccount",
+                //     items: [],
+                // },
+                // {
+                //     title: "Table",
+                //     href: "/docs/components/table",
+                //     items: [],
+                // },
+                // {
+                //     title: "Skeleton",
+                //     href: "/docs/components/skeleton",
+                //     items: [],
+                // },
+                // {
+                //     title: "FilterChip",
+                //     href: "/docs/components/filterchip",
+                //     items: [],
+                // },
+                // {
+                //     title: "Filters",
+                //     href: "/docs/components/filters",
+                //     items: [],
+                // },
+                // {
+                //     title: "Chatbot",
+                //     href: "/docs/components/chatbot",
+                //     items: [],
+                // },
+                // {
+                //     title: "Header",
+                //     href: "/docs/components/header",
+                //     items: [],
+                // },
+                // {
+                //     title: "Pagination",
+                //     href: "/docs/components/pagination",
+                //     items: [],
+                // },
+                // {
+                //     title: "Sidebar",
+                //     href: "/docs/components/sidebar",
+                //     items: [],
+                // },
                 // {
                 //     title: "DataViewPanel",
                 //     href: "/docs/components/dataviewpanel",

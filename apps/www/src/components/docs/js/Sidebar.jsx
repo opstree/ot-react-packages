@@ -154,7 +154,7 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
 export function DocsSidebarNav({ items, className, setIsOpen }) {
     const { pathname } = useLocation();
     return items.length ? (
-        <div className={cn("w-full h-full min-h-screen text-[#1e1e1e] relative", "pt-0 py-4 px-1", className)}>
+        <div className={cn("w-full h-full min-h-screen text-[#1e1e1e] relative overscroll-contain", "pt-0 py-4 px-1", className)}>
             <div className="w-full h-full px-4">
                 <header className="w-full flex items-center justify-between mb-4">
                     <div className="w-full h-full flex items-center gap-2">
@@ -211,7 +211,7 @@ function NavItem({ item, pathname, className }) {
     if (hasChildren) {
         return (
             <div>
-                <span className={`flex w-full cursor-default items-center rounded-md text-md text-neutral-200 font-medium `}>
+                <span className={`flex w-full cursor-default items-center rounded-md text-md text-neutral-200 font-medium overscroll-contain`}>
                     {item.title}
                 </span>
                 <div className={`ml-3 border-l border-border pl-3 text-xs ${isActive ? "text-white" : "light:text-[#1e1e1e]"}`}>

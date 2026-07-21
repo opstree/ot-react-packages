@@ -1,44 +1,34 @@
-import { motion, useScroll, useTransform } from "framer-motion"
-import { cn } from "@/lib/utils"
-import { useRef } from "react"
+import { motion } from "framer-motion";
 
 export const LandingImg = () => {
-    const scrollRef = useRef<HTMLDivElement | null>(null);
-    const { scrollYProgress } = useScroll({
-        target: scrollRef,
-        offset: ["start start", "end end"],
-    });
-    const rotateX = useTransform(scrollYProgress, [0, 1], [0, 30]);
-    const rotateY = useTransform(scrollYProgress, [0, 1], [0, 20]);
-    const rotateZ = useTransform(scrollYProgress, [0, 1], [0, -20]);
     return (
-        <div className="relative min-h-[400px] perspective-distant w-full">
-            <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="perspective-[4000px] items-start justify-center flex w-full">
+        <div className="relative min-h-[400px] w-full overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="flex justify-center perspective-[3000px]"
+            >
                 <motion.div
-                    ref={scrollRef}
-                    className="relative"
-                    style={{ rotateX, rotateY, rotateZ }}
+                    className="relative border border-[var(--sand-5)] bg-[var(--sand-4)] rounded-xl p-1 w-fit h-fit"
                 >
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
-                        className={cn(
-                            "absolute inset-0 -z-10",
-                            "rounded-xl blur-xl opacity-50",
-                            "bg-gradient-to-br from-indigo-200 via-purple-300/20 to-pink-300/20",
-                        )}
-                    />
-                    <img
-                        src="./Home.png"
+
+
+                    <motion.img
+                        src="/Home.png"
                         alt="Home"
-                        className={cn(
-                            "lg:max-w-[900px] max-w-[600px] w-full rounded-xl shadow-2xl object-cover z-2",
-                            "mask-b-from-80% mask-t-from-100%",
-                        )}
+                        loading="eager"
+                        draggable={false}
+                        className="
+              w-full
+              max-w-[900px]
+              rounded-xl
+              object-cover
+              transform-gpu
+            "
                     />
                 </motion.div>
             </motion.div>
         </div>
-    )
-}
+    );
+};

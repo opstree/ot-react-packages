@@ -16,7 +16,7 @@ export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [])
     return (
-        <ReactLenis root options={{ autoRaf: true, allowNestedScroll: true, syncTouch: false, smoothWheel: true, lerp: .5 }} ref={lenisRef}>
+        <ReactLenis root options={{ autoRaf: false, allowNestedScroll: true, syncTouch: false, smoothWheel: true, lerp: .5 }} ref={lenisRef}>
             {children}
         </ReactLenis>
     )

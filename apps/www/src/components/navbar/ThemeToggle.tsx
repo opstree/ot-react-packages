@@ -15,9 +15,7 @@ const ThemeToggle = () => {
         <button
             onClick={toggleTheme}
             className={cn(
-                "relative flex items-center justify-center rounded-md transition-all duration-300 py-1.5 px-4 ring-[.5px] ring-black/20",
-                "overflow-hidden flex justify-between cursor-pointer relative items-center p-2 dark:ring-[.5px] dark:ring-white/30 hover:ring-white/10 hover:scale-[.98] flex justify-center items-center dark:bg-[var(--bg)] bg-neutral-200 shadow-sm dark:shadow-[var(--shadow-s)] rounded-md outline-0 text-sm gap-2 items-center flex duration-600 ease-inOut ",
-                "outline-none focus-visible:ring-primary/50"
+                "whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ", "hover:bg-accent hover:text-accent-foreground h-10 py-2 flex cursor-pointer items-center justify-center px-3 outline-none focus:ring-0 focus:outline-none active:ring-0 active:outline-none undefined"
             )}
             aria-label="Toggle theme"
         >

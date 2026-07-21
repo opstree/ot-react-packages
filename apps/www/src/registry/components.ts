@@ -13,7 +13,7 @@ export const components: RegistryEntry[] = [
     ],
     "files": [
       {
-        "path": "src/components/docs/ts/ts/Addaccount.tsx",
+        "path": "src/components/docs/ts/Addaccount.tsx",
         "type": "registry:ui"
       }
     ],
