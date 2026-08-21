@@ -11,9 +11,10 @@ const ComponentLibraryDemo = () => {
         <>
             <Navbar />
             <main className="w-screen min-h-screen">
-                <div className="max-w-screen-xl mx-auto">
-                    <Home />
-                    <ComponentGrid />
+                <div className="relative overflow-hidden bg-white pt-4 pb-40 md:pt-10 dark:bg-black">
+                    <div className="mt-4 flex flex-col items-start px-2 md:px-8 xl:px-0">
+                        <Home />
+                    </div>
                 </div>
             </main>
         </>

@@ -1,7 +1,6 @@
 import React from "react"
-import Link from "next/link"
 import { cn } from "@workspace/ui/lib/utils"
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarNavItem } from "../types/nav";
 
 export interface DocsSidebarNavProps {
@@ -77,7 +76,7 @@ function NavItem({ item, pathname, className }: NavItemProps) {
   if (item.href && !item.disabled) {
     return (
       <Link
-        href={item.href}
+        to={item.href}
         className={cn(
           "group flex w-full items-center rounded-md border border-transparent px-2 py-1",
           item.disabled && "cursor-not-allowed opacity-60",

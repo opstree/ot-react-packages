@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sidebar } from '../docs/ts/Sidebar';
+import { Sidebar } from '@workspace/ui/components/mui-components/Sidebar';
 import { MemoryRouter } from 'react-router-dom';
 
 const SidebarUsage = () => {

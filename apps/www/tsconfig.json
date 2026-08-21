@@ -33,6 +33,9 @@
       "@/lib/*": [
         "./src/lib/*"
       ],
+      "@workspace/ui/*": [
+        "../../packages/ui/src/*"
+      ],
       "react": [
         "./node_modules/@types/react"
       ]
@@ -45,8 +48,27 @@
     ".next/types/**/*.ts",
     "scripts/build-registry.mts",
     "next.config.mjs",
-    ".next/dev/types/**/*.ts"
-, "src/lib/NoiseBackground.tsx", "src/components/docs/ts/js/Addaccount.jsx", "src/components/docs/ts/js/Button.jsx", "src/components/docs/ts/js/Chatbot.jsx", "src/components/docs/ts/js/Filterchip.jsx", "src/components/docs/ts/js/DataViewPanel.jsx", "src/components/docs/ts/js/Filters.jsx", "src/components/docs/ts/js/Header.jsx", "src/components/docs/ts/js/MultipleFilter.jsx", "src/components/docs/ts/js/notification.jsx", "src/components/docs/ts/js/Sidebar.jsx", "src/components/docs/ts/js/Pagination.jsx", "src/components/docs/ts/js/Skeleton.jsx", "src/components/docs/ts/js/SpiderView.jsx", "src/components/docs/ts/js/Table.jsx", "src/components/docs/ts/js/Toggle.jsx", "src/components/docs/ts/js/Timeline.jsx", "src/components/docs/js/Navbar.jsx"  ],
+    ".next/dev/types/**/*.ts",
+    "src/lib/NoiseBackground.tsx",
+    "src/components/docs/ts/js/Addaccount.jsx",
+    "src/components/docs/ts/js/Button.jsx",
+    "src/components/docs/ts/js/Chatbot.jsx",
+    "src/components/docs/ts/js/Filterchip.jsx",
+    "src/components/docs/ts/js/DataViewPanel.jsx",
+    "src/components/docs/ts/js/Filters.jsx",
+    "src/components/docs/ts/js/Header.jsx",
+    "src/components/docs/ts/js/MultipleFilter.jsx",
+    "src/components/docs/ts/js/notification.jsx",
+    "src/components/docs/ts/js/Sidebar.jsx",
+    "src/components/docs/ts/js/Pagination.jsx",
+    "src/components/docs/ts/js/Skeleton.jsx",
+    "src/components/docs/ts/js/SpiderView.jsx",
+    "src/components/docs/ts/js/Table.jsx",
+    "src/components/docs/ts/js/Toggle.jsx",
+    "src/components/docs/ts/js/Timeline.jsx",
+    "src/components/docs/js/Navbar.jsx",
+    "../../packages/ui/src/components/mui-components/Sidebar.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -41,16 +41,11 @@ export const docsConfig: DocsConfig = {
                     href: "/docs/components/button",
                     items: [],
                 },
-                // {
-                //     title: "Addaccount",
-                //     href: "/docs/components/addaccount",
-                //     items: [],
-                // },
-                // {
-                //     title: "Table",
-                //     href: "/docs/components/table",
-                //     items: [],
-                // },
+                {
+                    title: "Table",
+                    href: "/docs/components/Table",
+                    items: [],
+                },
                 // {
                 //     title: "Skeleton",
                 //     href: "/docs/components/skeleton",

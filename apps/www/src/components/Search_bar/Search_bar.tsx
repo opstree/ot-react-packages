@@ -15,18 +15,6 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
         }
     }, [])
 
-    const handlenavigate = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
-        if (e.key === 'Escape' && Open) {
-            Open(false)
-        }
-    }
-
-    const handleclick = () => {
-        if (Open) {
-            Open(false);
-        }
-    }
-
     const allItems = useMemo(() => {
         const items: Array<{ title: string; href: string; category: string }> = [];
 
@@ -89,31 +77,26 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
         Inputref.current?.focus();
     }
     return (
-        <div onClick={(e) => e.stopPropagation()}>
+        <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, animationDuration: 800 }} className='w-[90%] md:w-[80%] lg:w-[60%] mx-auto absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-[var(--sand-4)] p-1 rounded-xl overscroll-contain ring-1 ring-black/10'>
                 <div className='relative min-h-10 flex items-center '>
                     <input ref={Inputref} type="text" value={Search} onChange={(e) => setSearch(e.target.value)} placeholder='Search...' className='w-full py-2 px-2 rounded-lg  min-h-12  bg-neutral-50 dark:bg-[var(--bg)] shadow-[var(--shadow)] outline-none border-none text-black dark:text-[var(--foreground)]' />
                     <X onClick={handleResetSearch} className='hover:scale-[.9] hover:bg-[var(--sand-3)] flex cursor-pointer items-center justify-center px-1 rounded-md outline-none focus:ring-0 focus:outline-none active:ring-0 active:outline-none cursor-pointer absolute right-[1rem] top-[50%] -translate-y-[50%]' />
                 </div>
-                {/* <div className='w-full'>
-                    <p onClick={handleclick} onKeyDown={handlenavigate} tabIndex={0} className='rounded-full px-4 py-2 bg-neutral-50 dark:bg-[var(--bg)] flex items-center gap-2 w-max shadow-[var(--shadow)] cursor-pointer hover:shadow-[var(--shadow-l)] '>
-                        <CornerUpLeft className='w-3 h-3 dark:text-white text-black' />
-                        <span className='text-sm dark:text-[#ffffff68]'>Esc</span>
-                    </p>
-                </div> */}
             </motion.div>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, animationDuration: 800 }}
-                className="w-[90%] md:w-[80%] lg:w-[60%] overflow-y-auto scrollbar-hide overscroll-contain flex flex-col items-start justify-start text-[12px] mt-4 mb-5 absolute top-[65.5%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-[var(--sand-3)] px-4 py-2 rounded-xl ring-1 ring-black/10"
-                style={{ scrollbarWidth: "none" }}
+                className="w-[90%] md:w-[80%] lg:w-[60%] min-h-[40vh] max-h-[60vh] overflow-y-auto scrollbar-hide flex flex-col items-start justify-start text-[12px] mt-4 mb-5 absolute top-[65.5%] xl:top-[73%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-[var(--sand-3)] px-4 py-2 rounded-xl ring-1 ring-black/10"
+                style={{ scrollbarWidth: "none", overscrollBehavior: "contain" }}
             >
                 {Search.trim() ? (
                     filteredItems.length > 0 ? (
                         <>
+                            <div className='py-1'></div>
                             {Object.entries(groupedResults).map(([category, items]) => (
-                                <div key={category} className='w-full mb-4'>
-                                    <h2 className='text-xs text-black mb-2 capitalize'>{category}</h2>
+                                <div key={category} className='w-full mb-2'>
+                                    <h2 className='text-xs text-black mb-2 capitalize border-b border-black/10 border-dashed w-full pb-1'>{category}</h2>
                                     {items.map((item) => (
                                         <Link
                                             key={item.href}
@@ -130,7 +113,7 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
                             ))}
                         </>
                     ) : (
-                        <div className='w-full flex items-center justify-center h-full'>
+                        <div className='w-full h-[30vh] flex justify-center items-center'>
                             <p className='text-[14px] dark:text-[#ffffff68] text-black'>No results found</p>
                         </div>
                     )

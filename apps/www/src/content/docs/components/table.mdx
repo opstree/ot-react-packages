@@ -1,30 +1,206 @@
 ---
 title: Table
-description: A flexible and feature-rich table component for displaying data with sorting, expandable rows, custom rendering, and built-in loading states.
+description: A flexible, feature-rich data table with sorting, filtering, pagination, expandable rows, custom rendering, sticky columns, and built-in loading/error/empty states.
+category: Data Display
+tags: [table, data-grid, sorting, pagination, filtering, expandable-rows, sticky-columns]
 ---
 
 import { Callout } from "@/components/docspagescomponent/Callout";
 import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
-import { ComponentSource } from "@/components/docspagescomponent/ComponentSource"
-import DempTable from "@/usage/Table";
-import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button"
-
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import { InstallationCli } from "@/components/docspagescomponent/cli-install-button";
+import TableBasic from "@/usage/TableBasic";
+import TableSorting from "@/usage/TableSorting";
+import TableFilters from "@/usage/TableFilters";
+import TablePagination from "@/usage/TablePagination";
+import TableCustomRendering from "@/usage/TableCustomRendering";
+import TableStickyColumns from "@/usage/TableStickyColumns";
+import TableExpandableRows from "@/usage/TableExpandableRows";
+import TableStates from "@/usage/TableStates";
 
 ## Overview
 
-The Table component is a powerful data display component that provides features like sorting, expandable rows, custom rendering, and customizable actions. It features a modern glassmorphism design and is designed to handle both simple and complex data presentation scenarios.
+The Table component is a powerful, production-ready data display component built for complex data presentation scenarios. It combines a modern glassmorphism aesthetic with enterprise-grade features including multi-column sorting, multi-select filtering, debounced search, internal/external pagination, expandable metric rows, sticky columns, and comprehensive state handling (loading, error, empty, row-level empty).
+
+### Key Capabilities
+
+- **Sorting**: Multi-column with visual indicators, controlled/uncontrolled modes
+- **Filtering**: Multi-select dropdown filters with "All" option and clear actions
+- **Search**: Debounced (300ms) search with 3-character minimum, clearable input
+- **Pagination**: Internal (client-side) or external (server-side) with page size, go-to-page
+- **Sticky Columns**: First column (service) and last column (actions) stay visible during horizontal scroll
+- **Expandable Rows**: Metric columns collapse into a single expandable message row when empty
+- **Custom Rendering**: Per-cell render functions with full row context
+- **States**: Skeleton loaders, error display, empty states, row-level empty messages
+- **Row Interactions**: Hover highlight, click handlers, keyboard navigation
+- **Accessibility**: ARIA labels, focus management, keyboard sortable headers, screen reader announcements
 
 ## Installation
+
 <InstallationCli value="opscli add table"/>
 
-## Usage
+## Quick Start
+
+```tsx
+import Table, { ColumnDef } from "@workspace/ui/components/mui-components/ts/Table";
+
+const columns: ColumnDef<User>[] = [
+  { key: "name", label: "Name", minWidth: 150, sortable: true, sortKey: "name" },
+  { key: "email", label: "Email", minWidth: 200 },
+  { key: "role", label: "Role", minWidth: 120 },
+  { key: "status", label: "Status", minWidth: 100, sortable: true, sortKey: "status" },
+];
+
+const data: User[] = [
+  { name: "Alice Johnson", email: "alice@example.com", role: "Admin", status: "Active" },
+  { name: "Bob Smith", email: "bob@example.com", role: "User", status: "Active" },
+  { name: "Carol White", email: "carol@example.com", role: "User", status: "Inactive" },
+];
+
+export default function UserTable() {
+  return (
+    <Table
+      title="Users"
+      subtitle="System accounts and permissions"
+      data={data}
+      columns={columns}
+      pageSize={10}
+    />
+  );
+}
+```
+
+## Features
+
+<Callout type="info">
+  <strong>Data Display</strong>
+  <ul>
+    <li>Multi-column sorting with visual sort indicators (asc/desc/none)</li>
+    <li>Custom cell renderers with full row context</li>
+    <li>Sticky first column (service) and last column (actions) during horizontal scroll</li>
+    <li>Configurable column alignment (left, center, right)</li>
+    <li>Column subtitles for additional context</li>
+    <li>Minimum column widths with auto-sizing</li>
+  </ul>
+
+  <strong>Interactivity</strong>
+  <ul>
+    <li>Row hover highlighting with smooth transitions</li>
+    <li>Expandable metric rows collapse into single message when empty</li>
+    <li>Clickable column headers for sorting</li>
+    <li>Keyboard navigation (Tab, Enter/Space, Arrow keys)</li>
+  </ul>
+
+  <strong>Filtering & Search</strong>
+  <ul>
+    <li>Multi-select filter dropdowns with "All" option and selection badges</li>
+    <li>Debounced search (300ms, 3-character minimum) with clear button</li>
+    <li>Configurable search keys (defaults to all column keys)</li>
+    <li>Optional "Unscanned Services" toggle filter</li>
+    <li>Filter state callbacks for server-side synchronization</li>
+  </ul>
+
+  <strong>Pagination</strong>
+  <ul>
+    <li>Internal pagination with configurable page size</li>
+    <li>External pagination mode for server-side data</li>
+    <li>Page navigation (Previous/Next, numbered pages, ellipsis)</li>
+    <li>Go-to-page input with validation</li>
+    <li>Automatic page reset on filter/search change</li>
+  </ul>
+
+  <strong>States</strong>
+  <ul>
+    <li>Skeleton loading rows with wave animation</li>
+    <li>Error state with icon and message</li>
+    <li>Empty state with illustration and custom message</li>
+    <li>Row-level empty state for metric rows without data</li>
+  </ul>
+</Callout>
+
+## API Reference
+
+### Table Props
+
+| Prop | Type | Default | Purpose |
+|------|------|---------|---------|
+| **Data & Columns** |
+| `data` | `T[]` | `[]` | Array of row objects to display |
+| `columns` | `ColumnDef<T>[]` | `[]` | Column definitions (key, label, render, sortable, etc.) |
+| **Pagination** |
+| `pageSize` | `number` | `10` | Number of rows per page (internal pagination) |
+| `externalPagination` | `boolean` | `false` | Enable server-side pagination mode |
+| `currentPage` | `number` | `1` | Current page (controlled, for external pagination) |
+| `totalPages` | `number` | `1` | Total pages (required for external pagination) |
+| `onPageChange` | `(page: number) => void` | - | Callback when page changes (external mode) |
+| **Sorting** |
+| `sortColumn` | `string \| null` | `null` | Currently sorted column key (controlled) |
+| `sortAsc` | `boolean` | `false` | Sort direction (true = ascending) |
+| `onSortChange` | `(key: string \| undefined) => void` | - | Callback when sort column changes |
+| **Filtering** |
+| `filters` | `FilterConfig[]` | `[]` | Filter dropdown configurations (key, label, options[]) |
+| `initialFilterValues` | `Record<string, string[]>` | `{}` | Initial filter state for SSR/hydration |
+| `onFilterChange` | `(value: string) => void` | - | Primary filter change callback (index 0) |
+| `onSecondaryFilterChange` | `(value: string) => void` | - | Secondary filter callback (index 1) |
+| `onTertiaryFilterChange` | `(value: string) => void` | - | Tertiary filter callback (index 2) |
+| `showUnscannedFilter` | `boolean` | `false` | Show "Unscanned Services" toggle button |
+| `onUnscannedFilterChange` | `(active: boolean) => void` | - | Callback for unscanned filter toggle |
+| **Search** |
+| `searchable` | `boolean` | `false` | Enable search input in header |
+| `searchKeys` | `string[]` | `columns.map(c => c.key)` | Column keys to search against |
+| `onSearch` | `(query: string) => void` | - | Debounced search callback (300ms, 3-char min) |
+| **States** |
+| `loading` | `boolean` | `false` | Show skeleton loaders instead of data |
+| `skeletonRows` | `number` | `10` | Number of skeleton rows to render |
+| `error` | `string \| null` | `null` | Error message to display in table body |
+| `emptyMessage` | `string` | `"No data available."` | Message when no rows match filters/search |
+| `noDataRowMessage` | `string` | `"No data is available for the selected date."` | Message for rows where `isRowEmpty` returns true |
+| `isRowEmpty` | `(row: T) => boolean` | Checks `row._raw?.has_data === false` | Determines if a row should show empty state |
+| **Header & Branding** |
+| `title` | `React.ReactNode` | - | Main table title |
+| `subtitle` | `React.ReactNode` | - | Subtitle below title |
+| `icon` | `string` | `"ri-settings-3-line"` | Remixicon class for header icon |
+| `tooltip` | `string` | - | Tooltip text on title (shows info icon) |
+| **Styling & Customization** |
+| `sx` | `Record<string, unknown>` | `{}` | Additional MUI Box sx props for container |
+
+## ColumnDef Props
+
+| Prop | Type | Required | Purpose |
+|------|------|----------|---------|
+| `key` | `string` | **Yes** | Unique key matching data object property |
+| `label` | `React.ReactNode` | **Yes** | Column header text/element |
+| `subtitle` | `string` | No | Secondary text below header |
+| `minWidth` | `string \| number` | No | Minimum column width (px or %) |
+| `align` | `"left" \| "center" \| "right"` | No | Cell text alignment (default: center) |
+| `sortable` | `boolean` | No | Enable click-to-sort on header |
+| `sortKey` | `string` | No* | Data key for sorting (defaults to `key`) |
+| `isMetricColumn` | `boolean` | No | Marks as collapsible metric column for empty rows |
+| `cellStyle` | `React.CSSProperties` | No | Inline styles applied to all cells in column |
+| `render` | `(value: unknown, row: T) => React.ReactNode` | No | Custom cell renderer function |
+
+> *Required when `sortable: true`
+
+### FilterConfig Props
+
+| Prop | Type | Required | Purpose |
+|------|------|----------|---------|
+| `key` | `string` | **Yes** | Matches data property key to filter on |
+| `label` | `string` | **Yes** | Filter dropdown button label |
+| `options` | `string[]` | **Yes** | Array of filter option values (excludes "all") |
+
+## Usage Examples
+
+### Basic Table
+
+Minimal table with title, subtitle, and default pagination.
 
 <ComponentPreviewTabs
-  component={<DempTable />}
+  component={<TableBasic />}
   source={
     <ComponentSource
-      src="src/components/docs/ts/Table.tsx"
-      title="table.tsx"
+      src="src/usage/TableBasic.tsx"
+      title="TableBasic.tsx"
       language="tsx"
     />
   }
@@ -32,368 +208,237 @@ The Table component is a powerful data display component that provides features 
   align="center"
 />
 
+### With Sorting
 
-## Props
+Clickable column headers with sort indicators (ascending/descending/none). Controlled via `sortColumn`, `sortAsc`, and `onSortChange`.
 
-### TableDetails Interface
-
-The Table component accepts the following props:
-
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```typescript
-interface TableDetails {
-  columns?: ColumnConfig[];
-  data?: any[];
-  isLoading?: boolean;
-  actions?: ActionConfig[];
-  sortConfig?: {
-    key: string | null;
-    direction: string | null;
-  };
-  onSort?: (key: string) => void;
-  emptyState?: string | React.ReactNode;
-  onRowClick?: (row: any) => void;
-  className?: string;
-  expandable?: boolean;
-  renderExpandedContent?: (row: any) => React.ReactNode;
-  rowKey?: (row: any, index: number) => string | number;
-}
-```
-</div>
-
-### Column Configuration
-
-Each column in the `columns` array should have:
-
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```typescript
-{
-  key: string;              // Unique identifier for the column
-  label: string;            // Display label for the column header
-  sortable?: boolean;       // Enable sorting for this column
-  className?: string;       // Custom CSS classes for column header
-  cellClassName?: string;   // Custom CSS classes for cells
-  align?: 'left' | 'center' | 'right'; // Cell alignment
-  render?: (value: any, row: any) => React.ReactNode; // Custom render function
-}
-```
-</div>
-
-### Action Configuration
-
-Each action in the `actions` array should have:
-
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```typescript
-{
-  icon: React.ComponentType;           // Icon component to display
-  label: string;                       // Tooltip/label for the action
-  color?: string;                      // Button color (e.g., "error", "success", "default")
-  link?: string | ((row: any) => string); // Navigation link
-  tooltip?: string | ((row: any) => string);  // Tooltip content
-  disabled?: (row: any) => boolean;    // Conditionally disable action
-  onClick?: (row: any) => void;        // Click handler
-}
-```
-</div>
-
-## Examples
-
-### Basic Table
-
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { Table } from '@workspace/ui';
-
-const columns = [
-  { key: "name", label: "Name", sortable: true },
-  { key: "email", label: "Email" },
-  { key: "status", label: "Status" },
-];
-
-const data = [
-  { name: "John Doe", email: "john@example.com", status: "Active" },
-  { name: "Jane Smith", email: "jane@example.com", status: "Inactive" },
-];
-
-export default function BasicTable() {
-  return (
-    <Table
-      columns={columns}
-      data={data}
-      emptyState="No data available"
+<ComponentPreviewTabs
+  component={<TableSorting />}
+  source={
+    <ComponentSource
+      src="src/usage/TableSorting.tsx"
+      title="TableSorting.tsx"
+      language="tsx"
     />
-  );
-}
-```
-</div>
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
 
-### Table with Sorting
+### With Filters & Search
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { useState } from 'react';
-import { Table } from '@workspace/ui';
+Multi-select filter dropdowns with selection badges, clear actions, and debounced search input.
 
-export default function SortableTable() {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "created_at", label: "Created", sortable: true },
-  ];
-
-  const handleSort = (key) => {
-    const isAsc = sortConfig.key === key && sortConfig.direction === 'asc';
-    const direction = isAsc ? 'desc' : 'asc';
-    setSortConfig({ key, direction });
-    // Implement your sorting logic here
-  };
-
-  return (
-    <Table
-      columns={columns}
-      data={data}
-      sortConfig={sortConfig}
-      onSort={handleSort}
+<ComponentPreviewTabs
+  component={<TableFilters />}
+  source={
+    <ComponentSource
+      src="src/usage/TableFilters.tsx"
+      title="TableFilters.tsx"
+      language="tsx"
     />
-  );
-}
-```
-</div>
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
 
-### Table with Custom Rendering
+### With Pagination (Internal & External)
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { Table } from '@workspace/ui';
+Internal pagination (client-side) with page size, go-to-page input. External pagination for server-side data with `currentPage`, `totalPages`, `onPageChange`.
 
-export default function CustomTable() {
-  const columns = [
-    { key: "name", label: "Name" },
-    {
-      key: "status",
-      label: "Status",
-      render: (value) => (
-        <span className={`px-2 py-1 rounded-full text-sm font-semibold ${
-          value === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
-        }`}>
-          {value}
-        </span>
-      ),
-    },
-    {
-      key: "created_at",
-      label: "Created",
-      render: (value) => new Date(value).toLocaleDateString(),
-    },
-  ];
-
-  return <Table columns={columns} data={data} />;
-}
-```
-</div>
-
-### Table with Actions
-
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { Edit, Trash2 } from 'lucide-react';
-import { Table } from '@workspace/ui';
-
-export default function TableWithActions() {
-  const columns = [
-    { key: "name", label: "Name" },
-    { key: "email", label: "Email" },
-  ];
-
-  const actions = [
-    {
-      icon: Edit,
-      label: "Edit",
-      onClick: (row) => console.log("Edit:", row),
-    },
-    {
-      icon: Trash2,
-      label: "Delete",
-      color: "text-red-600",
-      onClick: (row) => console.log("Delete:", row),
-    },
-  ];
-
-  return (
-    <Table
-      columns={columns}
-      data={data}
-      actions={actions}
+<ComponentPreviewTabs
+  component={<TablePagination />}
+  source={
+    <ComponentSource
+      src="src/usage/TablePagination.tsx"
+      title="TablePagination.tsx"
+      language="tsx"
     />
-  );
-}
-```
-</div>
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
 
-### Table with Loading State
+### Custom Cell Rendering
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { Table } from '@workspace/ui';
-import { useState } from 'react';
+Per-cell render functions with full row context. Format values, add badges, icons, actions, or any React content.
 
-export default function LoadingTable() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "email", label: "Email" },
-  ];
-
-  const data = [
-    { name: "John Doe", email: "john@example.com" },
-  ];
-
-  return (
-    <Table
-      columns={columns}
-      data={data}
-      isLoading={isLoading}
-      emptyState="No data available"
+<ComponentPreviewTabs
+  component={<TableCustomRendering />}
+  source={
+    <ComponentSource
+      src="src/usage/TableCustomRendering.tsx"
+      title="TableCustomRendering.tsx"
+      language="tsx"
     />
-  );
-}
-```
-</div>
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
 
-### Table with Expandable Rows
+### Sticky Columns
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-import { Table } from '@workspace/ui';
+First column (key: `service`) and last column (key: `_action`) remain fixed during horizontal scroll with subtle box-shadow separation.
 
-export default function ExpandableTable() {
-  const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "email", label: "Email" },
-  ];
-
-  const data = [
-    { id: 1, name: "John Doe", email: "john@example.com", details: "Extra details here" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", details: "More details" },
-  ];
-
-  return (
-    <Table
-      columns={columns}
-      data={data}
-      expandable={true}
-      renderExpandedContent={(row) => (
-        <div className="p-4">
-          <p><strong>Details:</strong> {row.details}</p>
-        </div>
-      )}
-      rowKey={(row) => row.id}
+<ComponentPreviewTabs
+  component={<TableStickyColumns />}
+  source={
+    <ComponentSource
+      src="src/usage/TableStickyColumns.tsx"
+      title="TableStickyColumns.tsx"
+      language="tsx"
     />
-  );
-}
-```
-</div>
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
 
-## Features
+### Expandable/Metric Rows
 
-<Callout type="info">
-  The Table component includes built-in support for:
-  - **Sorting**: Click column headers to sort ascending/descending
-  - **Expandable Rows**: Toggle row expansion to show detailed content
-  - **Custom Rendering**: Use render functions for complex cell content
-  - **Row Actions**: Add custom action buttons for each row
-  - **Loading State**: Built-in animated skeleton loading indicator
-  - **Empty State**: Customizable message when no data is available
-  - **Provider Badges**: Automatic styling for AWS/Azure provider tags
-  - **Date Formatting**: Smart date column formatting
-  - **Responsive**: Fully responsive table layout with horizontal scrolling
-  - **Glassmorphism Design**: Modern glass effect styling
-</Callout>
+Columns marked `isMetricColumn: true` collapse into a single expandable message row when `isRowEmpty` returns true. Click to expand/collapse.
+
+<ComponentPreviewTabs
+  component={<TableExpandableRows />}
+  source={
+    <ComponentSource
+      src="src/usage/TableExpandableRows.tsx"
+      title="TableExpandableRows.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+### Loading, Error & Empty States
+
+Skeleton loaders with wave animation, error display with icon, empty state with illustration, and row-level empty messages.
+
+<ComponentPreviewTabs
+  component={<TableStates />}
+  source={
+    <ComponentSource
+      src="src/usage/TableStates.tsx"
+      title="TableStates.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Color & Design Tokens
+
+The Table component uses a semantic color system. Below are the tokens mapped to their rendered values (light mode). Components reference semantic tokens, not primitives.
+
+| Semantic Token | Light Value | Dark Value* | Role |
+|----------------|-------------|-------------|------|
+| `--color-bg-surface` | `#FFFFFF` | `#1A1A2E` | Table/card background |
+| `--color-bg-surface-hover` | `#F5F9FF` | `#1E2A3E` | Row hover background |
+| `--color-bg-accent-subtle` | `#F0F7FF` | `#1A3A5C` | Active filter bg, selected rows |
+| `--color-bg-skeleton` | `#F0F1F5` | `#2D2D44` | Skeleton loader background |
+| `--color-border-subtle` | `#E6E6E6` | `#2D2D44` | Card border, table wrapper |
+| `--color-border-default` | `#E0E4EF` | `#3A3A5A` | Cell borders, header bottom |
+| `--color-border-strong` | `#E8EAF0` | `#404060` | Header bottom border |
+| `--color-border-focus` | `#0086FF` | `#4D9CFF` | Focus rings, active sort |
+| `--color-accent-solid` | `#0086FF` | `#4D9CFF` | Primary actions, sort icons, badges |
+| `--color-accent-solid-hover` | `#006FD6` | `#3A8CE0` | Button hover, active states |
+| `--color-text-primary` | `#1A1A2E` | `#F0F1F5` | Headers, primary content |
+| `--color-text-secondary` | `#4B5168` | `#B0B5C8` | Body text, cell content |
+| `--color-text-muted` | `#8B91A8` | `#6B7088` | Subtitles, placeholders, disabled |
+| `--color-text-on-accent` | `#FFFFFF` | `#FFFFFF` | Text on accent backgrounds |
+| `--color-status-success` | `#10B981` | `#34D399` | Success states, active badges |
+| `--color-status-warning` | `#F59E0B` | `#FBBF24` | Warning states |
+| `--color-status-danger` | `#EF4444` | `#F87171` | Error states, destructive actions |
+| `--color-shadow-subtle` | `rgba(0,0,0,0.04)` | `rgba(0,0,0,0.3)` | Sticky column shadows |
+| `--color-shadow-card` | `rgba(0,0,0,0.06)` | `rgba(0,0,0,0.4)` | Card elevation |
+| `--color-overlay-scrim` | `rgba(0,0,0,0.10)` | `rgba(0,0,0,0.5)` | Dropdown portal backdrop |
+
+> *Dark mode values are inferred from the component's light-mode design system. Adjust for your theme.
 
 ## Best Practices
 
-1. **Use Unique Keys**: Always provide unique `rowKey` function for rows to ensure proper rendering and expandable state management.
+### Column Configuration
+- **Use `minWidth`** for predictable layouts. Avoid fixed widths; let content breathe.
+- **Set `sortKey` explicitly** when sorting key differs from column `key`.
+- **Use `align: "left"`** for text identifiers (names, IDs), `"right"` for numbers, `"center"` for status badges.
+- **Mark metric columns** with `isMetricColumn: true` for automatic empty-row collapsing.
 
-2. **Optimize Rendering**: Use the `render` function to customize cell content without modifying the original data.
+### Sorting
+- **Controlled mode**: Pass `sortColumn`, `sortAsc`, and `onSortChange` for URL sync or server-side sort.
+- **Uncontrolled mode**: Omit sort props for internal state management.
+- **Default sort**: Initialize `sortColumn` and `sortAsc` for initial sorted view.
 
-3. **Handle Large Datasets**: Implement client-side filtering and pagination for better performance with large datasets.
+### Filtering
+- **Provide `initialFilterValues`** for SSR/hydration to avoid layout shift.
+- **Use descriptive `label`** for filter dropdowns; users see this, not the `key`.
+- **Filter options** should match data values exactly (case-insensitive comparison is used).
+- **Limit to 3 filters** in header; additional filters move to a filter panel.
 
-4. **Keyboard Accessibility**: Sortable columns are keyboard accessible; ensure action buttons support keyboard navigation.
+### Search
+- **Debounce is built-in** (300ms, 3-char minimum). Don't add external debouncing.
+- **Customize `searchKeys`** to limit search to relevant columns (performance).
+- **Use `onSearch`** for server-side search; fires after debounce with current query.
 
-5. **Loading States**: Always show a loading indicator when fetching data to improve UX.
+### Pagination
+- **Internal pagination**: Default. Set `pageSize` for rows per page.
+- **External pagination**: Set `externalPagination={true}`, provide `currentPage`, `totalPages`, `onPageChange`.
+- **Page resets automatically** when filters, search, or data change.
 
-6. **Error Handling**: Use the `emptyState` prop to display helpful messages when data is unavailable.
+### Sticky Columns
+- **First column key must be `service`** for left-sticky behavior.
+- **Last column key must be `_action`** for right-sticky behavior.
+- **Shadows** are applied automatically for visual separation.
 
-7. **Provider Badges**: The table automatically formats provider columns (AWS, Azure) with appropriate badge styling. Use `provider` as the column key to enable this feature.
+### Empty Rows
+- **Implement `isRowEmpty`** to detect rows with no metric data.
+- **Customize `noDataRowMessage`** for context-aware empty messaging.
+- **Metric columns** (`isMetricColumn: true`) collapse into single message cell.
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-// Good: Using unique rowKey for expandable rows
-<Table
-  data={data}
-  expandable={true}
-  rowKey={(row) => row.id}
-/>
-
-// Good: Automatic provider badge formatting
-{ key: "provider", label: "Provider", sortable: true }
-
-// Good: Using render function for custom content
-{
-  key: "created_at",
-  label: "Date",
-  render: (value) => value?.slice(0, 4) || "-"
-}
-
-// Good: Handling loading states
-<Table isLoading={isLoading} data={data} />
-
-// Good: Providing helpful empty state
-<Table emptyState="No records found. Try adjusting your filters." data={data} />
-```
-</div>
+### Performance
+- **Memoize `columns`** and `data` with `useMemo`/`useCallback` to prevent re-renders.
+- **Virtualize** for 1000+ rows (not built-in; wrap with react-window).
+- **Server-side** filtering/sorting/search for large datasets.
 
 ## Accessibility
 
-The Table component follows WAI-ARIA guidelines:
+The Table component follows WAI-ARIA Data Grid pattern:
 
-- Proper semantic HTML with `<table>`, `<thead>`, `<tbody>` elements
-- Sortable column headers are keyboard accessible with click handlers
-- Row click handlers support keyboard navigation via `onRowClick`
-- Expandable rows can be toggled with keyboard interaction
-- Loading and empty states are clearly visible and announced to screen readers
-- Action buttons are properly labeled with tooltips for screen reader users
+### Keyboard Navigation
+| Key | Action |
+|-----|--------|
+| `Tab` | Move between interactive elements (headers, filters, search, pagination) |
+| `Enter` / `Space` | Activate sort on focused header |
+| `Arrow Left/Right` | Navigate between pagination buttons |
+| `Enter` | Activate focused pagination button |
+| `Escape` | Close open filter dropdowns |
 
-## Customization
+### ARIA & Semantic Markup
+- **Table structure**: `<table>`, `<thead>`, `<tbody>`, `<th>`, `<td>` semantics preserved
+- **Column headers**: `scope="col"` on `<th>`, `aria-sort` on sortable headers (`ascending`, `descending`, `none`)
+- **Filter dropdowns**: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`
+- **Search input**: `aria-label="Search"`, `aria-describedby` for hints
+- **Pagination**: `aria-label="Pagination"`, `aria-current="page"` on active page
+- **Row hover**: No ARIA needed; visual only
 
-You can customize the table appearance using the `className` prop to override default styles:
+### Screen Readers
+- Sort announcements: "Sorted ascending by Column Name"
+- Filter announcements: "Filter Status changed, 2 options selected"
+- Pagination announcements: "Page 2 of 5"
+- Loading state: "Loading data" via skeleton `aria-busy="true"`
+- Error state: `role="alert"` on error message
 
-<div className="ring ring-zinc-950/10 p-4 rounded-md bg-black/10">
-```jsx
-<Table
-  columns={columns}
-  data={data}
-  className="rounded-lg border-2 border-primary shadow-lg"
-/>
-```
-</div>
-
-The table supports custom styling for:
-- **Table container**: Use `className` prop for wrapper styles
-- **Column headers**: Use `className` in column config for header styles
-- **Table cells**: Use `cellClassName` in column config for cell styles
-- **Expanded rows**: Customize with `renderExpandedContent` function
-
-The default styling includes:
-- Glassmorphism effect with `glass` class
-- White/20 border and bg-white/40 header
-- Smooth hover transitions
-- Responsive overflow handling
+### Focus Management
+- Focus visible on all interactive elements (4px outline, accent color)
+- Focus trapped in filter dropdowns (Tab cycles within)
+- Focus returns to trigger on dropdown close
+- Skip links not needed; tab order follows visual order
 
 ## Related Components
 
-- [Skeleton](/docs/components/skeleton) - Loading placeholder
-- [Button](/docs/components/button) - Action buttons
+- [Pagination](/docs/components/pagination) - Standalone pagination controls
+- [Button](/docs/components/button) - Action buttons for table rows
+- [Badge](/docs/components/badge) - Status indicators in cells
+- [Skeleton](/docs/components/skeleton) - Loading placeholders
+- [Tooltip](/docs/components/tooltip) - Column header help text
+- [Select](/docs/components/select) - Alternative to filter dropdowns

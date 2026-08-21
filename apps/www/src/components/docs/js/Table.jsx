@@ -1,266 +1,110 @@
-import { ArrowDown, ArrowUp, ArrowUpFromLine, ChevronDown, ChevronRight, Loader } from "lucide-react";
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import Skeleton from "./Skeleton";
+import Table from "@workspace/ui/components/mui-components/Table.jsx";
 
+const DEMO_COLUMNS = [
+    { key: "service", label: "Service", minWidth: 180 },
+    { key: "environment", label: "Environment", minWidth: 120 },
+    {
+        key: "status",
+        label: "Status",
+        minWidth: 130,
+        render: (value) => {
+            const v = String(value);
+            const colorMap = {
+                Healthy: "#16A34A",
+                Degraded: "#D97706",
+                Down: "#DC2626",
+            };
+            return (
+                <span style={{ color: colorMap[v] ?? "#4B5168", fontWeight: 600 }}>
+                    {v}
+                </span>
+            );
+        },
+    },
+    {
+        key: "requests",
+        label: "Requests",
+        minWidth: 110,
+        sortable: true,
+        sortKey: "requests",
+        isMetricColumn: true,
+        render: (value) => <span>{Number(value).toLocaleString()}</span>,
+    },
+    {
+        key: "errorRate",
+        label: "Error Rate",
+        minWidth: 100,
+        isMetricColumn: true,
+    },
+    {
+        key: "latency",
+        label: "P95 Latency",
+        minWidth: 110,
+        isMetricColumn: true,
+    },
+    { key: "owner", label: "Owner", minWidth: 240 },
+    {
+        key: "_action",
+        label: "Action",
+        minWidth: 90,
+        render: (_value, row) => (
+            <button
+                onClick={() => console.log("View details for", row.service)}
+                style={{
+                    border: "1px solid #0086FF",
+                    background: "#fff",
+                    color: "#0086FF",
+                    borderRadius: 6,
+                    padding: "4px 10px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                }}
+            >
+                View
+            </button>
+        ),
+    },
+];
 
-export default function Table({
-    columns = [],
-    data = [],
-    isLoading = false,
-    actions = [],
-    sortConfig = { key: null, direction: null },
-    onSort,
-    emptyState,
-    className,
-    expandable = false,
-    renderExpandedContent,
-    rowKey = (row, index) => row.id || index
-}) {
-    const [expandedRows, setExpandedRows] = React.useState(new Set());
+const DEMO_DATA = [
+    { service: "auth-service", environment: "production", status: "Healthy", requests: 128430, errorRate: "0.02%", latency: "142ms", owner: "Platform Team" },
+    { service: "payments-api", environment: "production", status: "Degraded", requests: 84210, errorRate: "1.84%", latency: "310ms", owner: "Payments Team" },
+    { service: "notifications", environment: "staging", status: "Healthy", requests: 5321, errorRate: "0.00%", latency: "88ms", owner: "Growth Team" },
+    { service: "search-index", environment: "production", status: "Down", requests: 0, errorRate: "100%", latency: "—", owner: "Search Team", _raw: { has_data: false } },
+    { service: "recommendation-engine", environment: "production", status: "Healthy", requests: 42110, errorRate: "0.11%", latency: "205ms", owner: "ML Team" },
+    { service: "billing-worker", environment: "production", status: "Healthy", requests: 19876, errorRate: "0.05%", latency: "97ms", owner: "Payments Team" },
+    { service: "user-profile", environment: "staging", status: "Healthy", requests: 3012, errorRate: "0.00%", latency: "60ms", owner: "Platform Team" },
+    { service: "email-dispatcher", environment: "production", status: "Degraded", requests: 15789, errorRate: "2.10%", latency: "412ms", owner: "Growth Team" },
+    { service: "inventory-sync", environment: "production", status: "Healthy", requests: 27650, errorRate: "0.03%", latency: "133ms", owner: "Commerce Team" },
+    { service: "fraud-detection", environment: "production", status: "Healthy", requests: 61234, errorRate: "0.01%", latency: "178ms", owner: "Risk Team" },
+    { service: "webhooks-relay", environment: "staging", status: "Healthy", requests: 987, errorRate: "0.00%", latency: "54ms", owner: "Platform Team" },
+    { service: "reporting-service", environment: "production", status: "Healthy", requests: 8410, errorRate: "0.07%", latency: "221ms", owner: "Data Team" },
+];
 
-    const toggleRow = (key, e) => {
-        e.stopPropagation();
-        const newExpandedRows = new Set(expandedRows);
-        if (newExpandedRows.has(key)) {
-            newExpandedRows.delete(key);
-        } else {
-            newExpandedRows.add(key);
-        }
-        setExpandedRows(newExpandedRows);
-    };
+const DEMO_FILTERS = [
+    { key: "environment", label: "Environment", options: ["production", "staging"] },
+    { key: "status", label: "Status", options: ["Healthy", "Degraded", "Down"] },
+];
 
-    const handleSort = (key) => {
-        if (onSort) {
-            onSort(key);
-        }
-    };
-
+const TableComponent = () => {
     return (
-        <div className={cn("w-full overflow-hidden rounded", className)}>
-            <div className="w-full overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="border-b border-[#e8eaed] bg-[#ffff] shadow-sm">
-                            {expandable && (
-                                <th className="px-[1.1rem] py-[0.85rem] w-8" />
-                            )}
-                            {columns.map((col) => (
-                                <th
-                                    key={col.key}
-                                    className={cn(
-                                        "px-[1.1rem] py-[0.85rem] text-[11px] font-bold text-[#383838] uppercase tracking-[0.08em] select-none",
-                                        col.className
-                                    )}
-                                    align={col.align || "left"}
-                                >
-                                    <div
-                                        className={cn(
-                                            "flex items-center gap-1",
-                                            col.sortable && "cursor-pointer hover:text-blue-600 transition-colors",
-                                            // col.align === 'right' && "justify-end",
-                                            // col.align === 'center' && "justify-center"
-                                        )}
-                                        onClick={() => col.sortable && handleSort(col.key)}
-                                    >
-                                        {col.label}
-                                        {col.sortable && (
-                                            <span className="flex items-center opacity-70">
-                                                {sortConfig.key === col.key ? (
-                                                    sortConfig.direction === "asc" ? (
-                                                        <ArrowUp size={14} className="text-blue-600 ml-1" />
-                                                    ) : (
-                                                        <ArrowDown size={14} className="text-blue-600 ml-1" />
-                                                    )
-                                                ) : (
-                                                    <div className="w-3.5 h-3.5 ml-1" />
-                                                )}
-                                            </span>
-                                        )}
-                                    </div>
-                                </th>
-                            ))}
-                            {actions.length > 0 && (
-                                <th className="px-[1.1rem] py-[0.85rem] text-[11px] font-bold text-[#383838] uppercase tracking-[0.08em] text-right w-[1%] whitespace-nowrap">
-                                    Actions
-                                </th>
-                            )}
-                        </tr>
-                    </thead>
-
-                    <tbody className="border-b border-neutral-600/20  bg-white">
-                        {isLoading ? (
-                            [...Array(5)].map((_, index) => (
-                                <tr key={`skeleton-${index}`} className="animate-pulse">
-                                    {columns.map((col, colIndex) => (
-                                        <td key={colIndex} className="px-4 py-4">
-                                            <Skeleton variant="text" width="80%" height={20} className="bg-white/50" />
-                                        </td>
-                                    ))}
-                                    {actions.length > 0 && (
-                                        <td className="px-4 py-4 text-right">
-                                            <Skeleton variant="rectangular" width={60} height={24} className="rounded ml-auto bg-white/50" />
-                                        </td>
-                                    )}
-                                </tr>
-                            ))
-                        ) : data.length > 0 ? (
-                            data.map((row, rowIndex) => {
-                                const key = rowKey(row, rowIndex);
-                                const isExpanded = expandedRows.has(key);
-                                return (
-                                    <React.Fragment key={key}>
-                                        <tr
-                                            style={{ animationDelay: `${Math.min(rowIndex * 0.04, 0.4)}s` }}
-                                            className={cn(
-                                                "border-b border-[#f0f1f4] transition-all duration-200 group animate-[rowIn_0.3s_ease_both]",
-                                                isExpanded && "bg-[#f8faff]"
-                                            )}
-                                        >
-                                            {expandable && (
-                                                <td className="px-4 py-3 w-8">
-                                                    <button
-                                                        onClick={(e) => toggleRow(key, e)}
-                                                        className="p-1 hover:bg-white/50"
-                                                    >
-                                                        {isExpanded ? (
-                                                            <ChevronDown size={16} className="text-slate-600" />
-                                                        ) : (
-                                                            <ChevronRight size={16} className="text-slate-600" />
-                                                        )}
-                                                    </button>
-                                                </td>
-                                            )}
-                                            {columns.map((col) => {
-                                                const cellValue = row[col.key];
-                                                let displayValue = cellValue;
-
-
-                                                if (col.key === 'created_at' && cellValue) {
-                                                    displayValue = cellValue.length > 10 ? cellValue.slice(0, 4) : cellValue;
-                                                }
-
-                                                if (col.render) {
-                                                    displayValue = col.render(cellValue, row);
-                                                }
-
-                                                if (col.key === 'provider' && cellValue) {
-                                                    const val = String(cellValue).toLowerCase();
-                                                    if (val.includes('eks') || val.includes('aws')) {
-                                                        displayValue = (
-                                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 border border-orange-200">
-                                                                AWS
-                                                            </span>
-                                                        );
-                                                    } else if (val.includes('azure')) {
-                                                        displayValue = (
-                                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
-                                                                Azure
-                                                            </span>
-                                                        );
-                                                    } else {
-                                                        displayValue = (
-                                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
-                                                                {cellValue}
-                                                            </span>
-                                                        );
-                                                    }
-                                                }
-
-                                                if (displayValue === undefined || displayValue === null || displayValue === "") {
-                                                    displayValue = "-";
-                                                }
-
-                                                return (
-                                                    <td
-                                                        key={col.key}
-                                                        className={cn("px-[1.1rem] py-4 text-[12px] text-[#111827] align-middle", col.cellClassName)}
-                                                        align={col.align || "left"}
-                                                    >
-                                                        {displayValue}
-                                                    </td>
-                                                );
-                                            })}
-                                            {actions.length > 0 && (
-                                                <td className="px-4 py-2 text-right">
-                                                    <div className="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
-                                                        {actions.map((action, actionIndex) => {
-                                                            const isDisabled = action.disabled ? action.disabled(row) : false;
-                                                            const ActionIcon = action.icon;
-                                                            const linkPath = typeof action.link === 'function' ? action.link(row) : action.link;
-                                                            const tooltipTitle = typeof action.tooltip === 'function' ? action.tooltip(row) : (action.tooltip || action.label || '');
-
-                                                            const ButtonContent = (
-                                                                <div
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        action.onClick?.(row);
-                                                                    }}
-                                                                    className={cn(
-                                                                        "p-1.5 transition-all duration-200 hover:bg-white/60",
-                                                                        isDisabled && "opacity-40 cursor-not-allowed",
-                                                                        action.color === "error" && !isDisabled && "text-red-500 hover:text-red-700 hover:bg-red-50",
-                                                                        action.color === "success" && !isDisabled && "text-green-600 hover:text-green-800 hover:bg-green-50",
-                                                                        (!action.color || action.color === "default") && !isDisabled && "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
-                                                                    )}
-                                                                >
-                                                                    {typeof action.icon === 'function' ? (
-                                                                        <action.icon row={row} size={16} />
-                                                                    ) : action.icon ? (
-                                                                        <action.icon size={16} />
-                                                                    ) : (
-                                                                        <ArrowUpFromLine size={16} />
-                                                                    )}
-                                                                </div>
-                                                            );
-
-                                                            return (
-                                                                <div key={actionIndex} title={tooltipTitle} >
-                                                                    {linkPath ? (
-                                                                        <NavLink to={linkPath} onClick={(e) => e.stopPropagation()}>
-                                                                            {ButtonContent}
-                                                                        </NavLink>
-                                                                    ) : (
-                                                                        <span>{ButtonContent}</span>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                </td>
-                                            )}
-                                        </tr>
-                                        {isExpanded && renderExpandedContent && (
-                                            <tr>
-                                                <td
-                                                    colSpan={columns.length + (actions.length > 0 ? 1 : 0) + (expandable ? 1 : 0)}
-                                                    className="px-8 py-4 bg-slate-50/50 border-y border-slate-100"
-                                                >
-                                                    {renderExpandedContent(row)}
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })
-                        ) : (
-
-                            emptyState && (
-                                <tr>
-                                    <td
-                                        colSpan={columns.length + (actions.length > 0 ? 1 : 0) + (expandable ? 1 : 0)}
-                                        className="h-32 text-center text-slate-500"
-                                    >
-                                        {emptyState}
-                                    </td>
-                                </tr>
-                            )
-
-                        )}
-                    </tbody>
-                </table>
-            </div>
+        <div style={{ width: "100%", overflowX: "auto" }}>
+            <Table
+                data={DEMO_DATA}
+                columns={DEMO_COLUMNS}
+                title="Service Health Overview"
+                subtitle="Hardcoded demo data — 12 services"
+                tooltip="Static example data for local development / Storybook"
+                icon="ri-server-line"
+                pageSize={5}
+                searchable
+                searchKeys={["service", "owner"]}
+                filters={DEMO_FILTERS}
+                noDataRowMessage="This service reported no data in the selected window."
+            />
         </div>
     );
-}
+};
+export default TableComponent;
