@@ -72,7 +72,7 @@
 :root {
   --fd-layout-width: 0px;
   --lg-sidebar-width:300px;
-  --fd-sidebar-width: 260px;
+  --fd-sidebar-width: 180px;
   --fd-sidebar-col: 268px;
   --fd-toc-width: 268px;
   --fd-docs-height: 100dvh;

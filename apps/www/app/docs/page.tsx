@@ -101,11 +101,11 @@ export default function Page() {
                                                 <Link to={neighbours.previous.url}>
                                                     <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'>
                                                         {neighbours.previous.name}
-                                                        {prevPage?.data.description && (
+                                                        {/* {prevPage?.data.description && (
                                                             <p className="text-muted-foreground   sm:text-base">
                                                                 {prevPage?.data.description.length > 50 ? prevPage?.data.description.slice(0, 35) + "..." : prevPage?.data.description}
                                                             </p>
-                                                        )}
+                                                        )} */}
                                                     </button>
                                                 </Link>
                                                 : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
@@ -116,11 +116,11 @@ export default function Page() {
                                                 <Link to={neighbours.next.url}>
                                                     <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2  button-3 dark:bg-white flex items-end gap-2 cursor-pointer flex-col'>
                                                         {neighbours.next.name}
-                                                        {nextPage?.data.description && (
+                                                        {/* {nextPage?.data.description && (
                                                             <p className="text-muted-foreground   sm:text-base">
                                                                 {nextPage?.data.description.length > 50 ? nextPage?.data.description.slice(0, 35) + "..." : nextPage?.data.description}
                                                             </p>
-                                                        )}
+                                                        )} */}
                                                     </button>
                                                 </Link>
                                                 : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>

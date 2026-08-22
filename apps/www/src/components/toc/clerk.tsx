@@ -1,6 +1,6 @@
 'use client';
 import * as Primitive from 'fumadocs-core/toc';
-import { type ComponentProps, useEffect, useRef, useState } from 'react';
+import { type ComponentProps, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { cn } from "@/lib/utils";
 import { TocThumb, useTOCItems } from './index';
 import { mergeRefs } from '../../lib/merge-refs';
@@ -17,7 +17,7 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
     height: number;
   }>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
 
@@ -76,16 +76,16 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
             width: svg.width,
             height: svg.height,
             maskImage: `url("data:image/svg+xml,${
-              // Inline SVG
+              // Inline SVG with currentColor for theme awareness
               encodeURIComponent(
-                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svg.width} ${svg.height}"><path d="${svg.path}" stroke="black" stroke-width="1" fill="none" /></svg>`,
+                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svg.width} ${svg.height}"><path d="${svg.path}" stroke="currentColor" stroke-width="1" fill="none" /></svg>`,
               )
               }")`,
           }}
         >
           <TocThumb
             containerRef={containerRef}
-            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-purple-400 transition-[top,height]"
+            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-fd-primary transition-[top,height] duration-300 ease-out will-change-[top,height]"
           />
         </div>
       )}
@@ -132,13 +132,13 @@ function TOCItem({
       style={{
         paddingInlineStart: getItemOffset(item.depth),
       }}
-      className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-purple-900"
+      className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-fd-primary"
     >
       {offset !== upperOffset && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
-          fill='purple'
+          fill='currentColor'
           className="absolute -top-1.5 start-0 size-4 rtl:-scale-x-100"
         >
           <line

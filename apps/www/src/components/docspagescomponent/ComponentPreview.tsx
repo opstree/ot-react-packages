@@ -94,7 +94,10 @@ export function ComponentPreviewTabs({
                 <div
                   data-align={align}
                   className={cn(
-                    "preview flex overflow-y-auto min-h-80 max-h-100 relative w-full justify-center p-2 lg:p-2 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start overflow-hidden "
+                    "preview w-full flex flex-wrap overflow-hidden",
+                    "min-h-[320px] max-h-[100dvh] lg:max-h-[90vh] xl:max-h-[100vh]",
+                    "relative px-4 py-2",
+                    "justify-center items-center",
                   )}
                 >
                   {component}

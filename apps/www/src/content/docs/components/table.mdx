@@ -9,10 +9,10 @@ import { Callout } from "@/components/docspagescomponent/Callout";
 import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
 import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
 import { InstallationCli } from "@/components/docspagescomponent/cli-install-button";
+import { RelatedComponents } from "@/components/docspagescomponent/RelatedComponents";
+import { PropsTable } from "@/components/docspagescomponent/PropsTable";
 import TableBasic from "@/usage/TableBasic";
-import TableSorting from "@/usage/TableSorting";
 import TableFilters from "@/usage/TableFilters";
-import TablePagination from "@/usage/TablePagination";
 import TableCustomRendering from "@/usage/TableCustomRendering";
 import TableStickyColumns from "@/usage/TableStickyColumns";
 import TableExpandableRows from "@/usage/TableExpandableRows";
@@ -22,177 +22,8 @@ import TableStates from "@/usage/TableStates";
 
 The Table component is a powerful, production-ready data display component built for complex data presentation scenarios. It combines a modern glassmorphism aesthetic with enterprise-grade features including multi-column sorting, multi-select filtering, debounced search, internal/external pagination, expandable metric rows, sticky columns, and comprehensive state handling (loading, error, empty, row-level empty).
 
-### Key Capabilities
-
-- **Sorting**: Multi-column with visual indicators, controlled/uncontrolled modes
-- **Filtering**: Multi-select dropdown filters with "All" option and clear actions
-- **Search**: Debounced (300ms) search with 3-character minimum, clearable input
-- **Pagination**: Internal (client-side) or external (server-side) with page size, go-to-page
-- **Sticky Columns**: First column (service) and last column (actions) stay visible during horizontal scroll
-- **Expandable Rows**: Metric columns collapse into a single expandable message row when empty
-- **Custom Rendering**: Per-cell render functions with full row context
-- **States**: Skeleton loaders, error display, empty states, row-level empty messages
-- **Row Interactions**: Hover highlight, click handlers, keyboard navigation
-- **Accessibility**: ARIA labels, focus management, keyboard sortable headers, screen reader announcements
-
-## Installation
-
-<InstallationCli value="opscli add table"/>
-
-## Quick Start
-
-```tsx
-import Table, { ColumnDef } from "@workspace/ui/components/mui-components/ts/Table";
-
-const columns: ColumnDef<User>[] = [
-  { key: "name", label: "Name", minWidth: 150, sortable: true, sortKey: "name" },
-  { key: "email", label: "Email", minWidth: 200 },
-  { key: "role", label: "Role", minWidth: 120 },
-  { key: "status", label: "Status", minWidth: 100, sortable: true, sortKey: "status" },
-];
-
-const data: User[] = [
-  { name: "Alice Johnson", email: "alice@example.com", role: "Admin", status: "Active" },
-  { name: "Bob Smith", email: "bob@example.com", role: "User", status: "Active" },
-  { name: "Carol White", email: "carol@example.com", role: "User", status: "Inactive" },
-];
-
-export default function UserTable() {
-  return (
-    <Table
-      title="Users"
-      subtitle="System accounts and permissions"
-      data={data}
-      columns={columns}
-      pageSize={10}
-    />
-  );
-}
-```
-
-## Features
-
-<Callout type="info">
-  <strong>Data Display</strong>
-  <ul>
-    <li>Multi-column sorting with visual sort indicators (asc/desc/none)</li>
-    <li>Custom cell renderers with full row context</li>
-    <li>Sticky first column (service) and last column (actions) during horizontal scroll</li>
-    <li>Configurable column alignment (left, center, right)</li>
-    <li>Column subtitles for additional context</li>
-    <li>Minimum column widths with auto-sizing</li>
-  </ul>
-
-  <strong>Interactivity</strong>
-  <ul>
-    <li>Row hover highlighting with smooth transitions</li>
-    <li>Expandable metric rows collapse into single message when empty</li>
-    <li>Clickable column headers for sorting</li>
-    <li>Keyboard navigation (Tab, Enter/Space, Arrow keys)</li>
-  </ul>
-
-  <strong>Filtering & Search</strong>
-  <ul>
-    <li>Multi-select filter dropdowns with "All" option and selection badges</li>
-    <li>Debounced search (300ms, 3-character minimum) with clear button</li>
-    <li>Configurable search keys (defaults to all column keys)</li>
-    <li>Optional "Unscanned Services" toggle filter</li>
-    <li>Filter state callbacks for server-side synchronization</li>
-  </ul>
-
-  <strong>Pagination</strong>
-  <ul>
-    <li>Internal pagination with configurable page size</li>
-    <li>External pagination mode for server-side data</li>
-    <li>Page navigation (Previous/Next, numbered pages, ellipsis)</li>
-    <li>Go-to-page input with validation</li>
-    <li>Automatic page reset on filter/search change</li>
-  </ul>
-
-  <strong>States</strong>
-  <ul>
-    <li>Skeleton loading rows with wave animation</li>
-    <li>Error state with icon and message</li>
-    <li>Empty state with illustration and custom message</li>
-    <li>Row-level empty state for metric rows without data</li>
-  </ul>
-</Callout>
-
-## API Reference
-
-### Table Props
-
-| Prop | Type | Default | Purpose |
-|------|------|---------|---------|
-| **Data & Columns** |
-| `data` | `T[]` | `[]` | Array of row objects to display |
-| `columns` | `ColumnDef<T>[]` | `[]` | Column definitions (key, label, render, sortable, etc.) |
-| **Pagination** |
-| `pageSize` | `number` | `10` | Number of rows per page (internal pagination) |
-| `externalPagination` | `boolean` | `false` | Enable server-side pagination mode |
-| `currentPage` | `number` | `1` | Current page (controlled, for external pagination) |
-| `totalPages` | `number` | `1` | Total pages (required for external pagination) |
-| `onPageChange` | `(page: number) => void` | - | Callback when page changes (external mode) |
-| **Sorting** |
-| `sortColumn` | `string \| null` | `null` | Currently sorted column key (controlled) |
-| `sortAsc` | `boolean` | `false` | Sort direction (true = ascending) |
-| `onSortChange` | `(key: string \| undefined) => void` | - | Callback when sort column changes |
-| **Filtering** |
-| `filters` | `FilterConfig[]` | `[]` | Filter dropdown configurations (key, label, options[]) |
-| `initialFilterValues` | `Record<string, string[]>` | `{}` | Initial filter state for SSR/hydration |
-| `onFilterChange` | `(value: string) => void` | - | Primary filter change callback (index 0) |
-| `onSecondaryFilterChange` | `(value: string) => void` | - | Secondary filter callback (index 1) |
-| `onTertiaryFilterChange` | `(value: string) => void` | - | Tertiary filter callback (index 2) |
-| `showUnscannedFilter` | `boolean` | `false` | Show "Unscanned Services" toggle button |
-| `onUnscannedFilterChange` | `(active: boolean) => void` | - | Callback for unscanned filter toggle |
-| **Search** |
-| `searchable` | `boolean` | `false` | Enable search input in header |
-| `searchKeys` | `string[]` | `columns.map(c => c.key)` | Column keys to search against |
-| `onSearch` | `(query: string) => void` | - | Debounced search callback (300ms, 3-char min) |
-| **States** |
-| `loading` | `boolean` | `false` | Show skeleton loaders instead of data |
-| `skeletonRows` | `number` | `10` | Number of skeleton rows to render |
-| `error` | `string \| null` | `null` | Error message to display in table body |
-| `emptyMessage` | `string` | `"No data available."` | Message when no rows match filters/search |
-| `noDataRowMessage` | `string` | `"No data is available for the selected date."` | Message for rows where `isRowEmpty` returns true |
-| `isRowEmpty` | `(row: T) => boolean` | Checks `row._raw?.has_data === false` | Determines if a row should show empty state |
-| **Header & Branding** |
-| `title` | `React.ReactNode` | - | Main table title |
-| `subtitle` | `React.ReactNode` | - | Subtitle below title |
-| `icon` | `string` | `"ri-settings-3-line"` | Remixicon class for header icon |
-| `tooltip` | `string` | - | Tooltip text on title (shows info icon) |
-| **Styling & Customization** |
-| `sx` | `Record<string, unknown>` | `{}` | Additional MUI Box sx props for container |
-
-## ColumnDef Props
-
-| Prop | Type | Required | Purpose |
-|------|------|----------|---------|
-| `key` | `string` | **Yes** | Unique key matching data object property |
-| `label` | `React.ReactNode` | **Yes** | Column header text/element |
-| `subtitle` | `string` | No | Secondary text below header |
-| `minWidth` | `string \| number` | No | Minimum column width (px or %) |
-| `align` | `"left" \| "center" \| "right"` | No | Cell text alignment (default: center) |
-| `sortable` | `boolean` | No | Enable click-to-sort on header |
-| `sortKey` | `string` | No* | Data key for sorting (defaults to `key`) |
-| `isMetricColumn` | `boolean` | No | Marks as collapsible metric column for empty rows |
-| `cellStyle` | `React.CSSProperties` | No | Inline styles applied to all cells in column |
-| `render` | `(value: unknown, row: T) => React.ReactNode` | No | Custom cell renderer function |
-
-> *Required when `sortable: true`
-
-### FilterConfig Props
-
-| Prop | Type | Required | Purpose |
-|------|------|----------|---------|
-| `key` | `string` | **Yes** | Matches data property key to filter on |
-| `label` | `string` | **Yes** | Filter dropdown button label |
-| `options` | `string[]` | **Yes** | Array of filter option values (excludes "all") |
-
 ## Usage Examples
-
 ### Basic Table
-
 Minimal table with title, subtitle, and default pagination.
 
 <ComponentPreviewTabs
@@ -204,75 +35,7 @@ Minimal table with title, subtitle, and default pagination.
       language="tsx"
     />
   }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-### With Sorting
-
-Clickable column headers with sort indicators (ascending/descending/none). Controlled via `sortColumn`, `sortAsc`, and `onSortChange`.
-
-<ComponentPreviewTabs
-  component={<TableSorting />}
-  source={
-    <ComponentSource
-      src="src/usage/TableSorting.tsx"
-      title="TableSorting.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-### With Filters & Search
-
-Multi-select filter dropdowns with selection badges, clear actions, and debounced search input.
-
-<ComponentPreviewTabs
-  component={<TableFilters />}
-  source={
-    <ComponentSource
-      src="src/usage/TableFilters.tsx"
-      title="TableFilters.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-### With Pagination (Internal & External)
-
-Internal pagination (client-side) with page size, go-to-page input. External pagination for server-side data with `currentPage`, `totalPages`, `onPageChange`.
-
-<ComponentPreviewTabs
-  component={<TablePagination />}
-  source={
-    <ComponentSource
-      src="src/usage/TablePagination.tsx"
-      title="TablePagination.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-### Custom Cell Rendering
-
-Per-cell render functions with full row context. Format values, add badges, icons, actions, or any React content.
-
-<ComponentPreviewTabs
-  component={<TableCustomRendering />}
-  source={
-    <ComponentSource
-      src="src/usage/TableCustomRendering.tsx"
-      title="TableCustomRendering.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
+  className="lg:w-[40em] w-[90vw]"
   align="center"
 />
 
@@ -327,118 +90,115 @@ Skeleton loaders with wave animation, error display with icon, empty state with 
   align="center"
 />
 
-## Color & Design Tokens
+### Key Capabilities
 
-The Table component uses a semantic color system. Below are the tokens mapped to their rendered values (light mode). Components reference semantic tokens, not primitives.
+<PropsTable
+  props={[
+    { name: "Sorting", type: "Feature", default: "-", description: "Multi-column with visual indicators, controlled/uncontrolled modes" },
+    { name: "Filtering", type: "Feature", default: "-", description: "Multi-select dropdown filters with \"All\" option and clear actions" },
+    { name: "Search", type: "Feature", default: "-", description: "Debounced (300ms) search with 3-character minimum, clearable input" },
+    { name: "Pagination", type: "Feature", default: "-", description: "Internal (client-side) or external (server-side) with page size, go-to-page" },
+    { name: "Sticky Columns", type: "Feature", default: "-", description: "First column (service) and last column (actions) stay visible during horizontal scroll" },
+    { name: "Expandable Rows", type: "Feature", default: "-", description: "Metric columns collapse into a single expandable message row when empty" },
+    { name: "Custom Rendering", type: "Feature", default: "-", description: "Per-cell render functions with full row context" },
+    { name: "States", type: "Feature", default: "-", description: "Skeleton loaders, error display, empty states, row-level empty messages" },
+    { name: "Row Interactions", type: "Feature", default: "-", description: "Hover highlight, click handlers, keyboard navigation" },
+    { name: "Accessibility", type: "Feature", default: "-", description: "ARIA labels, focus management, keyboard sortable headers, screen reader announcements" },
+  ]}
+/>
 
-| Semantic Token | Light Value | Dark Value* | Role |
-|----------------|-------------|-------------|------|
-| `--color-bg-surface` | `#FFFFFF` | `#1A1A2E` | Table/card background |
-| `--color-bg-surface-hover` | `#F5F9FF` | `#1E2A3E` | Row hover background |
-| `--color-bg-accent-subtle` | `#F0F7FF` | `#1A3A5C` | Active filter bg, selected rows |
-| `--color-bg-skeleton` | `#F0F1F5` | `#2D2D44` | Skeleton loader background |
-| `--color-border-subtle` | `#E6E6E6` | `#2D2D44` | Card border, table wrapper |
-| `--color-border-default` | `#E0E4EF` | `#3A3A5A` | Cell borders, header bottom |
-| `--color-border-strong` | `#E8EAF0` | `#404060` | Header bottom border |
-| `--color-border-focus` | `#0086FF` | `#4D9CFF` | Focus rings, active sort |
-| `--color-accent-solid` | `#0086FF` | `#4D9CFF` | Primary actions, sort icons, badges |
-| `--color-accent-solid-hover` | `#006FD6` | `#3A8CE0` | Button hover, active states |
-| `--color-text-primary` | `#1A1A2E` | `#F0F1F5` | Headers, primary content |
-| `--color-text-secondary` | `#4B5168` | `#B0B5C8` | Body text, cell content |
-| `--color-text-muted` | `#8B91A8` | `#6B7088` | Subtitles, placeholders, disabled |
-| `--color-text-on-accent` | `#FFFFFF` | `#FFFFFF` | Text on accent backgrounds |
-| `--color-status-success` | `#10B981` | `#34D399` | Success states, active badges |
-| `--color-status-warning` | `#F59E0B` | `#FBBF24` | Warning states |
-| `--color-status-danger` | `#EF4444` | `#F87171` | Error states, destructive actions |
-| `--color-shadow-subtle` | `rgba(0,0,0,0.04)` | `rgba(0,0,0,0.3)` | Sticky column shadows |
-| `--color-shadow-card` | `rgba(0,0,0,0.06)` | `rgba(0,0,0,0.4)` | Card elevation |
-| `--color-overlay-scrim` | `rgba(0,0,0,0.10)` | `rgba(0,0,0,0.5)` | Dropdown portal backdrop |
+## Installation
 
-> *Dark mode values are inferred from the component's light-mode design system. Adjust for your theme.
+<InstallationCli value="opscli add table"/>
 
-## Best Practices
 
-### Column Configuration
-- **Use `minWidth`** for predictable layouts. Avoid fixed widths; let content breathe.
-- **Set `sortKey` explicitly** when sorting key differs from column `key`.
-- **Use `align: "left"`** for text identifiers (names, IDs), `"right"` for numbers, `"center"` for status badges.
-- **Mark metric columns** with `isMetricColumn: true` for automatic empty-row collapsing.
+## API Reference
 
-### Sorting
-- **Controlled mode**: Pass `sortColumn`, `sortAsc`, and `onSortChange` for URL sync or server-side sort.
-- **Uncontrolled mode**: Omit sort props for internal state management.
-- **Default sort**: Initialize `sortColumn` and `sortAsc` for initial sorted view.
+### Table Props
 
-### Filtering
-- **Provide `initialFilterValues`** for SSR/hydration to avoid layout shift.
-- **Use descriptive `label`** for filter dropdowns; users see this, not the `key`.
-- **Filter options** should match data values exactly (case-insensitive comparison is used).
-- **Limit to 3 filters** in header; additional filters move to a filter panel.
+<PropsTable
+  props={[
+    { category: "Data & Columns" },
+    { name: "data", type: "T[]", default: "[]", description: "Array of row objects to display" },
+    { name: "columns", type: "ColumnDef<T>[]", default: "[]", description: "Column definitions (key, label, render, sortable, etc.)" },
+    { category: "Pagination" },
+    { name: "pageSize", type: "number", default: "10", description: "Number of rows per page (internal pagination)" },
+    { name: "externalPagination", type: "boolean", default: "false", description: "Enable server-side pagination mode" },
+    { name: "currentPage", type: "number", default: "1", description: "Current page (controlled, for external pagination)" },
+    { name: "totalPages", type: "number", default: "1", description: "Total pages (required for external pagination)" },
+    { name: "onPageChange", type: "(page: number) => void", default: "-", description: "Callback when page changes (external mode)" },
+    { category: "Sorting" },
+    { name: "sortColumn", type: "string | null", default: "null", description: "Currently sorted column key (controlled)" },
+    { name: "sortAsc", type: "boolean", default: "false", description: "Sort direction (true = ascending)" },
+    { name: "onSortChange", type: "(key: string | undefined) => void", default: "-", description: "Callback when sort column changes" },
+    { category: "Filtering" },
+    { name: "filters", type: "FilterConfig[]", default: "[]", description: "Filter dropdown configurations (key, label, options[])" },
+    { name: "initialFilterValues", type: "Record<string, string[]>", default: "{}", description: "Initial filter state for SSR/hydration" },
+    { name: "onFilterChange", type: "(value: string) => void", default: "-", description: "Primary filter change callback (index 0)" },
+    { name: "onSecondaryFilterChange", type: "(value: string) => void", default: "-", description: "Secondary filter callback (index 1)" },
+    { name: "onTertiaryFilterChange", type: "(value: string) => void", default: "-", description: "Tertiary filter callback (index 2)" },
+    { name: "showUnscannedFilter", type: "boolean", default: "false", description: 'Show "Unscanned Services" toggle button' },
+    { name: "onUnscannedFilterChange", type: "(active: boolean) => void", default: "-", description: "Callback for unscanned filter toggle" },
+    { category: "Search" },
+    { name: "searchable", type: "boolean", default: "false", description: "Enable search input in header" },
+    { name: "searchKeys", type: "string[]", default: "columns.map(c => c.key)", description: "Column keys to search against" },
+    { name: "onSearch", type: "(query: string) => void", default: "-", description: "Debounced search callback (300ms, 3-char min)" },
+    { category: "States" },
+    { name: "loading", type: "boolean", default: "false", description: "Show skeleton loaders instead of data" },
+    { name: "skeletonRows", type: "number", default: "10", description: "Number of skeleton rows to render" },
+    { name: "error", type: "string | null", default: "null", description: "Error message to display in table body" },
+    { name: "emptyMessage", type: "string", default: '"No data available."', description: "Message when no rows match filters/search" },
+    { name: "noDataRowMessage", type: "string", default: '"No data is available for the selected date."', description: "Message for rows where `isRowEmpty` returns true" },
+    { name: "isRowEmpty", type: "(row: T) => boolean", default: "Checks `row._raw?.has_data === false`", description: "Determines if a row should show empty state" },
+    { category: "Header & Branding" },
+    { name: "title", type: "React.ReactNode", default: "-", description: "Main table title" },
+    { name: "subtitle", type: "React.ReactNode", default: "-", description: "Subtitle below title" },
+    { name: "icon", type: "string", default: '"ri-settings-3-line"', description: "Remixicon class for header icon" },
+    { name: "tooltip", type: "string", default: "-", description: "Tooltip text on title (shows info icon)" },
+    { category: "Styling & Customization" },
+    { name: "sx", type: "Record<string, unknown>", default: "{}", description: "Additional MUI Box sx props for container" },
+  ]}
+/>
 
-### Search
-- **Debounce is built-in** (300ms, 3-char minimum). Don't add external debouncing.
-- **Customize `searchKeys`** to limit search to relevant columns (performance).
-- **Use `onSearch`** for server-side search; fires after debounce with current query.
+### ColumnDef Props
 
-### Pagination
-- **Internal pagination**: Default. Set `pageSize` for rows per page.
-- **External pagination**: Set `externalPagination={true}`, provide `currentPage`, `totalPages`, `onPageChange`.
-- **Page resets automatically** when filters, search, or data change.
+<PropsTable
+  props={[
+    { name: "key", type: "string", default: "-", description: "Unique key matching data object property", required: true },
+    { name: "label", type: "React.ReactNode", default: "-", description: "Column header text/element", required: true },
+    { name: "subtitle", type: "string", default: "-", description: "Secondary text below header" },
+    { name: "minWidth", type: "string | number", default: "-", description: "Minimum column width (px or %)" },
+    { name: "align", type: '"left" | "center" | "right"', default: '"center"', description: "Cell text alignment" },
+    { name: "sortable", type: "boolean", default: "false", description: "Enable click-to-sort on header" },
+    { name: "sortKey", type: "string", default: "key", description: "Data key for sorting (defaults to `key`)" },
+    { name: "isMetricColumn", type: "boolean", default: "false", description: "Marks as collapsible metric column for empty rows" },
+    { name: "cellStyle", type: "React.CSSProperties", default: "-", description: "Inline styles applied to all cells in column" },
+    { name: "render", type: "(value: unknown, row: T) => React.ReactNode", default: "-", description: "Custom cell renderer function" },
+  ]}
+/>
 
-### Sticky Columns
-- **First column key must be `service`** for left-sticky behavior.
-- **Last column key must be `_action`** for right-sticky behavior.
-- **Shadows** are applied automatically for visual separation.
+> *`sortKey` is required when `sortable: true`
 
-### Empty Rows
-- **Implement `isRowEmpty`** to detect rows with no metric data.
-- **Customize `noDataRowMessage`** for context-aware empty messaging.
-- **Metric columns** (`isMetricColumn: true`) collapse into single message cell.
+### FilterConfig Props
 
-### Performance
-- **Memoize `columns`** and `data` with `useMemo`/`useCallback` to prevent re-renders.
-- **Virtualize** for 1000+ rows (not built-in; wrap with react-window).
-- **Server-side** filtering/sorting/search for large datasets.
-
-## Accessibility
-
-The Table component follows WAI-ARIA Data Grid pattern:
-
-### Keyboard Navigation
-| Key | Action |
-|-----|--------|
-| `Tab` | Move between interactive elements (headers, filters, search, pagination) |
-| `Enter` / `Space` | Activate sort on focused header |
-| `Arrow Left/Right` | Navigate between pagination buttons |
-| `Enter` | Activate focused pagination button |
-| `Escape` | Close open filter dropdowns |
-
-### ARIA & Semantic Markup
-- **Table structure**: `<table>`, `<thead>`, `<tbody>`, `<th>`, `<td>` semantics preserved
-- **Column headers**: `scope="col"` on `<th>`, `aria-sort` on sortable headers (`ascending`, `descending`, `none`)
-- **Filter dropdowns**: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`
-- **Search input**: `aria-label="Search"`, `aria-describedby` for hints
-- **Pagination**: `aria-label="Pagination"`, `aria-current="page"` on active page
-- **Row hover**: No ARIA needed; visual only
-
-### Screen Readers
-- Sort announcements: "Sorted ascending by Column Name"
-- Filter announcements: "Filter Status changed, 2 options selected"
-- Pagination announcements: "Page 2 of 5"
-- Loading state: "Loading data" via skeleton `aria-busy="true"`
-- Error state: `role="alert"` on error message
-
-### Focus Management
-- Focus visible on all interactive elements (4px outline, accent color)
-- Focus trapped in filter dropdowns (Tab cycles within)
-- Focus returns to trigger on dropdown close
-- Skip links not needed; tab order follows visual order
+<PropsTable
+  props={[
+    { name: "key", type: "string", default: "-", description: "Matches data property key to filter on", required: true },
+    { name: "label", type: "string", default: "-", description: "Filter dropdown button label", required: true },
+    { name: "options", type: "string[]", default: "-", description: "Array of filter option values (excludes \"all\")", required: true },
+  ]}
+/>
 
 ## Related Components
 
-- [Pagination](/docs/components/pagination) - Standalone pagination controls
-- [Button](/docs/components/button) - Action buttons for table rows
-- [Badge](/docs/components/badge) - Status indicators in cells
-- [Skeleton](/docs/components/skeleton) - Loading placeholders
-- [Tooltip](/docs/components/tooltip) - Column header help text
-- [Select](/docs/components/select) - Alternative to filter dropdowns
+<RelatedComponents
+className="mt-2"
+  components={[
+    { name: "Pagination", href: "/docs/components/pagination", description: "Standalone pagination controls" },
+    { name: "Button", href: "/docs/components/button", description: "Action buttons for table rows" },
+    { name: "Badge", href: "/docs/components/badge", description: "Status indicators in cells" },
+    { name: "Skeleton", href: "/docs/components/skeleton", description: "Loading placeholders" },
+    { name: "Tooltip", href: "/docs/components/tooltip", description: "Column header help text" },
+    { name: "Select", href: "/docs/components/select", description: "Alternative to filter dropdowns" },
+  ]}
+/>

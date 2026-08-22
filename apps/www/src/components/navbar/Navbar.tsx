@@ -25,13 +25,13 @@ const Navbar = () => {
         }
     }, [Open])
     return (
-        <header className="relative  z-100 w-full border-b border-neutral-100 bg-white dark:border-white/10 dark:bg-black">
-            <div className="mx-auto flex h-16 items-center px-8">
-                <Link to="/" className="mr-5 flex items-center justify-center text-center text-base font-bold">
+        <header className="fixed top-0 z-[200] w-full border-b border-neutral-200 shadow-xs bg-white dark:border-white/10 dark:bg-black">
+            <div className="mx-auto flex h-12 items-center px-8">
+                <Link to="/" className=" w-20 flex items-center justify-center text-center text-base font-bold">
                     Ops-UI
                 </Link>
-                <nav className=" flex items-center text-xs font-normal text-neutral-600 xl:flex xl:text-sm/6">
-                    <Link to="/docs/introduction" className="hidden space-x-1 rounded-md px-3 py-2 font-medium hover:bg-gray-100 sm:flex dark:hover:bg-neutral-900">
+                <nav className=" w-full flex justify-end items-center xl:flex mr-3 ">
+                    <Link to="/docs/introduction" className="hidden space-x-1 rounded-md hover:bg-accent hover:text-accent-foreground py-2 flex cursor-pointer items-center justify-center px-2 outline-none focus:ring-0 focus:outline-none active:ring-0 active:outline-none undefined font-medium hover:bg-gray-100 sm:flex dark:hover:bg-neutral-900">
                         Docs
                     </Link>
                 </nav>

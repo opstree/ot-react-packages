@@ -1,22 +1,32 @@
 ---
 title: Button
 description: A button component featuring animated noise backgrounds and vibrant gradients.
+category: Interactive
+tags: [button, noise, gradient, animation]
 ---
 
 import { Callout } from "@/components/docspagescomponent/Callout";
 import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
 import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
-import ButtonUsage from "../../../usage/Button";
-import { InstallationCli } from "@/components/docspagescomponent/cli-install-button.tsx"
+import { InstallationCli } from "@/components/docspagescomponent/cli-install-button";
+import { RelatedComponents } from "@/components/docspagescomponent/RelatedComponents";
+import { PropsTable } from "@/components/docspagescomponent/PropsTable";
+import ButtonUsage from "@/usage/Button";
 
 ## Overview
 
 The Button component is designed for maximum visual impact. It utilizes a custom noise background animation and vibrant gradients to create a truly premium feel. It's perfect for primary call-to-actions and hero sections.
 
-# Installation
-<InstallationCli value=" opscli add button"/>
+## Installation
 
-## Usage
+<InstallationCli value="opscli add button"/>
+
+
+## Usage Examples
+
+### Default Variants
+
+Three pre-configured gradient themes.
 
 <ComponentPreviewTabs
   component={<ButtonUsage />}
@@ -31,24 +41,65 @@ The Button component is designed for maximum visual impact. It utilizes a custom
   align="center"
 />
 
-## Features
+## Key Capabilities
 
-<Callout type="info">
-  Key features of the Button component:
-  - **Animated Noise**: Built-in noise texture animation for a cinematic texture.
-  - **Gradient Themes**: Multiple pre-defined color variants (Default, Emerald, Fire).
-  - **Tactile Feedback**: Interactive scaling effects on click/press.
-  - **Glassmorphism Influenced**: Leverages subtle shadows and gradients for a glass-like aesthetic.
-  - **Highly Responsive**: Seamlessly scales across all device types.
-</Callout>
+<PropsTable
+  props={[
+    { name: "Animated Noise", description: "Built-in noise texture animation for a cinematic texture" },
+    { name: "Gradient Themes", description: "Multiple pre-defined color variants (Default, Emerald, Fire)" },
+    { name: "Tactile Feedback", description: "Interactive scaling effects on click/press (0.98x scale)" },
+    { name: "Glassmorphism", description: "Subtle shadows and gradients for a glass-like aesthetic" },
+    { name: "Responsive", description: "Seamlessly scales across all device types" },
+    { name: "Dark Mode", description: "Automatic dark mode support with adapted gradients" },
+  ]}
+/>
 
-## Variants
+## API Reference
+### NoiseBackground Props
+Core animation component that renders the animated gradient + noise canvas.
 
-### Default
-A soft, harmonious mix of pink, blue, and yellow.
+<PropsTable
+  props={[
+    { name: "children", type: "React.ReactNode", default: "-", description: "Content to render inside the animated container", required: true },
+    { name: "containerClassName", type: "string", default: '""', description: "Extra classes for the outer container" },
+    { name: "gradientColors", type: "string[]", default: '["rgb(255,100,150)", "rgb(100,150,255)", "rgb(255,200,100)"]', description: "Array of gradient color stops (CSS color strings)" },
+    { name: "speed", type: "number", default: "0.003", description: "Animation speed multiplier (higher = faster)" },
+    { name: "noiseOpacity", type: "number", default: "0.12", description: "Noise texture opacity (0-1)" },
+  ]}
+/>
 
-### Emerald
-A fresh, professional green and cyan theme.
+### NoiseBackgroundDemo Props
 
-### Fire
-A bold, energetic orange, red, and purple theme.
+Exported wrapper component with pre-configured variants.
+
+<PropsTable
+  props={[
+    { name: "children", type: "React.ReactNode", default: "-", description: "Button label/content", required: true },
+    { name: "className", type: "string", default: "-", description: "Extra classes for the button element" },
+    { name: "icon", type: "React.ReactNode", default: "-", description: "Optional icon element to render alongside text" },
+    { name: "variant", type: '"default" | "emerald" | "fire"', default: '"default"', description: "Gradient theme variant" },
+  ]}
+/>
+
+### Variant Themes
+
+| Variant | Colors | Use Case |
+|---------|--------|----------|
+| `default` | Pink, Blue, Yellow | General purpose, playful |
+| `emerald` | Green, Cyan, Lime | Success actions, finance, nature |
+| `fire` | Orange, Red, Purple | Destructive actions, warnings, energy |
+
+
+## Related Components
+
+<RelatedComponents
+className="mt-3"
+  components={[
+    { name: "Badge", href: "/docs/components/badge", description: "Status indicators and labels" },
+    { name: "Tooltip", href: "/docs/components/tooltip", description: "Hover/focus tooltips" },
+    { name: "Card", href: "/docs/components/card", description: "Content containers" },
+    { name: "NoiseBackground", href: "/docs/components/noise-background", description: "Core animation utility" },
+  ]}
+  backHref="/docs"
+  backLabel="Back to Docs"
+/>
