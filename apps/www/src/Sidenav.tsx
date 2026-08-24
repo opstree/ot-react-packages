@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { cn } from "@workspace/ui/lib/utils"
 import { Link, useLocation } from "react-router-dom";
 import { SidebarNavItem } from "../types/nav";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 
 export interface DocsSidebarNavProps {
   items: SidebarNavItem[],
@@ -11,9 +13,9 @@ export interface DocsSidebarNavProps {
 export function DocsSidebarNav({ items, className }: DocsSidebarNavProps) {
   const pathname = useLocation();
   return items.length ? (
-    <div className="w-full">
+    <div className="w-full relative">
       {items.map((item, index) => (
-        <div key={index} className={cn("pb-4")}>
+        <div key={index} className={cn("pb-4", index < items.length - 1 && "border-b border-dashed border-neutral-200 dark:border-neutral-800 mb-2")}>
           <div className="flex gap-1 items-center px-2 py-1">
             <span className="mb-1.5">
               {item.icon}
@@ -32,7 +34,7 @@ export function DocsSidebarNav({ items, className }: DocsSidebarNavProps) {
   ) : null
 }
 
-interface DocsSidebarNavItemsProps {
+type DocsSidebarNavItemsProps = {
   items: SidebarNavItem[]
   pathname?: any
 }
@@ -42,7 +44,7 @@ export function DocsSidebarNavItems({
   pathname,
 }: DocsSidebarNavItemsProps) {
   return items?.length ? (
-    <div className="grid grid-flow-row auto-rows-max text-xs font-medium ml-2">
+    <div className="grid grid-flow-row auto-rows-max text-xs font-medium space-y-0.5">
       {items.map((item, index) => (
         <NavItem key={index} item={item} pathname={pathname} />
       ))}
@@ -50,7 +52,7 @@ export function DocsSidebarNavItems({
   ) : null
 }
 
-interface NavItemProps {
+type NavItemProps = {
   item: SidebarNavItem
   pathname?: string | null
   className?: string
@@ -59,17 +61,18 @@ interface NavItemProps {
 function NavItem({ item, pathname, className }: NavItemProps) {
   const isActive = pathname === item.href
   const hasChildren = item.items && item.items.length > 0
-
+  const [isOpen, setIsOpen] = useState(true);
   if (hasChildren) {
     return (
-      <div>
-        <span className={`flex w-full cursor-default items-center rounded-md text-black  text-[12px] font-medium `}>
-          {item.title}
-        </span>
-        <div className={`ml-3 border-l border-border pl-3 text-xs ${isActive ? "text-white" : "text-zinc-800"}`}>
-          <DocsSidebarNavItems items={item.items} pathname="/" />
-        </div>
-      </div>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="flex gap-4">
+        <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md  text-[var(--text-primary-color)] font-medium cursor-pointer p-1.5 hover:bg-accent transition-colors">
+          <span className="text-sm">{item.title}</span>
+          <ChevronDown className={cn("size-4 shrink-0 transition-transform duration-200", isOpen && "rotate-180")} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="ml-3 text-xs mt-2 overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-out-to-top-2">
+          <DocsSidebarNavItems items={item.items!} pathname={pathname} />
+        </CollapsibleContent>
+      </Collapsible>
     )
   }
 
@@ -78,7 +81,7 @@ function NavItem({ item, pathname, className }: NavItemProps) {
       <Link
         to={item.href}
         className={cn(
-          "group flex w-full items-center rounded-md border border-transparent px-2 py-1",
+          "group flex w-full items-center rounded-md px-2 py-1.5",
           item.disabled && "cursor-not-allowed opacity-60",
           isActive ? "font-medium text-white" : "text-zinc-400",
           className
@@ -86,7 +89,7 @@ function NavItem({ item, pathname, className }: NavItemProps) {
         target={item.external ? "_blank" : ""}
         rel={item.external ? "noreferrer" : ""}
       >
-        <p className=" hover:underline ">{item.title}</p>
+        <p className="text-sm text-neutral-300">{item.title}</p>
         {item.label === "new" && (
           <span className="ml-2 rounded-md border border-black bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}

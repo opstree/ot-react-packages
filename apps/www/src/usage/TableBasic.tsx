@@ -1,5 +1,7 @@
 import React from "react";
 import Table, { ColumnDef } from "@workspace/ui/components/mui-components/ts/Table";
+import { Heading } from "@workspace/ui/components/ui/Heading";
+import { UserIcon } from "lucide-react";
 
 type User = {
   id: number;
@@ -38,9 +40,6 @@ const TableBasic = () => {
   return (
     <div style={{ width: "100%" }}>
       <Table
-        icon="ri-user-line"
-        title="User Management"
-        subtitle="System users and their roles"
         data={data}
         columns={columns}
         pageSize={5}

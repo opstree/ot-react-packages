@@ -12,22 +12,17 @@ import { InstallationCli } from "@/components/docspagescomponent/cli-install-but
 import { RelatedComponents } from "@/components/docspagescomponent/RelatedComponents";
 import { PropsTable } from "@/components/docspagescomponent/PropsTable";
 import ButtonUsage from "@/usage/Button";
+import { Heading } from "@workspace/ui/components/ui/Heading";
 
-## Overview
-
-The Button component is designed for maximum visual impact. It utilizes a custom noise background animation and vibrant gradients to create a truly premium feel. It's perfect for primary call-to-actions and hero sections.
+<Heading title="Overview" subtitle="The Button component is designed for maximum visual impact. It utilizes a custom noise background animation and vibrant gradients to create a truly premium feel. It's perfect for primary call-to-actions and hero sections."/>
 
 ## Installation
 
 <InstallationCli value="opscli add button"/>
 
+<Heading title="Usage Examples" className="border-b border-dashed border-neutral-300 pb-1 mt-10 mb-6"/>
 
-## Usage Examples
-
-### Default Variants
-
-Three pre-configured gradient themes.
-
+<Heading title="Default Variants" subtitle="Three pre-configured gradient themes."/>
 <ComponentPreviewTabs
   component={<ButtonUsage />}
   source={
@@ -55,8 +50,8 @@ Three pre-configured gradient themes.
 />
 
 ## API Reference
-### NoiseBackground Props
-Core animation component that renders the animated gradient + noise canvas.
+
+<Heading title="NoiseBackground Props" subtitle="Core animation component that renders the animated gradient + noise canvas."/>
 
 <PropsTable
   props={[
@@ -68,9 +63,7 @@ Core animation component that renders the animated gradient + noise canvas.
   ]}
 />
 
-### NoiseBackgroundDemo Props
-
-Exported wrapper component with pre-configured variants.
+<Heading title="NoiseBackgroundDemo Props" subtitle="Exported wrapper component with pre-configured variants."/>
 
 <PropsTable
   props={[

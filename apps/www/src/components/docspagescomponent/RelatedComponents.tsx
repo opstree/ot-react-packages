@@ -23,7 +23,7 @@ export function RelatedComponents({ components, className }: RelatedComponentsPr
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
           {components.map((comp) => (
             <Tooltip key={comp.name}>
-              <TooltipTrigger asChild>
+              <TooltipTrigger>
                 <Link
                   to={comp.href}
                   style={{

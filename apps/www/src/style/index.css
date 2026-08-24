@@ -72,7 +72,7 @@
 :root {
   --fd-layout-width: 0px;
   --lg-sidebar-width:300px;
-  --fd-sidebar-width: 180px;
+  --fd-sidebar-width: 240px;
   --fd-sidebar-col: 268px;
   --fd-toc-width: 268px;
   --fd-docs-height: 100dvh;
@@ -123,10 +123,10 @@ body {
     height: 100dvh;
     overflow: hidden;
     grid-template-areas:
-      "sidebar header toc"
-      "sidebar toc-popover toc"
-      "sidebar main toc";
-    grid-template-columns: auto 1fr var(--fd-toc-width);
+      "sidebar header"
+      "sidebar toc-popover"
+      "sidebar main";
+   grid-template-columns: auto 2fr;
     grid-template-rows: auto auto 1fr;
   }
 }

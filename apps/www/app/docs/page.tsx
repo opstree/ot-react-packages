@@ -62,7 +62,7 @@ export default function Page() {
         >
             <div className="flex min-w-0 flex-1 flex-col">
                 <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-1 gap-8 px-0 py-0 lg:px-4 lg:py-6 text-neutral-800 lg:py-8 lg:px-0 dark:text-neutral-300">
-                    <div className="flex-1 py-4 px-4 sm:px-6 lg:px-10">
+                    <div className="flex-1 py-0 px-4 sm:px-6 lg:px-10">
                         <div className="flex flex-col gap-2 w-full max-w-4xl">
                             <div className="flex flex-col gap-2">
                                 <div className="flex items-center justify-between w-full">
@@ -95,17 +95,17 @@ export default function Page() {
                             {MDX ? (
                                 <Suspense fallback={<div className="text-neutral-400">Loading...</div>}>
                                     <MDX components={mdxComponents} />
-                                    <div className="w-full h-32 overflow-hidden flex justify-between items-center gap-4">
+                                    {/* <div className="w-full h-32 overflow-hidden flex justify-between items-center gap-4">
                                         <div className="flex items-end w-1/2">
                                             {neighbours.previous ?
                                                 <Link to={neighbours.previous.url}>
-                                                    <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'>
+                                                    <button className=' w-fit rounded-md border border-neutral-300 py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'>
                                                         {neighbours.previous.name}
-                                                        {/* {prevPage?.data.description && (
+                                                        {prevPage?.data.description && (
                                                             <p className="text-muted-foreground   sm:text-base">
                                                                 {prevPage?.data.description.length > 50 ? prevPage?.data.description.slice(0, 35) + "..." : prevPage?.data.description}
                                                             </p>
-                                                        )} */}
+                                                        )}
                                                     </button>
                                                 </Link>
                                                 : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
@@ -116,17 +116,17 @@ export default function Page() {
                                                 <Link to={neighbours.next.url}>
                                                     <button className=' w-[300px] rounded-md border border-neutral-300 py-2 px-2  button-3 dark:bg-white flex items-end gap-2 cursor-pointer flex-col'>
                                                         {neighbours.next.name}
-                                                        {/* {nextPage?.data.description && (
+                                                        {nextPage?.data.description && (
                                                             <p className="text-muted-foreground   sm:text-base">
                                                                 {nextPage?.data.description.length > 50 ? nextPage?.data.description.slice(0, 35) + "..." : nextPage?.data.description}
                                                             </p>
-                                                        )} */}
+                                                        )}
                                                     </button>
                                                 </Link>
                                                 : <button className=' h-full w-full rounded-md py-2 px-2 button-3 dark:bg-white flex items-start gap-2 cursor-pointer flex-col'></button>
                                             }
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </Suspense>
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-neutral-800 rounded-xl text-neutral-500">

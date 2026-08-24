@@ -1,6 +1,7 @@
 import { SidebarNavItem } from "../../types/nav"
 import React from "react"
-import { IconFile, IconFolders, IconStarSparkle } from "nucleo-glass"
+import { IconFile, IconFolders, IconStarSparkle, IconGear } from "nucleo-glass"
+import { Button, Table } from "./Icons"
 type CodeThemeName = "default" | "min" | "vitesse" | "slack" | "nord" | "dracula" | "one-dark-pro" | "catppuccin"
 
 interface DocsConfig {
@@ -25,11 +26,17 @@ export const docsConfig: DocsConfig = {
                     items: [],
                 },
                 {
-                    title: "Style",
-                    href: "/docs/style/style",
+                    title: "Utilities",
+                    href: "/docs/getting-started/utilities",
                     items: [],
-                    icon: <IconStarSparkle size={14} />
-                }
+                    icon: <IconGear size={14} />
+                },
+                // {
+                //     title: "Style",
+                //     href: "/docs/style/style",
+                //     items: [],
+                //     icon: <IconStarSparkle size={14} />
+                // }
             ],
             icon: <IconFile size={16} />
         },
@@ -37,14 +44,20 @@ export const docsConfig: DocsConfig = {
             title: "Components",
             items: [
                 {
-                    title: "Button",
-                    href: "/docs/components/button",
-                    items: [],
+                    title: "Buttons",
+                    href: "",
+                    icon: <Button />,
+                    items: [
+                        { title: "Button", href: "/docs/components/button", items: [] },
+                    ],
                 },
                 {
-                    title: "Table",
-                    href: "/docs/components/Table",
-                    items: [],
+                    title: "Data",
+                    icon: <Table />,
+                    href: "",
+                    items: [
+                        { title: "Table", href: "/docs/components/Table", items: [] }
+                    ],
                 },
                 // {
                 //     title: "Skeleton",

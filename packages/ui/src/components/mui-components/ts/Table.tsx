@@ -578,7 +578,6 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
     const [internalPage, setInternalPage] = useState<number>(1);
     const [filterValues, setFilterValues] = useState<Record<string, string[]>>(initialFilterValues);
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [unscannedOnly, setUnscannedOnly] = useState<boolean>(false);
     const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const searchInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -588,7 +587,7 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
 
     useEffect(() => {
         setInternalPage(1);
-    }, [data, filterValues, searchQuery, unscannedOnly]);
+    }, [data, filterValues, searchQuery]);
 
     // ── Filtering + searching ────────────────────────────────────────────────────
     const filteredData = useMemo(() => {
@@ -644,11 +643,9 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
 
     const hasActiveFilters =
         Object.values(filterValues).some((v) => Array.isArray(v) && v.length > 0) ||
-        !!searchQuery ||
-        unscannedOnly;
-
+        !!searchQuery
     return (
-        <Box sx={{ padding: "24px", background: "#F4F6F8", minHeight: "100vh" }}>
+        <Box sx={{ padding: "24px", minHeight: "100vh" }}>
             <Box
                 sx={{
                     border: "1px solid #E6E6E6",

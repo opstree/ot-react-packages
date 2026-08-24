@@ -40,7 +40,7 @@ export function ComponentSource({
 
         const res = await fetch(`/api/source?src=${encodeURIComponent(currentSrc)}&lang=${currentLang}`)
         const contentType = res.headers.get("content-type")
-        
+
         if (!res.ok) {
           let errMsg = "Failed to fetch source"
           if (contentType && contentType.includes("application/json")) {

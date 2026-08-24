@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { cn } from "@workspace/ui/lib/utils"
-import { PanelLeftClose } from "lucide-react";
+import { PanelLeftClose, ChevronDown } from "lucide-react";
 import type { NavItem } from "../../../types/nav"
 import { IconStarSparkle } from "nucleo-glass";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/ui/collapsible";
 
 interface NavSection {
   title: string
@@ -25,11 +26,11 @@ interface DocsSidebarNavProps {
 export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavProps) {
   const { pathname } = useLocation();
   return items.length ? (
-    <aside className={cn("*:w-[var(--fd-sidebar-width)] duration-250 h-full min-h-screen text-[#1e1e1e]",
+    <aside className={cn("w-full lg:*:w-[var(--fd-sidebar-width)] duration-250 h-full min-h-screen text-[#1e1e1e]",
       "pt-0 py-4 px-1",
       className)}>
       <div className="w-full h-full px-4">
-        <header className="w-full flex items-center justify-between mb-4">
+        <header className="w-full flex items-center justify-between mb-4 lg:hidden">
           <div className="w-full h-full flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
               <IconStarSparkle size={18} style={{
@@ -38,7 +39,7 @@ export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavPr
               } as React.CSSProperties}
                 className="mb-1"
               />
-              <span className="font-semibold text-lg uppercase tracking-tight dark:text-white text-black">Opsdocs</span>
+              <span className="font-semibold text-lg capitalize dark:text-white text-black" style={{ letterSpacing: "-0.3px" }}>Opsdocs</span>
             </Link>
           </div>
           <PanelLeftClose
@@ -50,7 +51,7 @@ export function DocsSidebarNav({ items, className, setIsOpen }: DocsSidebarNavPr
         <div className="space-y-4">
           {items.map((section, index) => (
             <div key={index} className="space-y-1.5">
-              <h4 className="text-sm font-semibold uppercase tracking-tight dark:text-neutral-200">
+              <h4 className="text-sm font-medium border-b border-dashed border-black border-neutral-300" style={{ letterSpacing: "-0.3px" }}>
                 {section.title}
               </h4>
               <DocsSidebarNavItems items={section.items} pathname={pathname} />
@@ -68,7 +69,7 @@ export function DocsSidebarNavItems({
   pathname,
 }: { items: NavItem[], pathname: string }) {
   return items?.length ? (
-    <div className="grid grid-flow-row auto-rows-max text-xs font-medium ml-2">
+    <div className="grid grid-flow-row auto-rows-max text-xs font-medium  gap-2">
       {items.map((item, index) => (
         <NavItem key={index} item={item} pathname={pathname} />
       ))}
@@ -80,17 +81,23 @@ export function DocsSidebarNavItems({
 function NavItem({ item, pathname, className }: NavItemProps) {
   const isActive = pathname === item.href
   const hasChildren = item.items && item.items.length > 0
+  const [isOpen, setIsOpen] = useState(false);
 
   if (hasChildren) {
     return (
-      <div>
-        <span className={`flex w-full cursor-default items-center rounded-md text-md text-neutral-200 font-medium `}>
-          {item.title}
-        </span>
-        <div className={`ml-3 border-l border-border pl-3 text-xs ${isActive ? "text-white" : "light:text-[#1e1e1e]"}`}>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md text-[var(--text-primary-color)] font-medium cursor-pointer px-2 py-1.5 hover:bg-accent transition-colors">
+          <div className="flex items-center gap-2">
+            {item.icon}
+            <span className="text-sm">{item.title}</span>
+          </div>
+          <ChevronDown className={cn("size-4 shrink-0 transition-transform duration-200", isOpen && "rotate-180")} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="ml-3 text-xs mt-2 overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-out-to-top-2">
           <DocsSidebarNavItems items={item.items!} pathname={pathname} />
-        </div>
-      </div>
+        </CollapsibleContent>
+        <div className="border-b border-dashed pb-2 w-full h-1"></div>
+      </Collapsible >
     )
   }
 
@@ -98,6 +105,7 @@ function NavItem({ item, pathname, className }: NavItemProps) {
     return (
       <Link
         to={item.href}
+        onClick={() => !item.external && setIsOpen(false)}
         className={cn(
           "group flex w-full items-center rounded-md border border-transparent px-2 py-1.5 transition-all duration-200",
           item.disabled && "cursor-not-allowed opacity-60",
@@ -109,7 +117,7 @@ function NavItem({ item, pathname, className }: NavItemProps) {
         target={item.external ? "_blank" : ""}
         rel={item.external ? "noreferrer" : ""}
       >
-        <p className=" hover:underline ">{item.title}</p>
+        <p className="">{item.title}</p>
         {item.label === "new" && (
           <span className="ml-2 rounded-md border border-black bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}

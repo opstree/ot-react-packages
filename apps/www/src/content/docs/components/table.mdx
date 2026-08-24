@@ -17,31 +17,18 @@ import TableCustomRendering from "@/usage/TableCustomRendering";
 import TableStickyColumns from "@/usage/TableStickyColumns";
 import TableExpandableRows from "@/usage/TableExpandableRows";
 import TableStates from "@/usage/TableStates";
+import { Heading } from "@workspace/ui/components/ui/Heading";
 
-## Overview
+<Heading title="Overview" subtitle="The Table component is a powerful, production-ready data display component built for complex data presentation scenarios. It combines a modern glassmorphism aesthetic with enterprise-grade features including multi-column sorting, multi-select filtering, debounced search, internal/external pagination, expandable metric rows, sticky columns, and comprehensive state handling (loading, error, empty, row-level empty)."/>
 
-The Table component is a powerful, production-ready data display component built for complex data presentation scenarios. It combines a modern glassmorphism aesthetic with enterprise-grade features including multi-column sorting, multi-select filtering, debounced search, internal/external pagination, expandable metric rows, sticky columns, and comprehensive state handling (loading, error, empty, row-level empty).
 
-## Usage Examples
-### Basic Table
-Minimal table with title, subtitle, and default pagination.
+## Installation
 
-<ComponentPreviewTabs
-  component={<TableBasic />}
-  source={
-    <ComponentSource
-      src="src/usage/TableBasic.tsx"
-      title="TableBasic.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[40em] w-[90vw]"
-  align="center"
-/>
+<InstallationCli value="opscli add table"/>
 
-### Sticky Columns
+<Heading title="Usage Examples" className="border-b border-dashed border-neutral-300 pb-1 mt-10 mb-6"/>
 
-First column (key: `service`) and last column (key: `_action`) remain fixed during horizontal scroll with subtle box-shadow separation.
+<Heading title="Sticky Columns" subtitle="First column (key: `service`) and last column (key: `_action`) remain fixed during horizontal scroll with subtle box-shadow separation."/>
 
 <ComponentPreviewTabs
   component={<TableStickyColumns />}
@@ -56,10 +43,7 @@ First column (key: `service`) and last column (key: `_action`) remain fixed duri
   align="center"
 />
 
-### Expandable/Metric Rows
-
-Columns marked `isMetricColumn: true` collapse into a single expandable message row when `isRowEmpty` returns true. Click to expand/collapse.
-
+<Heading title="Expandable/Metric Rows" subtitle="Columns marked `isMetricColumn: true` collapse into a single expandable message row when `isRowEmpty` returns true. Click to expand/collapse."/>
 <ComponentPreviewTabs
   component={<TableExpandableRows />}
   source={
@@ -73,9 +57,7 @@ Columns marked `isMetricColumn: true` collapse into a single expandable message 
   align="center"
 />
 
-### Loading, Error & Empty States
-
-Skeleton loaders with wave animation, error display with icon, empty state with illustration, and row-level empty messages.
+<Heading title="Loading, Error & Empty States" subtitle="Skeleton loaders with wave animation, error display with icon, empty state with illustration, and row-level empty messages."/>
 
 <ComponentPreviewTabs
   component={<TableStates />}
@@ -106,10 +88,6 @@ Skeleton loaders with wave animation, error display with icon, empty state with 
     { name: "Accessibility", type: "Feature", default: "-", description: "ARIA labels, focus management, keyboard sortable headers, screen reader announcements" },
   ]}
 />
-
-## Installation
-
-<InstallationCli value="opscli add table"/>
 
 
 ## API Reference

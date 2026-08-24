@@ -31,7 +31,7 @@ export function ComponentPreviewTabs({
   return (
     <LanguageContext.Provider value={{ langType, setLangType }}>
       <div
-        className={cn("relative mt-4 mb-12 flex flex-col gap-2", className)}
+        className={cn("relative mt-4 mb-12 flex flex-col gap-2 h-fit", className)}
         {...props}
       >
         <Tabs
@@ -39,7 +39,7 @@ export function ComponentPreviewTabs({
           value={tab}
           onValueChange={setTab}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between w-full">
             {!hideCode && (
               <TabsList className="gap-2 bg-black/80 backdrop-blur-sm ring ring-zinc-950/30">
                 <TabsTrigger
@@ -95,7 +95,7 @@ export function ComponentPreviewTabs({
                   data-align={align}
                   className={cn(
                     "preview w-full flex flex-wrap overflow-hidden",
-                    "min-h-[320px] max-h-[100dvh] lg:max-h-[90vh] xl:max-h-[100vh]",
+                    "min-h-[320px] h-[65vh] md:h-[70vh] lg:max-h-[90vh] xl:max-h-[55vh]",
                     "relative px-4 py-2",
                     "justify-center items-center",
                   )}
