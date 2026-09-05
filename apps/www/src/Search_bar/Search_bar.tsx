@@ -83,7 +83,7 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
         }
     }
     return (
-        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 4, animationDuration: 800 }} className='w-[90%] md:w-[80%] lg:w-[60%] mx-auto absolute bottom-1 h-[60dvh] left-[50%] -translate-x-[50%] bg-neutral-800  px-4 pt-[1rem] rounded-t-2xl'>
+        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 4 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className='w-[90%] md:w-[80%] lg:w-[60%] mx-auto absolute bottom-1 h-[60dvh] left-[50%] -translate-x-[50%] bg-neutral-800  px-4 pt-[1rem] rounded-t-2xl'>
             <div className='w-full'>
                 <p onClick={handleclick} onKeyDown={handlenavigate} tabIndex={0} className='rounded-full  px-4 py-2 bg-[var(--bg)] flex items-center gap-2 w-max shadow-[var(--shadow-m)] cursor-pointer hover:shadow-[var(--shadow-l)] '>
                     <CornerUpLeft className='w-3 h-3' />
@@ -93,6 +93,7 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
             <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 4 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="p-[1rem] rounded-t-md bg-[var(--bg)] mt-2 shadow-[var(--shadow-m)] flex flex-col h-full"
             >
                 <div className='relative'>

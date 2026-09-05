@@ -21,6 +21,7 @@ import { Callout } from "./src/components/docspagescomponent/Callout"
 import { DocsCopyPage } from "./src/components/docspagescomponent/Doc-copy-page"
 import { DocsTableOfContents } from "./src/components/docspagescomponent/Doc-toc"
 import { CopyButton } from "./src/components/docspagescomponent/Copy-button"
+import { CodeBlock, PackageDepsCodeBlock } from "./src/components/docspagescomponent/CodeBlock"
 
 const getCodeText = (node: any): string => {
   if (!node) return ""
@@ -294,6 +295,8 @@ export const mdxComponents = {
   CodeCollapsibleWrapper,
   DocsCopyPage,
   DocsTableOfContents,
+  CodeBlock,
+  PackageDepsCodeBlock,
   // ComponentsList,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link

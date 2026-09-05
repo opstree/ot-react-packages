@@ -35,26 +35,30 @@ export function ComponentPreviewTabs({
         {...props}
       >
         <Tabs
-          className="relative mr-auto w-full"
+          className="relative lg:w-[130%]"
           value={tab}
           onValueChange={setTab}
         >
           <div className="flex items-center justify-between w-full">
             {!hideCode && (
-              <TabsList className="gap-2 bg-black/80 backdrop-blur-sm ring ring-zinc-950/30">
-                <TabsTrigger
-                  className="cursor-pointer text-sm transition-all data-[state=active]:bg-white data-[state=active]:text-black text-white/70 hover:text-white"
-                  value="preview"
-                >
-                  Preview
-                </TabsTrigger>
-                <TabsTrigger
-                  className="cursor-pointer text-sm transition-all data-[state=active]:bg-white data-[state=active]:text-black text-white/70 hover:text-white"
-                  value="code"
-                >
-                  Code
-                </TabsTrigger>
-              </TabsList>
+              <div className="flex items-center gap-2">
+                <TabsList className="gap-2 bg-white backdrop-blur-sm ring ring-zinc-950/30">
+                  <TabsTrigger
+                    className="cursor-pointer text-sm transition-all data-[state=active]:bg-white data-[state=active]:text-black text-white/70 hover:text-white"
+                    value="preview"
+                  >
+                    Preview
+                  </TabsTrigger>
+                  <TabsTrigger
+                    className="cursor-pointer text-sm transition-all data-[state=active]:bg-white data-[state=active]:text-black text-white/70 hover:text-white"
+                    value="code"
+                  >
+                    Code
+                  </TabsTrigger>
+                </TabsList>
+
+
+              </div>
             )}
             {tab === "code" && (
               <div className="flex items-center p-1 shadow-sm shadow-black/20 bg-black/80 backdrop-blur-sm ring ring-zinc-950/30 rounded-lg text-xs text-white">
@@ -82,7 +86,7 @@ export function ComponentPreviewTabs({
         </Tabs>
         <div
           data-tab={tab}
-          className="data-[tab=code]:border-code relative rounded-xl border md:-mx-1"
+          className="data-[tab=code]:border-code lg:min-w-[130%] relative rounded-xl border md:-mx-1"
         >
           {
             tab === "preview" ? (
@@ -94,9 +98,9 @@ export function ComponentPreviewTabs({
                 <div
                   data-align={align}
                   className={cn(
-                    "preview w-full flex flex-wrap overflow-hidden",
-                    "min-h-[320px] h-[65vh] md:h-[70vh] lg:max-h-[90vh] xl:max-h-[55vh]",
-                    "relative px-4 py-2",
+                    "preview w-[100%] flex flex-wrap overflow-hidden",
+                    "min-h-[320px] h-[65vh] md:h-[70vh] lg:min-h-screen xl:min-h-screen",
+                    "relative px-1 py-2",
                     "justify-center items-center",
                   )}
                 >
@@ -107,7 +111,7 @@ export function ComponentPreviewTabs({
               <div
                 data-slot="code"
                 data-active={tab === "code"}
-                className="overflow-auto data-[active=true]:block bg-[var(--bg)] rounded-lg p-4 min-h-100"
+                className="overflow-auto data-[active=true]:block bg-[#131419] rounded-lg border border-zinc-800 p-4 min-h-100"
               >
                 {source}
               </div>

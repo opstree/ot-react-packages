@@ -40,8 +40,8 @@ export function componentApi() {
                         const highlightedCode = await codeToHtml(code, {
                             lang: lang,
                             themes: {
-                                light: 'nord',
-                                dark: 'nord',
+                                light: 'github-dark',
+                                dark: 'github-dark',
                             },
                             transformers: [
                                 {

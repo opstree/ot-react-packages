@@ -11,12 +11,7 @@ import { ComponentSource } from "@/components/docspagescomponent/ComponentSource
 import { InstallationCli } from "@/components/docspagescomponent/cli-install-button";
 import { RelatedComponents } from "@/components/docspagescomponent/RelatedComponents";
 import { PropsTable } from "@/components/docspagescomponent/PropsTable";
-import TableBasic from "@/usage/TableBasic";
-import TableFilters from "@/usage/TableFilters";
-import TableCustomRendering from "@/usage/TableCustomRendering";
-import TableStickyColumns from "@/usage/TableStickyColumns";
-import TableExpandableRows from "@/usage/TableExpandableRows";
-import TableStates from "@/usage/TableStates";
+import TableDemo from "@/usage/TableDemo";
 import { Heading } from "@workspace/ui/components/ui/Heading";
 
 <Heading title="Overview" subtitle="The Table component is a powerful, production-ready data display component built for complex data presentation scenarios. It combines a modern glassmorphism aesthetic with enterprise-grade features including multi-column sorting, multi-select filtering, debounced search, internal/external pagination, expandable metric rows, sticky columns, and comprehensive state handling (loading, error, empty, row-level empty)."/>
@@ -26,45 +21,13 @@ import { Heading } from "@workspace/ui/components/ui/Heading";
 
 <InstallationCli value="opscli add table"/>
 
-<Heading title="Usage Examples" className="border-b border-dashed border-neutral-300 pb-1 mt-10 mb-6"/>
-
-<Heading title="Sticky Columns" subtitle="First column (key: `service`) and last column (key: `_action`) remain fixed during horizontal scroll with subtle box-shadow separation."/>
-
+<Heading title="Usage Example" className="border-b border-dashed border-neutral-300 pb-1 mt-10 mb-6"/>
 <ComponentPreviewTabs
-  component={<TableStickyColumns />}
+  component={<TableDemo />}
   source={
     <ComponentSource
-      src="src/usage/TableStickyColumns.tsx"
-      title="TableStickyColumns.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-<Heading title="Expandable/Metric Rows" subtitle="Columns marked `isMetricColumn: true` collapse into a single expandable message row when `isRowEmpty` returns true. Click to expand/collapse."/>
-<ComponentPreviewTabs
-  component={<TableExpandableRows />}
-  source={
-    <ComponentSource
-      src="src/usage/TableExpandableRows.tsx"
-      title="TableExpandableRows.tsx"
-      language="tsx"
-    />
-  }
-  className="lg:w-[55vw] w-[90vw]"
-  align="center"
-/>
-
-<Heading title="Loading, Error & Empty States" subtitle="Skeleton loaders with wave animation, error display with icon, empty state with illustration, and row-level empty messages."/>
-
-<ComponentPreviewTabs
-  component={<TableStates />}
-  source={
-    <ComponentSource
-      src="src/usage/TableStates.tsx"
-      title="TableStates.tsx"
+      src="src/usage/TableDemo.tsx"
+      title="TableDemo.tsx"
       language="tsx"
     />
   }

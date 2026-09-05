@@ -26,7 +26,7 @@ const Navbar = ({ onSidebarToggle }: { onSidebarToggle?: (open: boolean) => void
         }
     }, [Open])
     return (
-        <header className="sticky top-0 z-100 w-full border-b border-neutral-100 bg-white dark:border-white/10 dark:bg-black">
+        <header className="sticky top-0 z-100 w-full border-b border-black/10 bg-white dark:border-white/10 dark:bg-black">
             <div className="mx-auto flex h-12 items-center px-8">
                 <Link to="/" className=" w-20 flex items-center justify-center text-center text-xs font-bold">
                     Ops-UI
@@ -65,6 +65,11 @@ const Navbar = ({ onSidebarToggle }: { onSidebarToggle?: (open: boolean) => void
                         <SearchBar Open={setOpen} />
                     </div>
                 }
+                <div className="w-[2px] h-6 bg-neutral-400/30 mr-2">
+                </div >
+                <Link to="/login" className="hidden space-x-1 rounded-md text-xs hover:bg-accent hover:text-accent-foreground py-2 flex cursor-pointer items-center justify-center px-2 outline-none focus:ring-0 focus:outline-none active:ring-0 active:outline-none undefined font-medium hover:bg-gray-100 sm:flex dark:hover:bg-neutral-900">
+                    Login
+                </Link>
             </div>
         </header>
     )

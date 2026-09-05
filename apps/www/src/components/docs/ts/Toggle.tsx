@@ -21,6 +21,7 @@ export const Toggle = () => {
             )}
             aria-label="Toggle theme"
         >
+            {/* icon swap — polished: var(--icon-swap-dur) 250ms / var(--icon-swap-ease) ease-in-out, usage-matched */}
             <AnimatePresence mode="wait" initial={false}>
                 {theme === "dark" ? (
                     <motion.div
@@ -28,7 +29,7 @@ export const Toggle = () => {
                         initial={{ y: 20, opacity: 0, rotate: 45 }}
                         animate={{ y: 0, opacity: 1, rotate: 0 }}
                         exit={{ y: -20, opacity: 0, rotate: -45 }}
-                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
                     >
                         <Moon size={16} className="text-neutral-400 group-hover:text-neutral-200" />
                     </motion.div>
@@ -38,7 +39,7 @@ export const Toggle = () => {
                         initial={{ y: 20, opacity: 0, rotate: 45 }}
                         animate={{ y: 0, opacity: 1, rotate: 0 }}
                         exit={{ y: -20, opacity: 0, rotate: -45 }}
-                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
                     >
                         <Sun size={16} className="text-yellow-500" />
                     </motion.div>

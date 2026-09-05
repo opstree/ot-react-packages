@@ -35,8 +35,7 @@ export default function DocsLayout() {
   return (
     <>
       <Navbar onSidebarToggle={() => setSidebarOpen(prev => !prev)} />
-      <div className={cn("min-h-[100dvh] sidebar dark:bg-[var(--bg)] bg-neutral-100", "overflow-x-clip")}>
-        {/* Mobile sidebar backdrop */}
+      <div className={cn("sidebar dark:bg-[var(--bg)] bg-neutral-100")}>
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-[4000] bg-black/50 lg:hidden"
@@ -45,7 +44,6 @@ export default function DocsLayout() {
           />
         )}
 
-        {/* Mobile sidebar toggle button (right side) */}
         {!sidebarOpen && (
           <button
             type="button"
@@ -57,7 +55,6 @@ export default function DocsLayout() {
           </button>
         )}
 
-        {/* Mobile header */}
         <div className="[grid-area:header]  sticky top-(--fd-docs-row-1) z-30 flex items-center py-1 px-2 border-b transition-colors backdrop-blur-sm h-(--fd-header-height) md:hidden max-md:layout:[--fd-header-height:--spacing(14)] data-[transparent=false]:bg-fd-background/80">
           <Link to="/" rel="stylesheet" >
             <div className="w-full h-full flex items-center gap-2 ml-2.5">
@@ -70,7 +67,6 @@ export default function DocsLayout() {
           </button>
         </div>
 
-        {/* Mobile TOC */}
         <div className="sticky w-full top-[var(--fd-docs-row-2)] z-10 [grid-area:toc-popover] h-(--fd-toc-popover-height) block lg:hidden max-lg:h:[--fd-toc-popover-height:--spacing(10)]">
           <header onClick={() => setTocOpen(!tocOpen)} className="border-b backdrop-blur-sm transition-colors bg-fd-background/80">
             <button className="flex w-full h-10 items-center text-sm text-fd-muted-foreground gap-2.5 px-4 py-2.5 text-start focus-visible:outline-none [&_svg]:size-4 md:px-6">
@@ -84,15 +80,17 @@ export default function DocsLayout() {
           </div>}
         </div>
 
-        {/* Sidebar area - now fixed positioned on mobile, sticky on desktop */}
-        <div className="relative top-(--fd-docs-row-1) flex z-[200000] [grid-area:sidebar] pointer-events-none *:pointer-events-auto h-[calc(var(--fd-docs-height)-var(--fd-docs-row-1))] md:layout:[--fd-sidebar-width:268px] lg:sticky lg:top-0">
-          <div className=" h-full w-6"><div className="h-full hidden lg:block w-full border-r border-l dark:hidden" style={{ borderColor: "rgba(0, 0, 0, 0.04)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(0, 0, 0, 0.04) 4px,rgba(0, 0, 0, 0.04) 5px)" }}></div><div className="hidden h-full w-full border-r border-l dark:block" style={{ borderColor: "rgba(255, 255, 255, 0.06)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(255, 255, 255, 0.06) 4px,rgba(255, 255, 255, 0.06) 5px)" }}></div></div>
+        <div className="grid-sidebar relative flex z-[200000] lg:z-[20] pointer-events-none *:pointer-events-auto self-start lg:sticky lg:top-12 lg:h-[calc(100vh-3rem)] md:layout:[--fd-sidebar-width:268px]">
+          <div className="hidden lg:flex h-full w-6 shrink-0">
+            <div className="h-full hidden lg:block w-full border-r border-l dark:hidden" style={{ borderColor: "rgba(0, 0, 0, 0.04)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(0, 0, 0, 0.04) 4px,rgba(0, 0, 0, 0.04) 5px)" }}></div>
+            <div className="hidden h-full w-full border-r border-l dark:block" style={{ borderColor: "rgba(255, 255, 255, 0.06)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(255, 255, 255, 0.06) 4px,rgba(255, 255, 255, 0.06) 5px)" }}></div>
+          </div>
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <div className="absolute top-0 -right-6 z-10 h-full w-6"><div className="hidden lg:block h-full w-full border-r border-l dark:hidden" style={{ borderColor: "rgba(0, 0, 0, 0.04)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(0, 0, 0, 0.04) 4px,rgba(0, 0, 0, 0.04) 5px)" }}></div><div className="hidden h-full w-full border-r border-l dark:block" style={{ borderColor: "rgba(255, 255, 255, 0.06)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(255, 255, 255, 0.06) 4px,rgba(255, 255, 255, 0.06) 5px)" }}></div></div>
+          <div className="hidden lg:block absolute top-0 -right-6 z-10 h-full w-6"><div className="hidden lg:block h-full w-full border-r border-l dark:hidden" style={{ borderColor: "rgba(0, 0, 0, 0.04)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(0, 0, 0, 0.04) 4px,rgba(0, 0, 0, 0.04) 5px)" }}></div><div className="hidden h-full w-full border-r border-l dark:block" style={{ borderColor: "rgba(255, 255, 255, 0.06)", backgroundImage: "repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(255, 255, 255, 0.06) 4px,rgba(255, 255, 255, 0.06) 5px)" }}></div></div>
         </div>
 
-        {/* Main content */}
-        <div className="w-full flex items-center justify-center mx-auto">
+        {/* Main content — offset by fixed sidebar width on lg */}
+        <div className="grid-main w-full flex items-start justify-center mx-auto">
           <Page />
         </div>
       </div >

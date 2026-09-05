@@ -1,6 +1,6 @@
 ---
 title: Utilities
-description: Commonly used utilities for using Aceternity UI components
+description: Commonly used utilities for using - UI components. These utilities help with class name merging and provide a consistent developer experience.
 category: Getting Started
 tags: [utilities, installation, clsx, tailwind-merge, cn]
 ---
@@ -8,47 +8,30 @@ tags: [utilities, installation, clsx, tailwind-merge, cn]
 import { Callout } from "@/components/docspagescomponent/Callout";
 import { InstallationCli } from "@/components/docspagescomponent/cli-install-button";
 import { Heading } from "@workspace/ui/components/ui/Heading";
+import {CodeBlock} from "@/components/docspagescomponent/CodeBlock.tsx"
 
-<Heading 
-  title="Utilities" 
-  subtitle="Commonly used utilities for using Aceternity UI components. These utilities help with class name merging and provide a consistent developer experience."
-/>
 
-## Installation
+<Heading title="Add util file" subtitle="Create a `lib/utils.ts` file with the `cn` helper function:" className="mt-10 mb-2"/>
 
-<Heading title="Add Utilities" subtitle="Install the required dependencies for class name utilities." className="mb-4"/>
-
-### Install dependencies
-
-<InstallationCli value="npm i motion clsx tailwind-merge" />
-
-### Add util file
-
-Create a `lib/utils.ts` file with the `cn` helper function:
-
-```ts title="lib/utils.ts"
-import { ClassValue, clsx } from "clsx";
+<CodeBlock lang="json" title="lib/utils.ts" code={`import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-```
+`}
+/>
+
 
 <Callout type="info" title="Copy Code">
 Click the copy button in the top-right corner of the code block to copy the utility function.
 </Callout>
 
-## Next.js 15 and React 19 Framer Motion Fix
-
 <Heading title="Next.js 15 + React 19 Compatibility" subtitle="Required configuration changes for using Framer Motion with React 19." className="mt-10 mb-4"/>
 
-### Using framer-motion
+<Heading className="mb-2" title="Using motion" subtitle="If you're using Next.js 15 and React 19 with `framer-motion`, add the following to your `package.json`:"/>
 
-If you're using Next.js 15 and React 19 with `framer-motion`, add the following to your `package.json`:
-
-```json title="package.json"
-{
+<CodeBlock lang="json" title="package.json" code={`{
   "dependencies": {
     "framer-motion": "^12.0.0-alpha.1",
     "next": "15.0.3",
@@ -63,14 +46,10 @@ If you're using Next.js 15 and React 19 with `framer-motion`, add the following 
     }
   }
 }
-```
+`} />
 
-### Using motion (new package)
-
-If you're using the new `motion` package instead of `framer-motion`:
-
-```json title="package.json"
-{
+<Heading className="mb-2" title="Using motion (new package)" subtitle="If you're using the new `motion` package instead of `framer-motion`:"/>
+<CodeBlock lang="json" title="package.json" code={`{
   "dependencies": {
     "motion": "^12.0.0-alpha.1",
     "next": "15.0.3",
@@ -85,7 +64,7 @@ If you're using the new `motion` package instead of `framer-motion`:
     }
   }
 }
-```
+`} />
 
 <Callout type="warning" title="Important">
 The `overrides` field is required to ensure Framer Motion uses the correct React 19 version. Without this, you may encounter compatibility issues.

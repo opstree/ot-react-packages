@@ -77,7 +77,10 @@ const Search_bar = ({ Open }: { Open: Dispatch<SetStateAction<boolean>> }) => {
         Inputref.current?.focus();
     }
     return (
-        <div>
+        <div data-lenis-prevent
+            data-lenis-prevent-touch
+            data-lenis-prevent-wheel
+            onWheel={(e) => e.stopPropagation()}>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, animationDuration: 800 }} className='w-[90%] md:w-[80%] lg:w-[60%] mx-auto absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-[var(--sand-4)] p-1 rounded-xl overscroll-contain ring-1 ring-black/10'>
                 <div className='relative min-h-10 flex items-center '>
                     <input ref={Inputref} type="text" value={Search} onChange={(e) => setSearch(e.target.value)} placeholder='Search...' className='w-full py-2 px-2 rounded-lg  min-h-12  bg-neutral-50 dark:bg-[var(--bg)] shadow-[var(--shadow)] outline-none border-none text-black dark:text-[var(--foreground)]' />

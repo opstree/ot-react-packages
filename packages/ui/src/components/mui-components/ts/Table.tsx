@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, EventHandler } from "react";
 import { Box, Skeleton, Tooltip } from "@mui/material";
 import ReactDOM from "react-dom";
+import { ChevronDown, Search, X } from "lucide-react";
 
 
 interface FilterTypes {
@@ -18,6 +19,17 @@ const FilterDropdown = ({ label, value = [], options = [], onChange }: FilterTyp
 
     const selected = Array.isArray(value) ? value : value ? [value] : [];
 
+    const updateCoords = () => {
+        if (buttonRef.current) {
+            const rect = buttonRef.current.getBoundingClientRect();
+            setCoords({
+                top: rect.bottom + 1,
+                left: rect.left,
+                width: rect.width,
+            });
+        }
+    };
+
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (
@@ -33,15 +45,25 @@ const FilterDropdown = ({ label, value = [], options = [], onChange }: FilterTyp
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
+    useEffect(() => {
+        if (!open) return;
+        updateCoords();
+
+        const handleScrollOrResize = () => {
+            updateCoords();
+        };
+
+        window.addEventListener("scroll", handleScrollOrResize, true);
+        window.addEventListener("resize", handleScrollOrResize);
+
+        return () => {
+            window.removeEventListener("scroll", handleScrollOrResize, true);
+            window.removeEventListener("resize", handleScrollOrResize);
+        };
+    }, [open]);
+
     const openDropdown = () => {
-        if (buttonRef.current) {
-            const rect = buttonRef.current.getBoundingClientRect();
-            setCoords({
-                top: rect.bottom + 4,
-                left: rect.left,
-                width: rect.width,
-            });
-        }
+        updateCoords();
         setOpen((o) => !o);
     };
 
@@ -76,189 +98,165 @@ const FilterDropdown = ({ label, value = [], options = [], onChange }: FilterTyp
                 style={{
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "space-between",
                     gap: "6px",
-                    padding: "0 12px",
                     height: "40px",
                     fontSize: 12,
                     fontWeight: 500,
-                    border: `1px solid ${selectedCount > 0 ? "#0086FF" : "rgba(230, 230, 230, 1)"}`,
-                    borderRadius: 8,
-                    background: selectedCount > 0 ? "#F0F7FF" : "#fff",
                     color: "#2F2F2F",
                     cursor: "pointer",
                     fontFamily: "inherit",
                     whiteSpace: "nowrap",
                 }}
+                className="border-1 border-black/10 px-2 py-1 rounded-md w-25"
             >
                 <span style={{ color: "#8B91A8" }}>{label}</span>
-
-                {selectedCount > 0 && (
-                    <span
-                        style={{
-                            background: "#0086FF",
-                            color: "#fff",
-                            borderRadius: "10px",
-                            padding: "1px 7px",
-                            fontSize: 11,
-                            fontWeight: 700,
-                            lineHeight: 1.6,
-                        }}
-                    >
-                        {selectedCount}
-                    </span>
-                )}
-
-                <i
-                    className={`ri-arrow-${open ? "up" : "down"}-s-line`}
-                    style={{ fontSize: 15, color: "#8B91A8" }}
-                />
+                <ChevronDown size={15} color={selectedCount > 0 ? "#0086FF" : "#8B91A8"} className={`ri-arrow-${open ? "up" : "down"}-s-line`} />
             </button>
 
             {open &&
-                ReactDOM.createPortal(
+                <div
+                    ref={ref}
+                    style={{
+                        position: "fixed",
+                        top: coords.top,
+                        left: coords.left,
+                        minWidth: Math.max(coords.width, 180),
+                        maxHeight: "200px",
+                        background: "#fff",
+                        border: "1px solid #E0E4EF",
+                        borderRadius: 8,
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+                        zIndex: 99,
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
                     <div
-                        ref={ref}
                         style={{
-                            position: "fixed",
-                            top: coords.top,
-                            left: coords.left,
-                            minWidth: Math.max(coords.width, 180),
-                            maxHeight: "260px",
-                            background: "#fff",
-                            border: "1px solid #E0E4EF",
-                            borderRadius: 8,
-                            boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-                            zIndex: 3000,
                             display: "flex",
-                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "8px 12px",
+                            borderBottom: "1px solid #F0F1F5",
+                            gap: "8px",
                         }}
                     >
                         <div
+                            onClick={toggleAll}
                             style={{
                                 display: "flex",
                                 alignItems: "center",
-                                justifyContent: "space-between",
-                                padding: "8px 12px",
-                                borderBottom: "1px solid #F0F1F5",
                                 gap: "8px",
+                                cursor: "pointer",
+                                flex: 1,
                             }}
                         >
                             <div
-                                onClick={toggleAll}
                                 style={{
+                                    width: 16,
+                                    height: 16,
+                                    borderRadius: 4,
+                                    border: `1px solid ${allSelected ? "#0086FF" : "#D1D5DB"}`,
+                                    background: allSelected ? "#0086FF" : "#fff",
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: "8px",
-                                    cursor: "pointer",
-                                    flex: 1,
+                                    justifyContent: "center",
+                                    flexShrink: 0,
+                                    transition: "all 0.1s",
                                 }}
                             >
+                                {allSelected && (
+                                    <span className="ri-check-line font-14 color-white" />
+                                )}
+                            </div>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: "#1A1A2E" }}>
+                                All
+                            </span>
+                        </div>
+
+                        {selectedCount > 0 && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onChange([]);
+                                }}
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: 600,
+                                    color: "#EF4444",
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    padding: 0,
+                                    fontFamily: "inherit",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                Clear
+                            </button>
+                        )}
+                    </div>
+
+                    <div style={{ overflowY: "auto", flex: 1, scrollbarWidth: "thin", scrollbarColor: "#C1C7D0 #F8F9FB" }}>
+                        {visibleOptions.map((opt) => {
+                            const checked = selected.includes(opt);
+                            return (
                                 <div
+                                    key={opt}
+                                    onClick={() => toggleOption(opt)}
                                     style={{
-                                        width: 16,
-                                        height: 16,
-                                        borderRadius: 4,
-                                        border: `2px solid ${allSelected ? "#0086FF" : "#D1D5DB"}`,
-                                        background: allSelected ? "#0086FF" : "#fff",
                                         display: "flex",
                                         alignItems: "center",
-                                        justifyContent: "center",
-                                        flexShrink: 0,
-                                        transition: "all 0.1s",
-                                    }}
-                                >
-                                    {allSelected && (
-                                        <span className="ri-check-line font-14 color-white" />
-                                    )}
-                                </div>
-                                <span style={{ fontSize: 12, fontWeight: 600, color: "#1A1A2E" }}>
-                                    All
-                                </span>
-                            </div>
-
-                            {selectedCount > 0 && (
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onChange([]);
-                                    }}
-                                    style={{
-                                        fontSize: 11,
-                                        fontWeight: 600,
-                                        color: "#EF4444",
-                                        background: "none",
-                                        border: "none",
+                                        gap: "10px",
+                                        padding: "9px 12px",
                                         cursor: "pointer",
-                                        padding: 0,
-                                        fontFamily: "inherit",
-                                        whiteSpace: "nowrap",
+                                        background: checked ? "#F0F7FF" : "#fff",
+                                        transition: "background 0.1s",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        if (!checked) e.currentTarget.style.background = "#F8F9FB";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = checked
+                                            ? "#F0F7FF"
+                                            : "#fff";
                                     }}
                                 >
-                                    Clear
-                                </button>
-                            )}
-                        </div>
-
-                        <div style={{ overflowY: "auto", flex: 1 }}>
-                            {visibleOptions.map((opt) => {
-                                const checked = selected.includes(opt);
-                                return (
                                     <div
-                                        key={opt}
-                                        onClick={() => toggleOption(opt)}
                                         style={{
+                                            width: 16,
+                                            height: 16,
+                                            borderRadius: 4,
+                                            border: `1px solid ${checked ? "#0086FF" : "#D1D5DB"}`,
+                                            background: checked ? "#0086FF" : "#fff",
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: "10px",
-                                            padding: "9px 12px",
-                                            cursor: "pointer",
-                                            background: checked ? "#F0F7FF" : "#fff",
-                                            transition: "background 0.1s",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            if (!checked) e.currentTarget.style.background = "#F8F9FB";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.background = checked
-                                                ? "#F0F7FF"
-                                                : "#fff";
+                                            justifyContent: "center",
+                                            flexShrink: 0,
+                                            transition: "all 0.1s",
                                         }}
                                     >
-                                        <div
-                                            style={{
-                                                width: 16,
-                                                height: 16,
-                                                borderRadius: 4,
-                                                border: `2px solid ${checked ? "#0086FF" : "#D1D5DB"}`,
-                                                background: checked ? "#0086FF" : "#fff",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                flexShrink: 0,
-                                                transition: "all 0.1s",
-                                            }}
-                                        >
-                                            {checked && (
-                                                <span className="ri-check-line font-14 color-white" />
-                                            )}
-                                        </div>
-                                        <span
-                                            style={{
-                                                fontSize: 13,
-                                                fontWeight: checked ? 600 : 400,
-                                                color: checked ? "#0086FF" : "#2F2F2F",
-                                                whiteSpace: "nowrap",
-                                            }}
-                                        >
-                                            {opt}
-                                        </span>
+                                        {checked && (
+                                            <span className="ri-check-line font-14 color-white" />
+                                        )}
                                     </div>
-                                );
-                            })}
-                        </div>
-                    </div>,
-                    document.body
-                )}
+                                    <span
+                                        style={{
+                                            fontSize: 13,
+                                            fontWeight: checked ? 600 : 400,
+                                            color: checked ? "#0086FF" : "#4B5168",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        {opt}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            }
         </div>
     );
 };
@@ -343,11 +341,11 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "36px",
         fontSize: 13,
+        padding: "3px 6px",
         fontWeight: 600,
         border: "1px solid #E0E4EF",
-        borderRadius: 8,
+        borderRadius: 2,
         cursor: "pointer",
         fontFamily: "inherit",
         transition: "all 0.15s",
@@ -373,8 +371,7 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
                     disabled={current === 1}
                     style={{
                         ...btnBase,
-                        padding: "0 16px",
-                        color: current === 1 ? "#B0B5C8" : "#124D9B",
+                        color: current === 1 ? "#a19d9dff" : "#3d3c3cff",
                         background: current === 1 ? "#FAFBFC" : "#fff",
                         cursor: current === 1 ? "not-allowed" : "pointer",
                     }}
@@ -424,8 +421,7 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
                     disabled={current === total}
                     style={{
                         ...btnBase,
-                        padding: "0 16px",
-                        color: current === total ? "#B0B5C8" : "#124D9B",
+                        color: current === total ? "#a19d9dff" : "#3d3c3cff",
                         background: current === total ? "#FAFBFC" : "#fff",
                         cursor: current === total ? "not-allowed" : "pointer",
                     }}
@@ -455,15 +451,15 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
                     placeholder="enter no."
                     style={{
                         width: 90,
-                        height: 34,
                         padding: "0 10px",
                         fontSize: 12,
                         border: "1px solid #E0E4EF",
-                        borderRadius: 8,
+                        borderRadius: 2,
                         fontFamily: "inherit",
                         color: "#4B5168",
                         outline: "none",
                     }}
+                    className="px-3 py-2 h-[34px]"
                 />
                 <button
                     onClick={handleGo}
@@ -472,14 +468,14 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
                         padding: "0 16px",
                         fontSize: 12,
                         fontWeight: 700,
-                        border: "1px solid #0086FF",
-                        borderRadius: 8,
+                        borderRadius: 2,
                         background: "#fff",
                         color: "#0086FF",
                         cursor: "pointer",
                         fontFamily: "inherit",
                         letterSpacing: 0.3,
                     }}
+                    className="border-blue-300/80 border-1"
                 >
                     GO
                 </button>
@@ -488,7 +484,6 @@ const Pagination = ({ current, total, onChange }: PaginationProps) => {
     );
 };
 
-// ── Column and table type definitions ────────────────────────────────────────
 export interface ColumnDef<T extends Record<string, unknown> = Record<string, unknown>> {
     key: string;
     label: React.ReactNode;
@@ -549,10 +544,9 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
     title,
     subtitle,
     tooltip,
-    icon = "ri-settings-3-line",
     emptyMessage = "No data available.",
     loading = false,
-    skeletonRows = 10,
+    skeletonRows = 6,
     filters = [],
     searchable = false,
     searchKeys,
@@ -641,22 +635,16 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
     const hasFiltersOrSearch =
         filters.length > 0 || searchable || showUnscannedFilter;
 
-    const hasActiveFilters =
-        Object.values(filterValues).some((v) => Array.isArray(v) && v.length > 0) ||
-        !!searchQuery
     return (
-        <Box sx={{ padding: "24px", minHeight: "100vh" }}>
+        <Box sx={{ padding: "24px", minHeight: "100vh" }} className="relative">
             <Box
                 sx={{
                     border: "1px solid #E6E6E6",
-                    borderRadius: "12px",
-                    padding: "16px",
-                    boxShadow: "0px 14px 13px 0px #0000000F",
                     background: "#fff",
                     ...sx,
                 }}
+                className="rounded-lg px-2 py-2 relative"
             >
-                {/* ── Header row ── */}
                 {loading ? (
                     <Box
                         sx={{
@@ -693,11 +681,8 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                         {title && (
                             <Box
                                 sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                                className="px-1"
                             >
-                                <i
-                                    className={`${icon} color-tertiary font-20`}
-                                    style={{ marginTop: "4px", flexShrink: 0 }}
-                                />
                                 <Box>
                                     <Box
                                         sx={{
@@ -738,6 +723,7 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                                     gap: "10px",
                                     flexWrap: "wrap",
                                 }}
+                                className="relative"
                             >
                                 {filters.map((f, idx) => (
                                     <FilterDropdown
@@ -762,53 +748,6 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                                     />
                                 ))}
 
-                                {/* {showUnscannedFilter && (
-                  <button
-                    onClick={() => {
-                      const next = !unscannedOnly;
-                      setUnscannedOnly(next);
-                      onUnscannedFilterChange?.(next);
-                    }}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      padding: "0 12px",
-                      height: "40px",
-                      fontSize: 12,
-                      fontWeight: 500,
-                      border: `1px solid ${unscannedOnly ? "#0086FF" : "rgba(230, 230, 230, 1)"}`,
-                      borderRadius: 8,
-                      background: unscannedOnly ? "#F0F7FF" : "#fff",
-                      color: unscannedOnly ? "#0086FF" : "#2F2F2F",
-                      cursor: "pointer",
-                      fontFamily: "inherit",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: 4,
-                        border: `2px solid ${unscannedOnly ? "#0086FF" : "#D1D5DB"}`,
-                        background: unscannedOnly ? "#0086FF" : "#fff",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {unscannedOnly && <span className="ri-check-line font-14 color-white" />}
-                    </div>
-                    <span style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: "rgb(139, 145, 168)",
-                    }}>Unscanned Services</span>
-                  </button>
-                )} */}
-
                                 {searchable && (
                                     <div
                                         style={{
@@ -822,14 +761,11 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                                             height: 40,
                                         }}
                                     >
-                                        <i
-                                            className="ri-search-line"
-                                            style={{ fontSize: 15, color: "#8B91A8" }}
-                                        />
+                                        <Search size={14} className="mr-1 text-neutral-500" />
                                         <input
                                             ref={searchInputRef}
                                             type="text"
-                                            className="dorametrics-search-input"
+                                            className="dorametrics-search-input p-1"
                                             value={searchQuery}
                                             onBlur={() => {
                                                 if (searchQuery.length >= 3) {
@@ -873,12 +809,11 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                                             }}
                                         />
                                         {searchQuery && (
-                                            <i
+                                            <X size={14}
                                                 className="ri-close-line"
                                                 style={{
-                                                    fontSize: 14,
-                                                    color: "#8B91A8",
                                                     cursor: "pointer",
+                                                    color: "#8B91A8",
                                                 }}
                                                 onClick={() => {
                                                     setSearchQuery("");
@@ -893,7 +828,6 @@ const DorametricsGenericTable = <T extends Record<string, unknown> = Record<stri
                     </Box>
                 )}
 
-                {/* ── Table ── */}
                 <Box
                     sx={{
                         overflowX: "auto",

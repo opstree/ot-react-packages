@@ -1,10 +1,10 @@
 import React from "react";
-import TableBasic from "./TableBasic";
+import TableDemo from "./TableDemo";
 
 export default function TableUsage() {
     return (
         <div className="w-full flex flex-col gap-8 items-stretch justify-center">
-            <TableBasic />
+            <TableDemo />
         </div>
     );
 }

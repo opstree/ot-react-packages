@@ -52,7 +52,7 @@ export function Heading({
           {icon}
         </span>
       )}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 ">
         <div className="flex items-center gap-1">
           <span className={cn(styles.title, "truncate")}>{title}</span>
           {tooltip && (

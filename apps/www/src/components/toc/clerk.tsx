@@ -85,7 +85,7 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
         >
           <TocThumb
             containerRef={containerRef}
-            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-fd-primary transition-[top,height] duration-300 ease-out will-change-[top,height]"
+            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-fd-primary transition-[top,height] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] will-change-[top,height]"
           />
         </div>
       )}
