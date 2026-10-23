@@ -4,6 +4,7 @@ import path from "path"
 import { execSync } from "child_process"
 import { confirm } from "../utils/prompts"
 import { REGISTRY_BASE_URL } from "../utils/registry"
+import ts from "typescript"
 
 interface AddOptions {
   yes?: boolean
@@ -97,34 +98,63 @@ async function getComponentPath(root: string) {
   }
 }
 
+function transformTsxToJsx(content: string): string {
+  try {
+    const result = ts.transpileModule(content, {
+      compilerOptions: {
+        target: ts.ScriptTarget.ESNext,
+        module: ts.ModuleKind.ESNext,
+        jsx: ts.JsxEmit.Preserve,
+      },
+    })
+    return result.outputText
+  } catch {
+    return content
+  }
+}
+
 async function writeComponentFile(
   root: string,
   file: string,
   content: string,
-  options: AddOptions
+  options: AddOptions,
+  isTypeScript: boolean
 ): Promise<boolean> {
   const componentPath = await getComponentPath(root)
-  const targetPath = path.join(root, componentPath, file)
+  let targetFileName = file
+  let finalContent = content
+
+  if (!isTypeScript) {
+    if (targetFileName.endsWith(".tsx")) {
+      targetFileName = targetFileName.replace(/\.tsx$/, ".jsx")
+      finalContent = transformTsxToJsx(finalContent)
+    } else if (targetFileName.endsWith(".ts")) {
+      targetFileName = targetFileName.replace(/\.ts$/, ".js")
+      finalContent = transformTsxToJsx(finalContent)
+    }
+  }
+
+  const targetPath = path.join(root, componentPath, targetFileName)
   await ensureDir(path.dirname(targetPath), options.dryRun)
 
   if (await pathExists(targetPath) && !options.force) {
     if (!options.yes) {
       const overwrite = await confirm(
-        `${file} already exists. Overwrite?`,
+        `${targetFileName} already exists. Overwrite?`,
         false
       )
       if (!overwrite) {
-        console.log(`! Skipped ${file}`)
+        console.log(`! Skipped ${targetFileName}`)
         return false
       }
     }
   }
 
   if (!options.dryRun) {
-    await writeFile(targetPath, content)
+    await writeFile(targetPath, finalContent)
   }
 
-  console.log(`✓ Added ${path.join(componentPath, file)}`)
+  console.log(`✓ Added ${path.join(componentPath, targetFileName)}`)
   return true
 }
 
@@ -173,10 +203,13 @@ async function processComponent(
   // Install external npm dependencies
   await resolveAndInstallExternalDeps(manifest, installedDeps, options.dryRun)
 
+  // Check if project is TypeScript or JavaScript
+  const isTypeScript = await pathExists(path.join(root, "tsconfig.json"))
+
   // Write component files
   for (const file of manifest.files) {
     try {
-      const added = await writeComponentFile(root, file.path, file.content, options)
+      const added = await writeComponentFile(root, file.path, file.content, options, isTypeScript)
       if (added) componentAdded = true
     } catch (err: any) {
       console.error(`! Failed to add ${file.path}: ${err.message}`)

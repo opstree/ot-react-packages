@@ -23,7 +23,7 @@ export interface RegistryItem {
 }
 
 // Fallback to the production GitHub raw URL if no environment variable is set
-const DEFAULT_REGISTRY_URL = "https://raw.githubusercontent.com/opstree/ot-react-packages/fe-components/apps/www/public/registry";
+const DEFAULT_REGISTRY_URL = "https://raw.githubusercontent.com/opstree/ot-react-packages/main/apps/www/public/registry";
 
 const rawBaseUrl = process.env.BASE_URL || DEFAULT_REGISTRY_URL;
 export const REGISTRY_BASE_URL = rawBaseUrl.trim().replace(/^['"]+|['"]+$/g, '').replace(/\/$/, '')

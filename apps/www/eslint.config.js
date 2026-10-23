@@ -1,25 +1,54 @@
-import { defineConfig, globalIgnores } from "eslint/config"
-import nextVitals from "eslint-config-next/core-web-vitals"
+import js from "@eslint/js"
+import globals from "globals"
+import tseslint from "typescript-eslint"
+import reactHooks from "eslint-plugin-react-hooks"
+import reactRefresh from "eslint-plugin-react-refresh"
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  globalIgnores([
-    "node_modules/**",
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    ".source/**",
-  ]),
+export default tseslint.config(
   {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      ".source/**",
+      "public/registry/**",
+      "**/*.d.ts",
+    ],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ["**/*.{ts,tsx,js,jsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
     rules: {
-      "react-hooks/incompatible-library": "off",
-      "react-hooks/purity": "off",
-      "@next/next/no-html-link-for-pages": "off",
-      "@next/next/no-img-element": "off",
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+      "react-hooks/set-state-in-effect": "warn",
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "no-unused-vars": "off",
+      "no-undef": "off",
+      "no-empty": "warn",
     },
   },
-])
-
-export default eslintConfig
+)

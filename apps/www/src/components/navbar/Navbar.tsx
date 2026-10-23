@@ -49,7 +49,7 @@ const Navbar = () => {
                             <div className=" bg-neutral-300 dark:bg-[var(--bg-light)]  flex items-center justify-center rounded-sm px-[8px] py-[2px] ">K</div>
                         </div>
                     </button>
-                    {/* <ThemeToggle /> */}
+                    <ThemeToggle />
                 </div>
             </nav>
             {

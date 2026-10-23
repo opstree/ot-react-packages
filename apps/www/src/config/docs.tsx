@@ -91,6 +91,11 @@ export const docsConfig: DocsConfig = {
                     href: "/docs/components/dataviewpanel",
                     items: [],
                 },
+                {
+                    title: "MultiViewCard",
+                    href: "/docs/components/multiviewcard",
+                    items: [],
+                },
             ],
             icon: <IconFolders size={16} />
         },

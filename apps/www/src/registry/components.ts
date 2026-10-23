@@ -155,6 +155,26 @@ export const components: RegistryEntry[] = [
     ]
   },
   {
+    "name": "multiviewcard",
+    "type": "registry:ui",
+    "title": "MultiViewCard",
+    "description": "A dashboard multi-view card with an animated segmented view switcher and directional slide transitions.",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "framer-motion"
+    ],
+    "files": [
+      {
+        "path": "src/components/docs/MultiViewCard.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "categories": [
+      "ui"
+    ]
+  },
+  {
     "name": "multiplefilter",
     "type": "registry:ui",
     "title": "MultipleFilter",

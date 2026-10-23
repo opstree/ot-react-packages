@@ -72,6 +72,15 @@
     ]
   },
   {
+    "name": "multiviewcard",
+    "type": "registry:ui",
+    "title": "MultiViewCard",
+    "description": "A dashboard multi-view card with an animated segmented view switcher and directional slide transitions.",
+    "categories": [
+      "ui"
+    ]
+  },
+  {
     "name": "multiplefilter",
     "type": "registry:ui",
     "title": "MultipleFilter",

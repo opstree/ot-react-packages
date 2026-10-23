@@ -7,5 +7,5 @@ export default defineConfig({
     minify: true,
     dts: false,
     sourcemap: false,
-    noExternal: ["commander", "picocolors", "prompts"], 
+    noExternal: ["commander", "picocolors", "prompts", "typescript"], 
 })

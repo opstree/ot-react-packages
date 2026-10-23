@@ -1,0 +1,79 @@
+---
+title: MultiViewCard
+description: A dashboard card component featuring an animated segmented view switcher and directional slide transitions.
+---
+
+import { Callout } from "@/components/docspagescomponent/Callout";
+import { ComponentPreviewTabs } from "@/components/docspagescomponent/ComponentPreview";
+import { ComponentSource } from "@/components/docspagescomponent/ComponentSource";
+import MultiViewCardUsage from "@/usage/MultiViewCard";
+import { InstallationCli } from "../../../components/docspagescomponent/cli-install-button";
+
+## Overview
+
+The `MultiViewCard` component is designed for analytics dashboards, reporting consoles, and admin interfaces. It features an interactive segmented pill switcher in the header that seamlessly swaps content views with directional, spring-based slide transitions.
+
+## Installation
+
+<InstallationCli value="opscli add multiviewcard" />
+
+## Usage
+
+<ComponentPreviewTabs
+  component={<MultiViewCardUsage />}
+  source={
+    <ComponentSource
+      src="src/components/docs/MultiViewCard.tsx"
+      title="MultiViewCard.tsx"
+      language="tsx"
+    />
+  }
+  className="lg:w-[55vw] w-[90vw]"
+  align="center"
+/>
+
+## Props
+
+### MultiViewCardProps
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `title` | `React.ReactNode` | — | Card title heading text or custom node |
+| `subtitle` | `React.ReactNode` | — | Card subtitle / secondary text |
+| `views` | `ViewDefinition[]` | `[]` | Array of view definitions |
+| `defaultView` | `string \| number` | `views[0].key` | Initial active view key in uncontrolled mode |
+| `view` | `string \| number` | — | Controlled active view key |
+| `onViewChange` | `(nextView) => void` | — | Callback fired when the view selection changes |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'sm'` | Size variant for the view switcher |
+| `activeColor` | `'slate' \| 'blue' \| string` | `'slate'` | Accent color preset for the active tab pill |
+| `headerRight` | `React.ReactNode` | — | Optional custom elements placed in header (buttons, filters) |
+| `className` | `string` | `''` | Additional classes for the card outer container |
+| `contentClassName` | `string` | `''` | Additional classes for the view transition body |
+
+---
+
+### ViewDefinition Interface
+
+```typescript
+interface ViewDefinition<T = string> {
+  key: T;                         // Unique key identifying the view
+  label: React.ReactNode;         // Text/node displayed on the switcher button
+  icon?: React.ReactNode;         // Optional icon element
+  badge?: React.ReactNode;        // Optional count or status pill (e.g. "Live", "8")
+  render: () => React.ReactNode;  // Render function returning the view's content
+  disabled?: boolean;             // Disables this specific view button
+}
+```
+
+---
+
+## Features
+
+<Callout type="info">
+  Key features of the MultiViewCard component:
+  - **Direction-Aware Transitions**: Automatically determines forward vs backward index movement to slide in the natural direction.
+  - **Fluid Spring Pill**: Uses Framer Motion `layoutId` to glide the active pill between buttons smoothly.
+  - **Accessible Radiogroup**: Built with proper ARIA roles and arrow-key navigation (`ArrowRight` / `ArrowLeft`).
+  - **Render Isolation**: Uncontrolled state is contained within the card so switching views never triggers parent page re-renders.
+  - **Dark Mode Support**: Fully adapted for both light and dark themes.
+</Callout>
