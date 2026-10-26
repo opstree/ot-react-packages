@@ -1,5 +1,3 @@
-'use client';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
 import { cn } from "@/lib/utils";
 import { type ComponentProps, useRef } from 'react';
 import { mergeRefs } from '../../lib/merge-refs';
@@ -9,20 +7,18 @@ import * as Primitive from 'fumadocs-core/toc';
 export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const items = useTOCItems();
-  const { text } = useI18n();
 
-  if (items.length === 0)
-    return (
-      <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">
-        {text.tocNoHeadings}
-      </div>
-    );
+  if (items.length === 0) return null;
 
   return (
     <>
       <TocThumb
         containerRef={containerRef}
-        className="absolute top-(--fd-top) h-(--fd-height) w-0.5 rounded-e-sm bg-fd-primary transition-[top,height] ease-linear"
+        className="absolute w-0.5 rounded-e-sm bg-purple-600 dark:bg-purple-400 transition-[top,height] ease-linear"
+        style={{
+          top: 'var(--fd-top, 0px)',
+          height: 'var(--fd-height, 0px)',
+        }}
       />
       <div
         ref={mergeRefs(ref, containerRef)}

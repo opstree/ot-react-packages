@@ -5,7 +5,6 @@
 @import "fumadocs-ui/css/preset.css";
 
 :root {
-  --foreground: #ededed;
   --bg-dark: oklch(0.1 0 264);
   --bg-light: oklch(0.3 0 264);
   --bg: oklch(16.376% 0.00002 271.152);
@@ -19,6 +18,10 @@
   --shadow-l:
     inset 0 1px 2px #ffffff70, 0 1px 2px 2px #00000030, 0 2px 2px #00000015;
   --colora: #ffffff;
+}
+
+.dark {
+  --foreground: #ededed;
 }
 
 

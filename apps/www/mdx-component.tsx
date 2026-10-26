@@ -31,15 +31,18 @@ export const mdxComponents = {
       {...props}
     />
   ),
-  h2: ({ className, ...props }: React.ComponentProps<"h2">) => {
+  h2: ({ className, id, ...props }: React.ComponentProps<"h2">) => {
+    const slug =
+      id ||
+      (typeof props.children === "string"
+        ? props.children
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/['?]/g, "")
+        : undefined)
     return (
       <h2
-        id={props.children
-          ?.toString()
-          .replace(/ /g, "-")
-          .replace(/'/g, "")
-          .replace(/\?/g, "")
-          .toLowerCase()}
+        id={slug}
         className={cn(
           "font-heading mt-8 scroll-m-28 text-xl font-medium tracking-tight first:mt-0 lg:mt-8 [&+p]:!mt-4 *:[code]:text-xl",
           className
@@ -48,15 +51,26 @@ export const mdxComponents = {
       />
     )
   },
-  h3: ({ className, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "font-heading mt-8 scroll-m-28 text-lg font-medium tracking-tight *:[code]:text-xl",
-        className
-      )}
-      {...props}
-    />
-  ),
+  h3: ({ className, id, ...props }: React.ComponentProps<"h3">) => {
+    const slug =
+      id ||
+      (typeof props.children === "string"
+        ? props.children
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/['?]/g, "")
+        : undefined)
+    return (
+      <h3
+        id={slug}
+        className={cn(
+          "font-heading mt-8 scroll-m-28 text-lg font-medium tracking-tight *:[code]:text-xl",
+          className
+        )}
+        {...props}
+      />
+    )
+  },
   h4: ({ className, ...props }: React.ComponentProps<"h4">) => (
     <h4
       className={cn(

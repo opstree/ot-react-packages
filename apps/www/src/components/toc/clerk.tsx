@@ -1,15 +1,12 @@
-'use client';
 import * as Primitive from 'fumadocs-core/toc';
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
 import { cn } from "@/lib/utils";
 import { TocThumb, useTOCItems } from './index';
 import { mergeRefs } from '../../lib/merge-refs';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
 
 export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const items = useTOCItems();
-  const { text } = useI18n();
 
   const [svg, setSvg] = useState<{
     path: string;
@@ -60,12 +57,7 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
     };
   }, [items]);
 
-  if (items.length === 0)
-    return (
-      <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">
-        {text.tocNoHeadings}
-      </div>
-    );
+  if (items.length === 0) return null;
 
   return (
     <>
@@ -78,14 +70,18 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
             maskImage: `url("data:image/svg+xml,${
               // Inline SVG
               encodeURIComponent(
-                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svg.width} ${svg.height}"><path d="${svg.path}" stroke="black" stroke-width="1" fill="none" /></svg>`,
+                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svg.width} ${svg.height}"><path d="${svg.path}" stroke="black" stroke-width="1.5" fill="none" /></svg>`,
               )
               }")`,
           }}
         >
           <TocThumb
             containerRef={containerRef}
-            className="absolute w-full top-(--fd-top) h-(--fd-height) bg-fd-primary transition-[top,height]"
+            className="absolute w-full bg-purple-600 dark:bg-purple-400 transition-[top,height]"
+            style={{
+              top: 'var(--fd-top, 0px)',
+              height: 'var(--fd-height, 0px)',
+            }}
           />
         </div>
       )}
@@ -132,7 +128,7 @@ function TOCItem({
       style={{
         paddingInlineStart: getItemOffset(item.depth),
       }}
-      className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-fd-primary"
+      className="prose relative py-1.5 text-sm text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-purple-600 dark:data-[active=true]:text-purple-400 font-medium"
     >
       {offset !== upperOffset && (
         <svg

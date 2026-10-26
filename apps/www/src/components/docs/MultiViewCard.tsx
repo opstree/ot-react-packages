@@ -52,7 +52,7 @@ export type ViewSwitcherActiveColor =
   | string;
 
 const ACTIVE_COLOR_MAP: Record<string, string> = {
-  slate: "text-foreground font-semibold",
+  slate: "text-neutral-900 dark:text-neutral-100 font-semibold",
   primary: "text-primary font-semibold",
   blue: "text-blue-600 dark:text-blue-400 font-semibold",
   emerald: "text-emerald-600 dark:text-emerald-400 font-semibold",
@@ -131,7 +131,8 @@ export function ViewSwitcher<T extends string | number = string>({
     (activeColor.startsWith("text-") ? activeColor : "text-foreground font-semibold");
 
   const resolvedInactiveClass =
-    inactiveClassName || "text-muted-foreground hover:text-foreground font-medium";
+    inactiveClassName ||
+    "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 font-medium";
 
   const handleKeyDown = (e: React.KeyboardEvent, currentIndex: number) => {
     if (disabled || !options.length) return;
@@ -181,7 +182,7 @@ export function ViewSwitcher<T extends string | number = string>({
       role="radiogroup"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex items-center bg-muted/80 text-muted-foreground select-none relative",
+        "inline-flex items-center bg-neutral-100 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-400 select-none relative",
         fullWidth && "w-full flex",
         containerSizeClasses,
         disabled && "opacity-60 cursor-not-allowed",
@@ -224,7 +225,7 @@ export function ViewSwitcher<T extends string | number = string>({
               <motion.div
                 layoutId={`view-switcher-pill-${id}`}
                 className={cn(
-                  "absolute inset-0 bg-background text-foreground shadow-xs border border-border/60 -z-10",
+                  "absolute inset-0 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-xs border border-neutral-200/80 dark:border-neutral-700/80 -z-10",
                   pillRadiusClass,
                   pillClassName
                 )}
