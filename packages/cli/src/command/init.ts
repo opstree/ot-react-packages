@@ -5,11 +5,13 @@ import { execSync } from "child_process"
 import { confirm, prompt } from "../utils/prompts"
 import { REGISTRY_BASE_URL } from "../utils/registry"
 import { mergeJsonFile, updateTsConfig } from "../utils/config-merger"
+import { installDependencies } from "../utils/package-manager"
 
 export interface InitOptions {
   yes?: boolean
   force?: boolean
   dryRun?: boolean
+  skipInstall?: boolean
 }
 
 const UTILS_TS = `import { clsx, type ClassValue } from "clsx"
@@ -102,21 +104,6 @@ async function ensureDir(p: string, dryRun?: boolean): Promise<string | null> {
   return null
 }
 
-function installDeps(pkgs: string[], dryRun?: boolean): string[] {
-  if (!pkgs.length) return []
-  if (!dryRun) {
-    try {
-      execSync(`npm install ${pkgs.join(" ")}`, { stdio: "inherit" })
-      return pkgs
-    } catch (err) {
-      console.error("\n! Failed to install dependencies. Please run manually:")
-      console.log(`npm install ${pkgs.join(" ")}`)
-      return []
-    }
-  }
-  return pkgs
-}
-
 async function getPackageJson(root: string) {
   const pkgPath = path.join(root, "package.json")
   if (!(await pathExists(pkgPath))) {
@@ -136,7 +123,7 @@ function detectFramework(deps: Record<string, any>) {
 
 export async function init(options: InitOptions = {}) {
   try {
-    const { yes, force, dryRun } = options
+    const { yes, force, dryRun, skipInstall } = options
     const root = process.cwd()
 
     if (!yes) {
@@ -214,9 +201,9 @@ export async function init(options: InitOptions = {}) {
       missingDeps.push("tailwindcss", "postcss", "autoprefixer")
     }
 
-    const installed = installDeps(missingDeps, dryRun)
+    const installed = await installDependencies(root, missingDeps, { dryRun, skipInstall })
     if (installed.length) {
-      console.log("\n📦 Installing dependencies...")
+      console.log("\n📦 Successfully installed dependencies:")
       installed.forEach(p => console.log(`  ✓ ${p}`))
     }
 

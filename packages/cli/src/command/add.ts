@@ -1,15 +1,16 @@
 import { writeFile, mkdir, access, readFile } from "fs/promises"
 import { constants } from "fs"
 import path from "path"
-import { execSync } from "child_process"
 import { confirm } from "../utils/prompts"
 import { REGISTRY_BASE_URL } from "../utils/registry"
+import { installDependencies } from "../utils/package-manager"
 import ts from "typescript"
 
-interface AddOptions {
+export interface AddOptions {
   yes?: boolean
   force?: boolean
   dryRun?: boolean
+  skipInstall?: boolean
 }
 
 interface ComponentManifest {
@@ -32,19 +33,6 @@ async function pathExists(p: string) {
   }
 }
 
-function installDeps(pkgs: string[], dryRun?: boolean) {
-  if (!pkgs.length) return
-  console.log(`\n📦 Installing external dependencies: ${pkgs.join(", ")}...`)
-  if (!dryRun) {
-    try {
-      execSync(`npm install ${pkgs.join(" ")}`, { stdio: "inherit" })
-    } catch (err) {
-      console.error("! Failed to install dependencies. Please run manually:")
-      console.log(`npm install ${pkgs.join(" ")}`)
-    }
-  }
-}
-
 async function getProjectRoot() {
   const root = process.cwd()
   const configPath = path.join(root, "components.json")
@@ -58,18 +46,35 @@ async function getProjectRoot() {
   return root
 }
 
-async function getInstalledDeps(root: string) {
-  try {
-    const pkg = JSON.parse(
-      await readFile(path.join(root, "package.json"), "utf-8")
-    )
-    return {
-      ...pkg.dependencies,
-      ...pkg.devDependencies
+async function getInstalledDeps(root: string): Promise<Record<string, any>> {
+  const deps: Record<string, any> = {}
+  let currentDir = root
+  const parsedRoot = path.parse(currentDir).root
+
+  while (currentDir && currentDir !== parsedRoot) {
+    const pkgPath = path.join(currentDir, "package.json")
+    if (await pathExists(pkgPath)) {
+      try {
+        const pkg = JSON.parse(await readFile(pkgPath, "utf-8"))
+        Object.assign(deps, pkg.dependencies, pkg.devDependencies, pkg.peerDependencies)
+      } catch {
+        // ignore parse errors
+      }
     }
-  } catch (err) {
-    return {}
+    const isWorkspace =
+      (await pathExists(path.join(currentDir, "pnpm-workspace.yaml"))) ||
+      (await pathExists(path.join(currentDir, "turbo.json"))) ||
+      (await pathExists(path.join(currentDir, "pnpm-lock.yaml"))) ||
+      (await pathExists(path.join(currentDir, "package-lock.json")))
+
+    if (isWorkspace && currentDir !== root) {
+      break
+    }
+    currentDir = path.dirname(currentDir)
+    if (path.relative(currentDir, root).split(path.sep).length > 3) break
   }
+
+  return deps
 }
 
 async function fetchManifest(name: string): Promise<ComponentManifest> {
@@ -89,10 +94,50 @@ async function ensureDir(dir: string, dryRun?: boolean) {
   }
 }
 
+async function resolveAliasToPath(root: string, alias: string): Promise<string> {
+  const cleaned = alias.replace(/^[@~]\//, "")
+
+  // Check tsconfig.json or jsconfig.json for paths alias mapping
+  for (const configFile of ["tsconfig.json", "jsconfig.json"]) {
+    const p = path.join(root, configFile)
+    if (await pathExists(p)) {
+      try {
+        const config = JSON.parse(await readFile(p, "utf-8"))
+        const pathsMap = config.compilerOptions?.paths || {}
+        const aliasTarget = pathsMap["@/*"]?.[0] || pathsMap["@*"]?.[0]
+        if (aliasTarget) {
+          // e.g. "./src/*" -> "src", "./*" -> ""
+          const prefix = aliasTarget.replace(/^\.\//, "").replace(/\*$/, "").replace(/\/$/, "")
+          if (prefix && prefix !== ".") {
+            return path.join(prefix, cleaned)
+          }
+          return cleaned
+        }
+      } catch {
+        // ignore parse error
+      }
+    }
+  }
+
+  // Fallback: If src directory exists and contains components, app, or pages (common Next.js pattern)
+  if (await pathExists(path.join(root, "src"))) {
+    if (
+      (await pathExists(path.join(root, "src", "components"))) ||
+      (await pathExists(path.join(root, "src", "app"))) ||
+      (await pathExists(path.join(root, "src", "pages")))
+    ) {
+      return path.join("src", cleaned)
+    }
+  }
+
+  return cleaned
+}
+
 async function getComponentPath(root: string) {
   try {
     const config = JSON.parse(await readFile(path.join(root, "components.json"), "utf-8"))
-    return config.aliases?.ui || "components/ui"
+    const rawUi = config.aliases?.ui || "components/ui"
+    return await resolveAliasToPath(root, rawUi)
   } catch {
     return "components/ui"
   }
@@ -158,25 +203,13 @@ async function writeComponentFile(
   return true
 }
 
-async function resolveAndInstallExternalDeps(
-  manifest: ComponentManifest,
-  installedDeps: Record<string, any>,
-  dryRun?: boolean
-) {
-  const externalDeps = manifest.dependencies || []
-  const missing = externalDeps.filter((d) => !installedDeps[d])
-
-  if (missing.length > 0) {
-    installDeps(missing, dryRun)
-  }
-}
-
 async function processComponent(
   name: string,
   root: string,
   installedDeps: Record<string, any>,
   options: AddOptions,
-  visited = new Set<string>()
+  visited = new Set<string>(),
+  pendingDeps = new Set<string>()
 ): Promise<boolean> {
   if (visited.has(name)) return false
   visited.add(name)
@@ -195,13 +228,19 @@ async function processComponent(
   // Resolve registry dependencies (sub-components) FIRST
   if (manifest.registryDependencies?.length) {
     for (const dep of manifest.registryDependencies) {
-      const depAdded = await processComponent(dep, root, installedDeps, options, visited)
+      const depAdded = await processComponent(dep, root, installedDeps, options, visited, pendingDeps)
       if (depAdded) componentAdded = true
     }
   }
 
-  // Install external npm dependencies
-  await resolveAndInstallExternalDeps(manifest, installedDeps, options.dryRun)
+  // Collect external npm dependencies
+  if (manifest.dependencies?.length) {
+    for (const dep of manifest.dependencies) {
+      if (!installedDeps[dep]) {
+        pendingDeps.add(dep)
+      }
+    }
+  }
 
   // Check if project is TypeScript or JavaScript
   const isTypeScript = await pathExists(path.join(root, "tsconfig.json"))
@@ -230,18 +269,27 @@ export async function add(
 
     const root = await getProjectRoot()
     const installedDeps = await getInstalledDeps(root)
+    const componentPath = await getComponentPath(root)
 
-    await ensureDir(path.join(root, "components/ui"), options.dryRun)
+    await ensureDir(path.join(root, componentPath), options.dryRun)
 
+    const pendingDeps = new Set<string>()
     let anyComponentAdded = false
     for (const component of components) {
       const added = await processComponent(
         component,
         root,
         installedDeps,
-        options
+        options,
+        new Set<string>(),
+        pendingDeps
       )
       if (added) anyComponentAdded = true
+    }
+
+    // Install all collected external dependencies in a single batch
+    if (pendingDeps.size > 0) {
+      await installDependencies(root, Array.from(pendingDeps), options)
     }
 
     if (anyComponentAdded) {

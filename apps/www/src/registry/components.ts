@@ -161,8 +161,7 @@ export const components: RegistryEntry[] = [
     "description": "A dashboard multi-view card with an animated segmented view switcher and directional slide transitions.",
     "dependencies": [
       "clsx",
-      "tailwind-merge",
-      "framer-motion"
+      "tailwind-merge"
     ],
     "files": [
       {

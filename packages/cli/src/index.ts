@@ -20,6 +20,7 @@ async function main() {
     .description("Initialize your project with OPS-UI")
     .option("-y, --yes", "Skip confirmation prompts", false)
     .option("-f, --force", "Overwrite existing files", false)
+    .option("-s, --skip-install", "Skip installing dependencies", false)
     .action(init)
 
   program
@@ -28,6 +29,7 @@ async function main() {
     .argument("<components...>", "Components to add")
     .option("-y, --yes", "Skip confirmation prompts", false)
     .option("-f, --force", "Overwrite existing files", false)
+    .option("-s, --skip-install", "Skip installing dependencies", false)
     .action((components: string[], options: any) => add(components, options))
 
   program

@@ -39,14 +39,28 @@ The `MultiViewCard` component is designed for analytics dashboards, reporting co
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `title` | `React.ReactNode` | — | Card title heading text or custom node |
-| `subtitle` | `React.ReactNode` | — | Card subtitle / secondary text |
-| `views` | `ViewDefinition[]` | `[]` | Array of view definitions |
+| `subtitle` | `React.ReactNode` | — | Card subtitle / secondary description text |
+| `views` | `ViewDefinition[]` | `[]` | Array of view definitions to display |
 | `defaultView` | `string \| number` | `views[0].key` | Initial active view key in uncontrolled mode |
 | `view` | `string \| number` | — | Controlled active view key |
+| `direction` | `number` | — | Override slide direction (`1` for forward, `-1` for backward) |
 | `onViewChange` | `(nextView) => void` | — | Callback fired when the view selection changes |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'sm'` | Size variant for the view switcher |
-| `activeColor` | `'slate' \| 'blue' \| string` | `'slate'` | Accent color preset for the active tab pill |
-| `headerRight` | `React.ReactNode` | — | Optional custom elements placed in header (buttons, filters) |
+| `activeColor` | `'slate' \| 'primary' \| 'blue' \| 'emerald' \| 'indigo' \| 'amber' \| 'rose' \| string` | `'slate'` | Color variant for active pill text |
+| `switcherProps` | `Partial<ViewSwitcherProps>` | `{}` | Props forwarded to the internal `ViewSwitcher` |
+| `headerRight` | `React.ReactNode` | — | Slot placed in header right next to switcher |
+| `headerLeft` | `React.ReactNode` | — | Slot placed in header left before title (status badge, icon) |
+| `headerClassName` | `string` | `''` | Custom class for the header row container |
+| `titleClassName` | `string` | `''` | Custom class for the title element |
+| `subtitleClassName` | `string` | `''` | Custom class for the subtitle element |
+| `switcherPosition` | `'top-right' \| 'top-left' \| 'bottom' \| 'none'` | `'top-right'` | Position of the segmented view switcher |
+| `footer` | `React.ReactNode` | — | Bottom slot for card actions, timestamp, or pagination |
+| `footerClassName` | `string` | `''` | Custom class for the footer container |
+| `keepMounted` | `boolean` | `false` | When true, preserves inactive view DOM and state (forms, charts) |
+| `transitionType` | `'slide' \| 'fade' \| 'none'` | `'slide'` | Animation style between view changes |
+| `duration` | `number` | `0.2` | Transition duration in seconds |
+| `slideOffset` | `number` | `18` | Distance in pixels for directional slide |
+| `variants` | `Variants` | — | Custom Framer Motion variants override |
 | `className` | `string` | `''` | Additional classes for the card outer container |
 | `contentClassName` | `string` | `''` | Additional classes for the view transition body |
 
@@ -60,8 +74,12 @@ interface ViewDefinition<T = string> {
   label: React.ReactNode;         // Text/node displayed on the switcher button
   icon?: React.ReactNode;         // Optional icon element
   badge?: React.ReactNode;        // Optional count or status pill (e.g. "Live", "8")
-  render: () => React.ReactNode;  // Render function returning the view's content
+  render?: () => React.ReactNode; // Render function returning content
+  content?: React.ReactNode;      // Direct JSX / element content
+  component?: React.ComponentType;// React component reference (<Component />)
   disabled?: boolean;             // Disables this specific view button
+  ariaLabel?: string;             // Custom aria-label for accessibility
+  className?: string;             // Custom class for the tab button
 }
 ```
 
